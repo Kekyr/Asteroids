@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace PlayerBase
 {
-    public class Ship
+    public class Ship: MonoBehaviour
     {
 
     }

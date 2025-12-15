@@ -1,3 +1,4 @@
+using Game;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,13 +9,8 @@ namespace PlayerBase
         [SerializeField] private float _force;
         [SerializeField] private float _torqueForce;
 
-        [SerializeField] private float _minXPosition;
-        [SerializeField] private float _maxXPosition;
-
-        [SerializeField] private float _minYPosition;
-        [SerializeField] private float _maxYPosition;
-
         private PlayerInput _playerInput;
+        private Helper _helper;
         private Rigidbody2D _rigidbody;
 
         private bool _canMove;
@@ -26,7 +22,6 @@ namespace PlayerBase
 
             _playerInput.Player.Acceleration.performed += OnAccelerationPerformed;
             _playerInput.Player.Acceleration.canceled += OnAccelerationCancelled;
-
             _playerInput.Player.Rotation.performed += OnRotationPerformed;
             _playerInput.Player.Rotation.canceled += OnRotationCanceled;
         }
@@ -47,38 +42,15 @@ namespace PlayerBase
             }
 
             _rigidbody.AddTorque(_torqueDirection * _torqueForce);
-            CheckPosition();
+
+            transform.position = _helper.CheckPosition(transform.position);
         }
 
-        public void Init(PlayerInput playerInput)
+        public void Init(PlayerInput playerInput, Helper helper)
         {
             _playerInput = playerInput;
+            _helper = helper;
             enabled = true;
-        }
-
-        private void CheckPosition()
-        {
-            Vector2 checkedPosition = transform.position;
-
-            checkedPosition.x = CheckValue(checkedPosition.x, _minXPosition, _maxXPosition);
-            checkedPosition.y = CheckValue(checkedPosition.y, _minYPosition, _maxYPosition);
-
-            transform.position = checkedPosition;
-        }
-
-        private float CheckValue(float value, float minValue, float maxValue)
-        {
-            if (value > maxValue)
-            {
-                return minValue;
-            }
-
-            if (value < minValue)
-            {
-                return maxValue;
-            }
-
-            return value;
         }
 
         private void OnAccelerationPerformed(InputAction.CallbackContext context)
