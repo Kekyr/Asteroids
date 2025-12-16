@@ -1,91 +1,71 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Game;
+﻿using System.Collections.Generic;
+using AsteroidBase;
 using UnityEngine;
-using UnityEngine.Serialization;
-using Random = UnityEngine.Random;
-using Vector2 = UnityEngine.Vector2;
 
-namespace AsteroidBase
+namespace Game.Scripts
 {
-    public class AsteroidSpawner : MonoBehaviour
+    public class AsteroidFragmentSpawner : MonoBehaviour
     {
         [SerializeField] private int _poolCount;
+        [SerializeField] private int _explodeCount;
         [SerializeField] private GameObject _prefab;
 
-        [SerializeField] private float _delay;
-        [SerializeField] private float _minPositionX;
-        [SerializeField] private float _maxPositionX;
-        [SerializeField] private float _positionY;
+        [SerializeField] private float _positionXOffset;
+        [SerializeField] private float _positionYOffset;
 
         private Queue<GameObject> _instances = new Queue<GameObject>();
-        private Asteroid[] _asteroids;
         private Helper _helper;
-        private WaitForSeconds _waitDelay;
+        private AsteroidSpawner _asteroidSpawner;
 
-        public event Action<Vector2> Exploded;
-
-        private void OnEnable()
+        private void Start()
         {
-            _waitDelay = new WaitForSeconds(_delay);
-            _asteroids = new Asteroid[_poolCount];
-
             for (int i = 0; i < _poolCount; i++)
             {
                 GameObject instance = Instantiate(_prefab, transform);
                 instance.SetActive(false);
 
-                Asteroid asteroid = instance.GetComponent<Asteroid>();
-                asteroid.Exploded += OnExploded;
-
                 AsteroidMovement asteroidMovement = instance.GetComponent<AsteroidMovement>();
                 asteroidMovement.Init(_helper);
 
-                _asteroids[i] = asteroid;
                 _instances.Enqueue(instance);
             }
-        }
 
-        private void Start()
-        {
-            StartCoroutine(Spawn());
+            _asteroidSpawner.Exploded += OnExploded;
         }
 
         private void OnDestroy()
         {
-            for (int i = 0; i < _asteroids.Length; i++)
-            {
-                _asteroids[i].Exploded -= OnExploded;
-            }
+            _asteroidSpawner.Exploded -= OnExploded;
         }
 
-        public void Init(Helper helper)
+        public void Init(Helper helper, AsteroidSpawner asteroidSpawner)
         {
             _helper = helper;
+            _asteroidSpawner = asteroidSpawner;
             enabled = true;
         }
 
-        private IEnumerator Spawn()
+        private void OnExploded(Vector2 position)
         {
-            while (isActiveAndEnabled)
+            for (int i = 0; i < _explodeCount; i++)
             {
                 Vector2 randomPosition;
                 Vector2 randomDirection;
 
-                float randomXPosition = Random.Range(_minPositionX, _maxPositionX);
-                randomPosition = new Vector2(randomXPosition, _positionY);
+                float randomXPosition = Random.Range(position.x - _positionXOffset, position.x + _positionXOffset);
+                float randomYPosition = Random.Range(position.y - _positionYOffset, position.y + _positionYOffset);
+
+                randomPosition = new Vector2(randomXPosition, randomYPosition);
 
                 GameObject instance = Spawn(randomPosition);
 
                 AsteroidMovement asteroidMovement = instance.GetComponent<AsteroidMovement>();
                 randomDirection = CalculateRandomDirection();
-                asteroidMovement.Init(randomDirection);
 
-                yield return _waitDelay;
+                asteroidMovement.Init(randomDirection);
             }
         }
-
+        
         public GameObject Spawn(Vector3 position)
         {
             GameObject instance = _instances.Dequeue();
@@ -97,18 +77,13 @@ namespace AsteroidBase
 
             return instance;
         }
-
+        
         private Vector2 CalculateRandomDirection()
         {
             float randomXDirection = Random.Range(Vector2.left.x, Vector2.right.x);
             float randomYDirection = Random.Range(Vector2.down.y, Vector2.up.y);
 
             return new Vector2(randomXDirection, randomYDirection);
-        }
-
-        private void OnExploded(Vector2 position)
-        {
-            Exploded?.Invoke(position);
         }
     }
 }

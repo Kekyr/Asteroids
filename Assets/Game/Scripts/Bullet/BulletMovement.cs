@@ -1,3 +1,4 @@
+using Game;
 using UnityEngine;
 
 namespace BulletBase
@@ -5,6 +6,7 @@ namespace BulletBase
     public class BulletMovement : MonoBehaviour
     {
         private Rigidbody2D _rigidbody;
+        private Helper _helper;
         private Vector2 _direction;
         private float _speed;
 
@@ -16,12 +18,19 @@ namespace BulletBase
         private void FixedUpdate()
         {
             _rigidbody.linearVelocity = _direction * _speed;
+
+            if (_helper.CheckPosition(transform.position) == false)
+            {
+                gameObject.SetActive(false);
+            }
         }
 
-        public void Init(Vector2 direction, float speed)
+        public void Init(Helper helper, Vector2 direction, float speed)
         {
+            _helper = helper;
             _direction = direction;
             _speed = speed;
+            enabled = true;
         }
     }
 }

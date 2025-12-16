@@ -380,9 +380,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 879379ae95d53ac4e85e56c1e8fac8df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ship: {fileID: 0}
+  _ship: {fileID: 865247021}
   _helper: {fileID: 741643968}
   _asteroidSpawner: {fileID: 1064058968}
+  _asteroidFragmentSpawner: {fileID: 978899637}
 --- !u!4 &597935262
 Transform:
   m_ObjectHideFlags: 0
@@ -444,6 +445,60 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _minPosition: {x: -1, y: 0}
   _maxPosition: {x: 11, y: 12}
+--- !u!1 &865247021 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8678310942197031988, guid: 523fc9deaa513dd4caf407125a3ca0c9, type: 3}
+  m_PrefabInstance: {fileID: 2403703556751243049}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &978899636
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 978899638}
+  - component: {fileID: 978899637}
+  m_Layer: 0
+  m_Name: AsteroidFragmentSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &978899637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 978899636}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83a41723da8847189c9536ac336af0e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _poolCount: 20
+  _explodeCount: 2
+  _prefab: {fileID: 1166963584625295164, guid: 5c081e628d632cf46979a3b7124cc94c, type: 3}
+  _positionXOffset: 0.4
+  _positionYOffset: 0.4
+--- !u!4 &978899638
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 978899636}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 6.7498374, y: 8.905152, z: -0.9048987}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1064058966
 GameObject:
   m_ObjectHideFlags: 0
@@ -454,7 +509,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1064058969}
   - component: {fileID: 1064058968}
-  - component: {fileID: 1064058970}
   m_Layer: 0
   m_Name: AsteroidSpawner
   m_TagString: Untagged
@@ -474,6 +528,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20916cfb584f4ded84641174183466f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _poolCount: 10
+  _prefab: {fileID: 8250798152362502254, guid: be56fcf58767e30439146105a3d12442, type: 3}
   _delay: 2
   _minPositionX: -1
   _maxPositionX: 11
@@ -493,92 +549,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1064058970
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1064058966}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7386ddfa0aeeea740a62f01eb78bfae5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _count: 15
-  _prefab: {fileID: 8250798152362502254, guid: be56fcf58767e30439146105a3d12442, type: 3}
---- !u!1 &1858706647
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1858706650}
-  - component: {fileID: 1858706649}
-  - component: {fileID: 1858706648}
-  m_Layer: 0
-  m_Name: Bullet
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1858706648
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1858706647}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7bde0753468c1a2428a38ffb97cc9d28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!50 &1858706649
-Rigidbody2D:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1858706647}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!4 &1858706650
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1858706647}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2403703556751243049
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -587,9 +557,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 420951087543457558, guid: 523fc9deaa513dd4caf407125a3ca0c9, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 420951087543457558, guid: 523fc9deaa513dd4caf407125a3ca0c9, type: 3}
+      propertyPath: _bulletSpeed
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 8678310942197031988, guid: 523fc9deaa513dd4caf407125a3ca0c9, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678310942197031988, guid: 523fc9deaa513dd4caf407125a3ca0c9, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8966852713007411408, guid: 523fc9deaa513dd4caf407125a3ca0c9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -645,5 +627,5 @@ SceneRoots:
   - {fileID: 143303387}
   - {fileID: 2403703556751243049}
   - {fileID: 1064058969}
+  - {fileID: 978899638}
   - {fileID: 383239025}
-  - {fileID: 1858706650}

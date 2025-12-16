@@ -19,12 +19,16 @@ namespace AsteroidBase
         private void FixedUpdate()
         {
             _rigidbody.linearVelocity = _moveDirection * _speed;
-            transform.position = _helper.CheckPosition(transform.position);
+            transform.position = _helper.ClampPosition(transform.position);
         }
 
-        public void Init(Helper helper,Vector2 moveDirection)
+        public void Init(Helper helper)
         {
             _helper = helper;
+        }
+
+        public void Init(Vector2 moveDirection)
+        {
             _moveDirection = moveDirection;
         }
     }

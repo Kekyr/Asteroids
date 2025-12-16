@@ -7,17 +7,17 @@ namespace Game
         [SerializeField] private Vector2 _minPosition;
         [SerializeField] private Vector2 _maxPosition;
 
-        public Vector2 CheckPosition(Vector2 position)
+        public Vector2 ClampPosition(Vector2 position)
         {
-            Vector2 checkedPosition = position;
+            Vector2 clampedPosition = position;
 
-            checkedPosition.x = CheckValue(checkedPosition.x, _minPosition.x, _maxPosition.x);
-            checkedPosition.y = CheckValue(checkedPosition.y, _minPosition.y, _maxPosition.y);
+            clampedPosition.x = ClampValue(clampedPosition.x, _minPosition.x, _maxPosition.x);
+            clampedPosition.y = ClampValue(clampedPosition.y, _minPosition.y, _maxPosition.y);
 
-            return checkedPosition;
+            return clampedPosition;
         }
 
-        private float CheckValue(float value, float minValue, float maxValue)
+        private float ClampValue(float value, float minValue, float maxValue)
         {
             if (value > maxValue)
             {
@@ -30,6 +30,24 @@ namespace Game
             }
 
             return value;
+        }
+
+        public bool CheckPosition(Vector2 position)
+        {
+            bool positionXValidation = CheckValue(position.x, _minPosition.x, _maxPosition.x);
+            bool positionYValidation = CheckValue(position.y, _minPosition.y, _maxPosition.y);
+
+            return positionXValidation && positionYValidation;
+        }
+
+        private bool CheckValue(float value, float minValue, float maxValue)
+        {
+            if (value < minValue || value > maxValue)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

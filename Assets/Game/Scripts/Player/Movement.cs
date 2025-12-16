@@ -43,7 +43,7 @@ namespace PlayerBase
 
             _rigidbody.AddTorque(_torqueDirection * _torqueForce);
 
-            transform.position = _helper.CheckPosition(transform.position);
+            transform.position = _helper.ClampPosition(transform.position);
         }
 
         public void Init(PlayerInput playerInput, Helper helper)
