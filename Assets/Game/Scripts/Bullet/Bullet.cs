@@ -1,4 +1,4 @@
-using System;
+using PlayerBase;
 using UnityEngine;
 
 namespace BulletBase
@@ -7,6 +7,11 @@ namespace BulletBase
     {
         private void OnCollisionEnter2D(Collision2D other)
         {
+            if (other.gameObject.TryGetComponent<Ship>(out Ship ship))
+            {
+                return;
+            }
+            
             gameObject.SetActive(false);
         }
     }
