@@ -117,6 +117,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LaserGun"",
+                    ""type"": ""Button"",
+                    ""id"": ""3743f19c-8195-403f-891d-fef75e03a18a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -170,8 +179,19 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard"",
                     ""action"": ""Gun"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c5f8d2b8-abab-4d2d-ac03-15eea8fc8dff"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""LaserGun"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -197,6 +217,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Player_Acceleration = m_Player.FindAction("Acceleration", throwIfNotFound: true);
         m_Player_Rotation = m_Player.FindAction("Rotation", throwIfNotFound: true);
         m_Player_Gun = m_Player.FindAction("Gun", throwIfNotFound: true);
+        m_Player_LaserGun = m_Player.FindAction("LaserGun", throwIfNotFound: true);
     }
 
     ~@PlayerInput()
@@ -280,6 +301,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Acceleration;
     private readonly InputAction m_Player_Rotation;
     private readonly InputAction m_Player_Gun;
+    private readonly InputAction m_Player_LaserGun;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -303,6 +325,10 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Gun".
         /// </summary>
         public InputAction @Gun => m_Wrapper.m_Player_Gun;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/LaserGun".
+        /// </summary>
+        public InputAction @LaserGun => m_Wrapper.m_Player_LaserGun;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -338,6 +364,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Gun.started += instance.OnGun;
             @Gun.performed += instance.OnGun;
             @Gun.canceled += instance.OnGun;
+            @LaserGun.started += instance.OnLaserGun;
+            @LaserGun.performed += instance.OnLaserGun;
+            @LaserGun.canceled += instance.OnLaserGun;
         }
 
         /// <summary>
@@ -358,6 +387,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Gun.started -= instance.OnGun;
             @Gun.performed -= instance.OnGun;
             @Gun.canceled -= instance.OnGun;
+            @LaserGun.started -= instance.OnLaserGun;
+            @LaserGun.performed -= instance.OnLaserGun;
+            @LaserGun.canceled -= instance.OnLaserGun;
         }
 
         /// <summary>
@@ -432,5 +464,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnGun(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "LaserGun" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnLaserGun(InputAction.CallbackContext context);
     }
 }

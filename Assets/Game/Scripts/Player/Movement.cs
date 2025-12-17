@@ -1,3 +1,4 @@
+using System;
 using Game;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -15,6 +16,10 @@ namespace PlayerBase
 
         private bool _canMove;
         private float _torqueDirection;
+
+        public event Action<Vector2> PositionChanged;
+        public event Action<Vector2> VelocityChanged;
+        public event Action<float> AngleChanged;
 
         private void Start()
         {
@@ -41,9 +46,13 @@ namespace PlayerBase
                 _rigidbody.AddForce(transform.up * _force);
             }
 
+            VelocityChanged?.Invoke(_rigidbody.linearVelocity);
+
             _rigidbody.AddTorque(_torqueDirection * _torqueForce);
+            AngleChanged?.Invoke(transform.eulerAngles.z);
 
             transform.position = _helper.ClampPosition(transform.position);
+            PositionChanged?.Invoke(transform.position);
         }
 
         public void Init(PlayerInput playerInput, Helper helper)
