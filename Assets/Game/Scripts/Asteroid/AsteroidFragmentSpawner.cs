@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using AsteroidBase;
+using ScoreBase;
 using UnityEngine;
 
 namespace Game.Scripts
@@ -15,6 +16,7 @@ namespace Game.Scripts
 
         private Queue<GameObject> _instances = new Queue<GameObject>();
         private Helper _helper;
+        private Score _score;
         private AsteroidSpawner _asteroidSpawner;
 
         private void Start()
@@ -23,6 +25,9 @@ namespace Game.Scripts
             {
                 GameObject instance = Instantiate(_prefab, transform);
                 instance.SetActive(false);
+
+                Asteroid asteroid = instance.GetComponent<Asteroid>();
+                asteroid.Init(_score);
 
                 AsteroidMovement asteroidMovement = instance.GetComponent<AsteroidMovement>();
                 asteroidMovement.Init(_helper);
@@ -38,9 +43,10 @@ namespace Game.Scripts
             _asteroidSpawner.Exploded -= OnExploded;
         }
 
-        public void Init(Helper helper, AsteroidSpawner asteroidSpawner)
+        public void Init(Helper helper, Score score, AsteroidSpawner asteroidSpawner)
         {
             _helper = helper;
+            _score = score;
             _asteroidSpawner = asteroidSpawner;
             enabled = true;
         }
@@ -65,7 +71,7 @@ namespace Game.Scripts
                 asteroidMovement.Init(randomDirection);
             }
         }
-        
+
         public GameObject Spawn(Vector3 position)
         {
             GameObject instance = _instances.Dequeue();
@@ -77,7 +83,7 @@ namespace Game.Scripts
 
             return instance;
         }
-        
+
         private Vector2 CalculateRandomDirection()
         {
             float randomXDirection = Random.Range(Vector2.left.x, Vector2.right.x);

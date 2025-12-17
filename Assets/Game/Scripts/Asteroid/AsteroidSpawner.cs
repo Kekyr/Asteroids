@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Game;
+using ScoreBase;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -22,6 +23,7 @@ namespace AsteroidBase
         private Queue<GameObject> _instances = new Queue<GameObject>();
         private Asteroid[] _asteroids;
         private Helper _helper;
+        private Score _score;
         private WaitForSeconds _waitDelay;
 
         public event Action<Vector2> Exploded;
@@ -37,6 +39,7 @@ namespace AsteroidBase
                 instance.SetActive(false);
 
                 Asteroid asteroid = instance.GetComponent<Asteroid>();
+                asteroid.Init(_score);
                 asteroid.Exploded += OnExploded;
 
                 AsteroidMovement asteroidMovement = instance.GetComponent<AsteroidMovement>();
@@ -60,9 +63,10 @@ namespace AsteroidBase
             }
         }
 
-        public void Init(Helper helper)
+        public void Init(Helper helper, Score score)
         {
             _helper = helper;
+            _score = score;
             enabled = true;
         }
 
