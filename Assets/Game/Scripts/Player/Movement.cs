@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 namespace PlayerBase
 {
+    [RequireComponent(typeof(Rigidbody2D))]
     public class Movement : MonoBehaviour
     {
         [SerializeField] private float _force;

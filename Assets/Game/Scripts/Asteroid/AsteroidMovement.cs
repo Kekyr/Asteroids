@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace AsteroidBase
 {
+    [RequireComponent(typeof(Rigidbody2D))]
     public class AsteroidMovement : MonoBehaviour
     {
         [SerializeField] private float _speed;

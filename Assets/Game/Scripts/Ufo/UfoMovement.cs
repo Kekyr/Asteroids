@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace UfoBase
 {
+    [RequireComponent(typeof(Rigidbody2D))]
     public class UfoMovement : MonoBehaviour
     {
         private Rigidbody2D _rigidbody;

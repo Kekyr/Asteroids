@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Game;
 using ScoreBase;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 using Vector2 = UnityEngine.Vector2;
 

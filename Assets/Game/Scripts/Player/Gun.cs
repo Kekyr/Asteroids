@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 namespace PlayerBase
 {
+    [RequireComponent(typeof(ObjectPool))]
     public class Gun : MonoBehaviour
     {
         [SerializeField] private Transform _spawnPosition;
