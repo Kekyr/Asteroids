@@ -3,10 +3,12 @@ using UnityEngine;
 
 namespace BulletBase
 {
+    [RequireComponent(typeof(Rigidbody2D))]
     public class BulletMovement : MonoBehaviour
     {
         private Rigidbody2D _rigidbody;
         private Helper _helper;
+        
         private Vector2 _direction;
         private float _speed;
 

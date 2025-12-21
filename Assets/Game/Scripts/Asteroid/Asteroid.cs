@@ -2,7 +2,6 @@
 using BulletBase;
 using ScoreBase;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace AsteroidBase
 {
