@@ -4,15 +4,15 @@ namespace Game
 {
     public class Helper
     {
-        public Vector2 MinPosition { get; private set; } = new Vector2(-1, 0);
-        public Vector2 MaxPosition { get; private set; } = new Vector2(11, 12);
-
+        private Vector2 _minPosition = new Vector2(-1, 0);
+        private Vector2 _maxPosition = new Vector2(11, 12);
+        
         public Vector2 ClampPosition(Vector2 position)
         {
             Vector2 clampedPosition = position;
 
-            clampedPosition.x = ClampValue(clampedPosition.x, MinPosition.x, MaxPosition.x);
-            clampedPosition.y = ClampValue(clampedPosition.y, MinPosition.y, MaxPosition.y);
+            clampedPosition.x = ClampValue(clampedPosition.x, _minPosition.x, _maxPosition.x);
+            clampedPosition.y = ClampValue(clampedPosition.y, _minPosition.y, _maxPosition.y);
 
             return clampedPosition;
         }
@@ -34,8 +34,8 @@ namespace Game
 
         public bool CheckPosition(Vector2 position)
         {
-            bool positionXValidation = CheckValue(position.x, MinPosition.x, MaxPosition.x);
-            bool positionYValidation = CheckValue(position.y, MinPosition.y, MaxPosition.y);
+            bool positionXValidation = CheckValue(position.x, _minPosition.x, _maxPosition.x);
+            bool positionYValidation = CheckValue(position.y, _minPosition.y, _maxPosition.y);
 
             return positionXValidation && positionYValidation;
         }

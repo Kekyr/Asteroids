@@ -5,6 +5,7 @@ using Model;
 
 namespace Presenter
 {
+    [RequireComponent(typeof(Rigidbody2D))]
     public class ShipPresenter : MonoBehaviour
     {
         private Ship _model;

@@ -88,6 +88,36 @@ namespace Game
             {
                 throw new ArgumentNullException(nameof(_shipPresenter));
             }
+            
+            if (_asteroidSpawnerPresenter == null)
+            {
+                throw new ArgumentNullException(nameof(_asteroidSpawnerPresenter));
+            }
+
+            if (_asteroidFragmentSpawnerPresenter == null)
+            {
+                throw new ArgumentNullException(nameof(_asteroidFragmentSpawnerPresenter));
+            }
+
+            if (_ufoSpawnerPresenter == null)
+            {
+                throw new ArgumentNullException(nameof(_ufoSpawnerPresenter));
+            }
+
+            if (_shipView == null)
+            {
+                throw new ArgumentNullException(nameof(_shipView));
+            }
+
+            if (_laserGunView == null)
+            {
+                throw new ArgumentNullException(nameof(_laserGunView));
+            }
+
+            if (_gameOverView == null)
+            {
+                throw new ArgumentNullException(nameof(_gameOverView));
+            }
         }
     }
 }
