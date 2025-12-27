@@ -4,6 +4,7 @@ using Model;
 
 namespace Presenter
 {
+    [RequireComponent(typeof(BulletPresenter))]
     public class BulletPresenter : MonoBehaviour
     {
         private Bullet _model;

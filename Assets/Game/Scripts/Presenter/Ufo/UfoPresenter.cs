@@ -5,6 +5,7 @@ using Model;
 
 namespace Presenter
 {
+    [RequireComponent(typeof(Rigidbody2D))]
     public class UfoPresenter:MonoBehaviour
     {
         private Ufo _model;
