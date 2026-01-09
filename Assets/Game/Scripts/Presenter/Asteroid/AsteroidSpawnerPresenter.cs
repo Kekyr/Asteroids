@@ -21,7 +21,7 @@ namespace Presenter
 
         public event Action<Vector2> Exploded;
 
-        private void OnEnable()
+        private void Start()
         {
             _waitDelay = new WaitForSeconds(_model.Delay);
             _asteroids = new AsteroidPresenter[_model.PoolCount];
@@ -36,10 +36,7 @@ namespace Presenter
                 asteroid.Exploded += OnExploded;
                 _asteroids[i] = asteroid;
             }
-        }
-
-        private void Start()
-        {
+            
             StartCoroutine(Spawn());
         }
 

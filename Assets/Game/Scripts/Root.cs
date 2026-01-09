@@ -66,15 +66,15 @@ namespace Game
             _gameOverView.Init(_score, _shipPresenter);
         }
 
-        private void OnEnable()
+        private void Start()
         {
-            _playerInputRouter.OnEnable();
-            _laserGun.OnEnable();
+            _playerInputRouter.Start();
+            _laserGun.Start();
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
-            _playerInputRouter.OnDisable();
+            _playerInputRouter.OnDestroy();
         }
 
         private void Update()

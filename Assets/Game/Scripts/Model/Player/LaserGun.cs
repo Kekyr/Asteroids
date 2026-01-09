@@ -23,7 +23,7 @@ namespace Model
         public event Action ShootStarted;
         public event Action ShootEnded;
 
-        public void OnEnable()
+        public void Start()
         {
             _shootCount = MaxShootCount;
             ShootCountChanged?.Invoke(_shootCount);

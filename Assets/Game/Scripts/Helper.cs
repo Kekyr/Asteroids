@@ -4,8 +4,16 @@ namespace Game
 {
     public class Helper
     {
-        private Vector2 _minPosition = new Vector2(-1, 0);
-        private Vector2 _maxPosition = new Vector2(11, 12);
+        private Vector2 _minPosition;
+        private Vector2 _maxPosition;
+        private Camera _camera;
+
+        public Helper()
+        {
+            _camera = Camera.main;
+            _minPosition = _camera.ScreenToWorldPoint(new Vector2(0, 0));
+            _maxPosition = _camera.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
+        }
         
         public Vector2 ClampPosition(Vector2 position)
         {
@@ -42,12 +50,7 @@ namespace Game
 
         private bool CheckValue(float value, float minValue, float maxValue)
         {
-            if (value < minValue || value > maxValue)
-            {
-                return false;
-            }
-
-            return true;
+            return value >= minValue && value <= maxValue;
         }
     }
 }

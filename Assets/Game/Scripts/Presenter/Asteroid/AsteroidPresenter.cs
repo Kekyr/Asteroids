@@ -24,6 +24,7 @@ namespace Presenter
         private void FixedUpdate()
         {
             _rigidbody.linearVelocity = _model.MoveDirection * _speed;
+            transform.rotation = Quaternion.LookRotation(Vector3.forward, _model.MoveDirection);
             transform.position = _helper.ClampPosition(transform.position);
         }
 

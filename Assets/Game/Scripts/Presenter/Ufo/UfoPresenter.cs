@@ -6,19 +6,23 @@ using Model;
 namespace Presenter
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public class UfoPresenter:MonoBehaviour
+    public class UfoPresenter : MonoBehaviour
     {
         private Ufo _model;
-        
+
         private Rigidbody2D _rigidbody;
         private Transform _target;
         private Helper _helper;
+        private SpriteRenderer _view;
 
         public event Action Exploded;
 
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
+            _view = GetComponentInChildren<SpriteRenderer>();
+
+            _rigidbody.centerOfMass = _view.transform.localPosition;
         }
 
         private void FixedUpdate()
@@ -26,7 +30,7 @@ namespace Presenter
             if (_target.gameObject.activeSelf == true)
             {
                 Vector2 direction = (_target.position - transform.position).normalized;
-                transform.rotation = Quaternion.LookRotation(Vector3.forward, direction);
+                _rigidbody.rotation = Quaternion.LookRotation(Vector3.forward, direction).eulerAngles.z;
                 _rigidbody.linearVelocity = direction * _model.Speed;
                 transform.position = _helper.ClampPosition(transform.position);
             }
@@ -38,11 +42,11 @@ namespace Presenter
             {
                 return;
             }
-            
+
             Exploded?.Invoke();
             gameObject.SetActive(false);
         }
-        
+
         private void OnTriggerEnter2D(Collider2D other)
         {
             Exploded?.Invoke();
