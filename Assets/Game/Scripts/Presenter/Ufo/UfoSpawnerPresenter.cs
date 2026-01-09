@@ -19,7 +19,7 @@ namespace Presenter
         private UfoPresenter[] _ufos;
         private int _currentIndex;
 
-        private void OnEnable()
+        private void Start()
         {
             _waitDelay = new WaitForSeconds(_model.Delay);
             _ufos = new UfoPresenter[_model.PoolCount];
@@ -34,6 +34,8 @@ namespace Presenter
                 ufoPresenter.Exploded += OnExploded;
                 _ufos[i] = ufoPresenter;
             }
+            
+            StartCoroutine(Spawn());
         }
 
         private void OnDestroy()
@@ -42,11 +44,6 @@ namespace Presenter
             {
                 _ufos[i].Exploded -= OnExploded;
             }
-        }
-
-        private void Start()
-        {
-            StartCoroutine(Spawn());
         }
 
         private IEnumerator Spawn()
