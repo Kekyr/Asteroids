@@ -13,6 +13,7 @@ namespace Presenter
         private Helper _helper;
 
         private float _speed;
+        private bool _isOnScreen;
         
         public event Action<Vector2> Exploded;
 
@@ -25,6 +26,13 @@ namespace Presenter
         {
             _rigidbody.linearVelocity = _model.MoveDirection * _speed;
             transform.rotation = Quaternion.LookRotation(Vector3.forward, _model.MoveDirection);
+            
+            if (_isOnScreen == false)
+            {
+                _isOnScreen = _helper.IsOnScreen(transform.position);
+                return;
+            }
+            
             transform.position = _helper.ClampPosition(transform.position);
         }
 

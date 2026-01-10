@@ -8,28 +8,41 @@ namespace Game
 {
     public class Root : MonoBehaviour
     {
-        [SerializeField] private ShipPresenter _shipPresenter;
+        [SerializeField] private GameObject _shipPrefab;
+
         [SerializeField] private AsteroidSpawnerPresenter _asteroidSpawnerPresenter;
         [SerializeField] private AsteroidFragmentSpawnerPresenter _asteroidFragmentSpawnerPresenter;
         [SerializeField] private UfoSpawnerPresenter _ufoSpawnerPresenter;
 
-        [SerializeField] private ShipView _shipView;
-        [SerializeField] private LaserGunView _laserGunView;
-        [SerializeField] private GameOverView _gameOverView;
-        
+        [SerializeField] private Canvas _canvas;
+
+        [SerializeField] private GameObject _shipViewPrefab;
+        [SerializeField] private GameObject _laserGunViewPrefab;
+        [SerializeField] private GameObject _gameOverViewPrefab;
+
+        private GameObject _ship;
+
+        private GameObject _shipViewObject;
+        private GameObject _laserGunViewObject;
+        private GameObject _gameOverViewObject;
+
         private PlayerInputRouter _playerInputRouter;
-        private Ship _ship;
+        private Ship _shipModel;
         private Gun _gun;
         private LaserGun _laserGun;
         private AsteroidSpawner _asteroidSpawner;
         private AsteroidFragmentSpawner _asteroidFragmentSpawner;
         private UfoSpawner _ufoSpawner;
         private Score _score;
+        private Helper _helper;
 
+        private ShipPresenter _shipPresenter;
         private GunPresenter _gunPresenter;
         private LaserGunPresenter _laserGunPresenter;
-        
-        private Helper _helper;
+
+        private ShipView _shipView;
+        private LaserGunView _laserGunView;
+        private GameOverView _gameOverView;
 
         private void Awake()
         {
@@ -37,7 +50,7 @@ namespace Game
 
             _helper = new Helper();
 
-            _ship = new Ship();
+            _shipModel = new Ship();
             _gun = new Gun();
             _laserGun = new LaserGun();
 
@@ -45,14 +58,17 @@ namespace Game
             _asteroidFragmentSpawner = new AsteroidFragmentSpawner();
             _ufoSpawner = new UfoSpawner();
 
-            _playerInputRouter = new PlayerInputRouter(_ship, _gun, _laserGun);
+            _playerInputRouter = new PlayerInputRouter(_shipModel, _gun, _laserGun);
 
             _score = new Score();
 
-            _gunPresenter = _shipPresenter.gameObject.GetComponentInChildren<GunPresenter>();
-            _laserGunPresenter = _shipPresenter.gameObject.GetComponentInChildren<LaserGunPresenter>();
+            _ship = Instantiate(_shipPrefab);
 
-            _shipPresenter.Init(_ship, _helper);
+            _shipPresenter = _ship.GetComponent<ShipPresenter>();
+            _gunPresenter = _ship.GetComponentInChildren<GunPresenter>();
+            _laserGunPresenter = _ship.GetComponentInChildren<LaserGunPresenter>();
+
+            _shipPresenter.Init(_shipModel, _helper);
             _gunPresenter.Init(_gun, _helper);
             _laserGunPresenter.Init(_laserGun);
 
@@ -61,7 +77,16 @@ namespace Game
                 _score);
             _ufoSpawnerPresenter.Init(_ufoSpawner, _helper, _shipPresenter.transform, _score);
 
-            _shipView.Init(_ship);
+            _shipViewObject = Instantiate(_shipViewPrefab, _canvas.transform);
+            _shipView = _shipViewObject.GetComponent<ShipView>();
+
+            _laserGunViewObject = Instantiate(_laserGunViewPrefab, _canvas.transform);
+            _laserGunView = _laserGunViewObject.GetComponent<LaserGunView>();
+
+            _gameOverViewObject = Instantiate(_gameOverViewPrefab, _canvas.transform);
+            _gameOverView = _gameOverViewObject.GetComponent<GameOverView>();
+
+            _shipView.Init(_shipModel);
             _laserGunView.Init(_laserGun);
             _gameOverView.Init(_score, _shipPresenter);
         }
@@ -84,11 +109,11 @@ namespace Game
 
         private void Validate()
         {
-            if (_shipPresenter == null)
+            if (_shipPrefab == null)
             {
-                throw new ArgumentNullException(nameof(_shipPresenter));
+                throw new ArgumentNullException(nameof(_shipPrefab));
             }
-            
+
             if (_asteroidSpawnerPresenter == null)
             {
                 throw new ArgumentNullException(nameof(_asteroidSpawnerPresenter));
@@ -104,19 +129,24 @@ namespace Game
                 throw new ArgumentNullException(nameof(_ufoSpawnerPresenter));
             }
 
-            if (_shipView == null)
+            if (_canvas == null)
             {
-                throw new ArgumentNullException(nameof(_shipView));
+                throw new ArgumentNullException(nameof(_canvas));
             }
 
-            if (_laserGunView == null)
+            if (_shipViewPrefab == null)
             {
-                throw new ArgumentNullException(nameof(_laserGunView));
+                throw new ArgumentNullException(nameof(_shipViewPrefab));
             }
 
-            if (_gameOverView == null)
+            if (_laserGunViewPrefab == null)
             {
-                throw new ArgumentNullException(nameof(_gameOverView));
+                throw new ArgumentNullException(nameof(_laserGunViewPrefab));
+            }
+
+            if (_gameOverViewPrefab == null)
+            {
+                throw new ArgumentNullException(nameof(_gameOverViewPrefab));
             }
         }
     }
