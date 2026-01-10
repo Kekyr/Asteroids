@@ -7,13 +7,16 @@ namespace Model
     {
         public int PoolCount { get; private set; } = 10;
         public float Delay { get; private set; } = 4;
-        public float MinPositionX { get; private set; } = -1;
-        public float MaxPositionX { get; private set; } = 11;
-        public float PositionY { get; private set; } = 12;
+        public float MinPositionX { get; private set; } = 1;
+        public float MaxPositionX { get; private set; } = 9;
+        public float MaxPositionY { get; private set; } = 12;
+        public float MinPositionY { get; private set; } = -1;
         public float Speed { get; private set; } = 2;
         public uint Points { get; private set; } = 50;
 
         private Queue<Asteroid> _queue = new Queue<Asteroid>();
+        private float _currentPositionY;
+        private float _currentDirectionY;
 
         public AsteroidSpawner()
         {
@@ -22,6 +25,8 @@ namespace Model
                 Asteroid asteroid = new Asteroid();
                 _queue.Enqueue(asteroid);
             }
+
+            _currentPositionY = MaxPositionY;
         }
 
         public Asteroid Spawn()
@@ -36,15 +41,26 @@ namespace Model
         private Vector2 CalculateRandomPosition()
         {
             float randomXPosition = Random.Range(MinPositionX, MaxPositionX);
-            Vector2 randomPosition = new Vector2(randomXPosition, PositionY);
+            Vector2 randomPosition = new Vector2(randomXPosition, _currentPositionY);
+
+            if (Mathf.Approximately(_currentPositionY, MaxPositionY))
+            {
+                _currentPositionY = MinPositionY;
+                _currentDirectionY = Vector2.down.y;
+            }
+            else
+            {
+                _currentPositionY = MaxPositionY;
+                _currentDirectionY = Vector2.up.y;
+            }
+
             return randomPosition;
         }
-        
+
         private Vector2 CalculateRandomDirection()
         {
             float randomXDirection = Random.Range(Vector2.left.x, Vector2.right.x);
-            float randomYDirection = Random.Range(Vector2.down.y, Vector2.up.y);
-            Vector2 randomDirection = new Vector2(randomXDirection, randomYDirection);
+            Vector2 randomDirection = new Vector2(randomXDirection, _currentDirectionY);
             return randomDirection;
         }
     }

@@ -15,6 +15,8 @@ namespace Presenter
         private Helper _helper;
         private SpriteRenderer _view;
 
+        private bool _isOnScreen;
+
         public event Action Exploded;
 
         private void Awake()
@@ -32,6 +34,13 @@ namespace Presenter
                 Vector2 direction = (_target.position - transform.position).normalized;
                 _rigidbody.rotation = Quaternion.LookRotation(Vector3.forward, direction).eulerAngles.z;
                 _rigidbody.linearVelocity = direction * _model.Speed;
+
+                if (_isOnScreen == false)
+                {
+                    _isOnScreen = _helper.IsOnScreen(transform.position);
+                    return;
+                }
+
                 transform.position = _helper.ClampPosition(transform.position);
             }
         }
