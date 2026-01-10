@@ -6,7 +6,7 @@ namespace Presenter
 {
     public class AsteroidFragmentSpawnerPresenter : MonoBehaviour
     {
-        [SerializeField] private GameObject _prefab;
+        private GameObject _prefab;
 
         private AsteroidFragmentSpawner _model;
         private Helper _helper;
@@ -44,9 +44,10 @@ namespace Presenter
             _asteroidSpawnerPresenter.Exploded -= OnExploded;
         }
 
-        public void Init(AsteroidFragmentSpawner model, Helper helper,
+        public void Init(GameObject prefab, AsteroidFragmentSpawner model, Helper helper,
             AsteroidSpawnerPresenter asteroidSpawnerPresenter, Score score)
         {
+            _prefab = prefab;
             _model = model;
             _helper = helper;
             _asteroidSpawnerPresenter = asteroidSpawnerPresenter;

@@ -7,7 +7,7 @@ namespace Presenter
 {
     public class UfoSpawnerPresenter : MonoBehaviour
     {
-        [SerializeField] private GameObject _prefab;
+        private GameObject _prefab;
 
         private UfoSpawner _model;
 
@@ -65,8 +65,9 @@ namespace Presenter
             }
         }
 
-        public void Init(UfoSpawner model, Helper helper, Transform player, Score score)
+        public void Init(GameObject prefab, UfoSpawner model, Helper helper, Transform player, Score score)
         {
+            _prefab = prefab;
             _model = model;
             _helper = helper;
             _player = player;
