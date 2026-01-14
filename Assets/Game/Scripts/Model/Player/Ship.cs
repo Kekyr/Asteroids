@@ -5,8 +5,7 @@ namespace Model
 {
     public class Ship
     {
-        public Vector2 Position { get; private set; }
-        public float Rotation { get; private set; }
+        public Transformable Transform { get; private set; }
         public Vector2 Velocity { get; private set; }
 
         public float MoveForce { get; private set; } = 2f;
@@ -15,11 +14,14 @@ namespace Model
 
         public bool IsMoving { get; private set; }
         public bool IsRotating { get; private set; }
-
-        public event Action<Vector2> PositionChanged;
-        public event Action<float> RotationChanged;
+        
         public event Action<Vector2> VelocityChanged;
 
+        public Ship()
+        {
+            Transform = new Transformable();
+        }
+        
         public void Move()
         {
             IsMoving = true;
@@ -48,18 +50,6 @@ namespace Model
         public void StopRotate()
         {
             IsRotating = false;
-        }
-
-        public void ChangePosition(Vector2 newPosition)
-        {
-            Position = newPosition;
-            PositionChanged?.Invoke(Position);
-        }
-
-        public void ChangeRotation(float newRotation)
-        {
-            Rotation = newRotation;
-            RotationChanged?.Invoke(Rotation);
         }
 
         public void ChangeVelocity(Vector2 newVelocity)

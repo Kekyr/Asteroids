@@ -9,6 +9,7 @@ namespace Presenter
     public class AsteroidSpawnerPresenter : MonoBehaviour
     {
         private GameObject _prefab;
+        private GameObject _container;
 
         private AsteroidSpawner _model;
 
@@ -25,10 +26,11 @@ namespace Presenter
         {
             _waitDelay = new WaitForSeconds(_model.Delay);
             _asteroids = new AsteroidPresenter[_model.PoolCount];
+            _container = new GameObject(_prefab.name);
 
             for (int i = 0; i < _model.PoolCount; i++)
             {
-                GameObject instance = Instantiate(_prefab, transform);
+                GameObject instance = Instantiate(_prefab, _container.transform);
                 instance.SetActive(false);
 
                 AsteroidPresenter asteroid = instance.GetComponent<AsteroidPresenter>();

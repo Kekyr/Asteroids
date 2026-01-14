@@ -7,6 +7,7 @@ namespace Presenter
     public class AsteroidFragmentSpawnerPresenter : MonoBehaviour
     {
         private GameObject _prefab;
+        private GameObject _container;
 
         private AsteroidFragmentSpawner _model;
         private Helper _helper;
@@ -19,10 +20,11 @@ namespace Presenter
         private void Start()
         {
             _asteroidFragments = new AsteroidPresenter[_model.PoolCount];
+            _container = new GameObject(_prefab.name);
 
             for (int i = 0; i < _model.PoolCount; i++)
             {
-                GameObject instance = Instantiate(_prefab, transform);
+                GameObject instance = Instantiate(_prefab, _container.transform);
                 instance.SetActive(false);
 
                 AsteroidPresenter asteroid = instance.GetComponent<AsteroidPresenter>();
