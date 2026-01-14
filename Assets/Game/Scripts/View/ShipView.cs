@@ -15,15 +15,15 @@ namespace View
 
         private void Start()
         {
-            _model.PositionChanged += OnPositionChanged;
-            _model.RotationChanged += OnRotationChanged;
+            _model.Transform.PositionChanged += OnPositionChanged;
+            _model.Transform.RotationChanged += OnRotationChanged;
             _model.VelocityChanged += OnVelocityChanged;
         }
 
         private void OnDestroy()
         {
-            _model.PositionChanged -= OnPositionChanged;
-            _model.RotationChanged -= OnRotationChanged;
+            _model.Transform.PositionChanged -= OnPositionChanged;
+            _model.Transform.RotationChanged -= OnRotationChanged;
             _model.VelocityChanged -= OnVelocityChanged;
         }
 

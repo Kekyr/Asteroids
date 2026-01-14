@@ -36,10 +36,10 @@ namespace Presenter
                 _rigidbody.AddTorque(_model.RotationDirection * _model.RotationForce);
             }
 
-            transform.position = _helper.ClampPosition(transform.position);
+            transform.position = _helper.VerifyPosition(transform.position);
 
-            _model.ChangePosition(transform.position);
-            _model.ChangeRotation(transform.eulerAngles.z);
+            _model.Transform.ChangePosition(transform.position);
+            _model.Transform.ChangeRotation(transform.eulerAngles.z);
             _model.ChangeVelocity(_rigidbody.linearVelocity);
         }
 

@@ -41,7 +41,6 @@ namespace Game
         private LaserGunPresenter _laserGunPresenter;
         private AsteroidSpawnerPresenter _asteroidSpawnerPresenter;
         private AsteroidFragmentSpawnerPresenter _asteroidFragmentSpawnerPresenter;
-        private UfoSpawnerPresenter _ufoSpawnerPresenter;
 
         private ShipView _shipView;
         private LaserGunView _laserGunView;
@@ -52,6 +51,7 @@ namespace Game
             Validate();
 
             _helper = new Helper();
+            _score = new Score();
 
             _shipModel = new Ship();
             _gun = new Gun();
@@ -59,13 +59,12 @@ namespace Game
 
             _asteroidSpawner = new AsteroidSpawner();
             _asteroidFragmentSpawner = new AsteroidFragmentSpawner();
-            _ufoSpawner = new UfoSpawner();
 
             _playerInputRouter = new PlayerInputRouter(_shipModel, _gun, _laserGun);
 
-            _score = new Score();
-
             _ship = Instantiate(_shipPrefab);
+
+            _ufoSpawner = new UfoSpawner(_ufoPrefab, _helper, _ship.transform, _score);
 
             _shipPresenter = _ship.GetComponent<ShipPresenter>();
             _gunPresenter = _ship.GetComponentInChildren<GunPresenter>();
@@ -77,12 +76,9 @@ namespace Game
 
             _asteroidSpawnerPresenter = gameObject.AddComponent<AsteroidSpawnerPresenter>();
             _asteroidFragmentSpawnerPresenter = gameObject.AddComponent<AsteroidFragmentSpawnerPresenter>();
-            _ufoSpawnerPresenter = gameObject.AddComponent<UfoSpawnerPresenter>();
 
             _asteroidSpawnerPresenter.Init(_asteroidPrefab, _asteroidSpawner, _helper, _score);
-            _asteroidFragmentSpawnerPresenter.Init(_asteroidFragmentPrefab, _asteroidFragmentSpawner, _helper,
-                _asteroidSpawnerPresenter, _score);
-            _ufoSpawnerPresenter.Init(_ufoPrefab, _ufoSpawner, _helper, _shipPresenter.transform, _score);
+            _asteroidFragmentSpawnerPresenter.Init(_asteroidFragmentPrefab, _asteroidFragmentSpawner, _helper,_asteroidSpawnerPresenter, _score);
 
             _shipViewObject = Instantiate(_shipViewPrefab, _canvas.transform);
             _shipView = _shipViewObject.GetComponent<ShipView>();
@@ -102,11 +98,15 @@ namespace Game
         {
             _playerInputRouter.Start();
             _laserGun.Start();
+            _ufoSpawner.Start();
+
+            StartCoroutine(_ufoSpawner.Spawn());
         }
 
         private void OnDestroy()
         {
             _playerInputRouter.OnDestroy();
+            _ufoSpawner.OnDestroy();
         }
 
         private void Update()

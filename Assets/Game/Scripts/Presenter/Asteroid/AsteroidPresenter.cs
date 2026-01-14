@@ -33,7 +33,7 @@ namespace Presenter
                 return;
             }
             
-            transform.position = _helper.ClampPosition(transform.position);
+            transform.position = _helper.VerifyPosition(transform.position);
         }
 
         private void OnCollisionEnter2D(Collision2D other)
