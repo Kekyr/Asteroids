@@ -8,23 +8,17 @@ namespace Game
 {
     public class Root : MonoBehaviour
     {
-        [SerializeField] private GameObject _shipPrefab;
+        [SerializeField] private ShipPresenter _shipPrefab;
 
-        [SerializeField] private GameObject _asteroidPrefab;
-        [SerializeField] private GameObject _asteroidFragmentPrefab;
-        [SerializeField] private GameObject _ufoPrefab;
+        [SerializeField] private AsteroidPresenter _asteroidPrefab;
+        [SerializeField] private AsteroidPresenter _asteroidFragmentPrefab;
+        [SerializeField] private UfoPresenter _ufoPrefab;
 
         [SerializeField] private Canvas _canvas;
 
-        [SerializeField] private GameObject _shipViewPrefab;
-        [SerializeField] private GameObject _laserGunViewPrefab;
-        [SerializeField] private GameObject _gameOverViewPrefab;
-
-        private GameObject _ship;
-
-        private GameObject _shipViewObject;
-        private GameObject _laserGunViewObject;
-        private GameObject _gameOverViewObject;
+        [SerializeField] private ShipView _shipViewPrefab;
+        [SerializeField] private LaserGunView _laserGunViewPrefab;
+        [SerializeField] private GameOverView _gameOverViewPrefab;
 
         private PlayerInputRouter _playerInputRouter;
         private Ship _shipModel;
@@ -62,13 +56,12 @@ namespace Game
 
             _playerInputRouter = new PlayerInputRouter(_shipModel, _gun, _laserGun);
 
-            _ship = Instantiate(_shipPrefab);
+            _shipPresenter = Instantiate(_shipPrefab);
 
-            _ufoSpawner = new UfoSpawner(_ufoPrefab, _helper, _ship.transform, _score);
-
-            _shipPresenter = _ship.GetComponent<ShipPresenter>();
-            _gunPresenter = _ship.GetComponentInChildren<GunPresenter>();
-            _laserGunPresenter = _ship.GetComponentInChildren<LaserGunPresenter>();
+            _ufoSpawner = new UfoSpawner(_ufoPrefab, _helper, _shipPresenter.transform, _score);
+            
+            _gunPresenter = _shipPresenter.gameObject.GetComponentInChildren<GunPresenter>();
+            _laserGunPresenter = _shipPresenter.gameObject.GetComponentInChildren<LaserGunPresenter>();
 
             _shipPresenter.Init(_shipModel, _helper);
             _gunPresenter.Init(_gun, _helper);
@@ -80,14 +73,9 @@ namespace Game
             _asteroidSpawnerPresenter.Init(_asteroidPrefab, _asteroidSpawner, _helper, _score);
             _asteroidFragmentSpawnerPresenter.Init(_asteroidFragmentPrefab, _asteroidFragmentSpawner, _helper,_asteroidSpawnerPresenter, _score);
 
-            _shipViewObject = Instantiate(_shipViewPrefab, _canvas.transform);
-            _shipView = _shipViewObject.GetComponent<ShipView>();
-
-            _laserGunViewObject = Instantiate(_laserGunViewPrefab, _canvas.transform);
-            _laserGunView = _laserGunViewObject.GetComponent<LaserGunView>();
-
-            _gameOverViewObject = Instantiate(_gameOverViewPrefab, _canvas.transform);
-            _gameOverView = _gameOverViewObject.GetComponent<GameOverView>();
+            _shipView = Instantiate(_shipViewPrefab, _canvas.transform);
+            _laserGunView = Instantiate(_laserGunViewPrefab, _canvas.transform);
+            _gameOverView = Instantiate(_gameOverViewPrefab, _canvas.transform);
 
             _shipView.Init(_shipModel);
             _laserGunView.Init(_laserGun);
@@ -99,8 +87,6 @@ namespace Game
             _playerInputRouter.Start();
             _laserGun.Start();
             _ufoSpawner.Start();
-
-            StartCoroutine(_ufoSpawner.Spawn());
         }
 
         private void OnDestroy()

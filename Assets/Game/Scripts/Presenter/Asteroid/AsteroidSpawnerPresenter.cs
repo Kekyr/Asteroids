@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Game;
 using Model;
@@ -8,7 +9,7 @@ namespace Presenter
 {
     public class AsteroidSpawnerPresenter : MonoBehaviour
     {
-        private GameObject _prefab;
+        private AsteroidPresenter _prefab;
         private GameObject _container;
 
         private AsteroidSpawner _model;
@@ -16,7 +17,6 @@ namespace Presenter
         private AsteroidPresenter[] _asteroids;
         private Helper _helper;
         private Score _score;
-        private WaitForSeconds _waitDelay;
 
         private int _currentIndex;
 
@@ -24,22 +24,20 @@ namespace Presenter
 
         private void Start()
         {
-            _waitDelay = new WaitForSeconds(_model.Delay);
             _asteroids = new AsteroidPresenter[_model.PoolCount];
             _container = new GameObject(_prefab.name);
 
             for (int i = 0; i < _model.PoolCount; i++)
             {
-                GameObject instance = Instantiate(_prefab, _container.transform);
-                instance.SetActive(false);
-
-                AsteroidPresenter asteroid = instance.GetComponent<AsteroidPresenter>();
+                AsteroidPresenter asteroid = Instantiate(_prefab, _container.transform);
+                asteroid.gameObject.SetActive(false);
+                
                 asteroid.Init(_helper, _model.Speed);
                 asteroid.Exploded += OnExploded;
                 _asteroids[i] = asteroid;
             }
             
-            StartCoroutine(Spawn());
+            Spawn().Forget();
         }
 
         private void OnDestroy()
@@ -50,7 +48,7 @@ namespace Presenter
             }
         }
 
-        private IEnumerator Spawn()
+        private async UniTask Spawn()
         {
             while (isActiveAndEnabled)
             {
@@ -65,11 +63,11 @@ namespace Presenter
                     _currentIndex = 0;
                 }
 
-                yield return _waitDelay;
+                await UniTask.Delay(TimeSpan.FromSeconds(_model.Delay), ignoreTimeScale: false);
             }
         }
 
-        public void Init(GameObject prefab, AsteroidSpawner model, Helper helper, Score score)
+        public void Init(AsteroidPresenter prefab, AsteroidSpawner model, Helper helper, Score score)
         {
             _prefab = prefab;
             _model = model;

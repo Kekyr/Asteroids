@@ -21,17 +21,17 @@ namespace Game
             _maxPosition = new Vector2(_maxPosition.x+_offset, _maxPosition.y + _offset);
         }
         
-        public Vector2 VerifyPosition(Vector2 position)
+        public Vector2 ClampPosition(Vector2 position)
         {
             Vector2 clampedPosition = position;
 
-            clampedPosition.x = VerifyValue(clampedPosition.x, _minPosition.x, _maxPosition.x);
-            clampedPosition.y = VerifyValue(clampedPosition.y, _minPosition.y, _maxPosition.y);
+            clampedPosition.x = ClampValue(clampedPosition.x, _minPosition.x, _maxPosition.x);
+            clampedPosition.y = ClampValue(clampedPosition.y, _minPosition.y, _maxPosition.y);
 
             return clampedPosition;
         }
 
-        private float VerifyValue(float value, float minValue, float maxValue)
+        private float ClampValue(float value, float minValue, float maxValue)
         {
             if (value > maxValue)
             {

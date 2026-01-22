@@ -538,7 +538,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spawnPosition: {fileID: 8876313424890043209}
-  _prefab: {fileID: 3951010608298316752, guid: d4dc830dc13d6d54f980f19102be13e1, type: 3}
+  _prefab: {fileID: 2273114032966113641, guid: d4dc830dc13d6d54f980f19102be13e1, type: 3}
 --- !u!1 &6293882252414254989
 GameObject:
   m_ObjectHideFlags: 0
