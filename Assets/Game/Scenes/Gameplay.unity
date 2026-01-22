@@ -442,14 +442,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7ef1a6156b74db491ffe2bd2bdae045, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _shipPrefab: {fileID: 5844973604231838719, guid: e36c2fba640d0c84c869adb4fd9548c9, type: 3}
-  _asteroidPrefab: {fileID: 679588822610974077, guid: e70d5982c84f78f4f8eb6ceab74135de, type: 3}
-  _asteroidFragmentPrefab: {fileID: 5809271538463169855, guid: 7b02f15737d3c574fbb3f51249f6b081, type: 3}
-  _ufoPrefab: {fileID: 2620189999480905984, guid: 6ded98992860e154180bee65cdc5a3d6, type: 3}
+  _shipPrefab: {fileID: 3239285140332365064, guid: e36c2fba640d0c84c869adb4fd9548c9, type: 3}
+  _asteroidPrefab: {fileID: 6925073894211661860, guid: e70d5982c84f78f4f8eb6ceab74135de, type: 3}
+  _asteroidFragmentPrefab: {fileID: 4173149953205401702, guid: 7b02f15737d3c574fbb3f51249f6b081, type: 3}
+  _ufoPrefab: {fileID: 4756216475610885996, guid: 6ded98992860e154180bee65cdc5a3d6, type: 3}
   _canvas: {fileID: 1792907076}
-  _shipViewPrefab: {fileID: 8795505791450025073, guid: d8595542b6ae5da49b5461d8b5e76a71, type: 3}
-  _laserGunViewPrefab: {fileID: 8097178049895650373, guid: 77e06330b8ce870489ecf4989901bda2, type: 3}
-  _gameOverViewPrefab: {fileID: 5912648513048414568, guid: 4913228a26c7bf247b342ac3cd5514ac, type: 3}
+  _shipViewPrefab: {fileID: 569887487397791662, guid: d8595542b6ae5da49b5461d8b5e76a71, type: 3}
+  _laserGunViewPrefab: {fileID: 6727511222108139714, guid: 77e06330b8ce870489ecf4989901bda2, type: 3}
+  _gameOverViewPrefab: {fileID: 2808760968704673854, guid: 4913228a26c7bf247b342ac3cd5514ac, type: 3}
 --- !u!1 &1782025178
 GameObject:
   m_ObjectHideFlags: 0

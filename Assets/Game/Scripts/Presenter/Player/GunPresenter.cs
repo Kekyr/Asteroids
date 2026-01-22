@@ -7,7 +7,7 @@ namespace Presenter
     public class GunPresenter : MonoBehaviour
     {
         [SerializeField] private Transform _spawnPosition;
-        [SerializeField] private GameObject _prefab;
+        [SerializeField] private BulletPresenter _prefab;
 
         private Gun _model;
         private Helper _helper;
@@ -21,11 +21,10 @@ namespace Presenter
             
             for (int i = 0; i < _model.PoolCount; i++)
             {
-                GameObject instance = Instantiate(_prefab, transform);
-                BulletPresenter bulletPresenter = instance.GetComponent<BulletPresenter>();
-                bulletPresenter.Init(_helper);
-                _bullets[i] = bulletPresenter;
-                instance.SetActive(false);
+                BulletPresenter bullet = Instantiate(_prefab, transform);
+                bullet.Init(_helper);
+                _bullets[i] = bullet;
+                bullet.gameObject.SetActive(false);
             }
             
             _model.Shot += OnShot;

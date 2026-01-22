@@ -1,19 +1,20 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Game;
 using Presenter;
+using Random = UnityEngine.Random;
 
 namespace Model
 {
     public class UfoSpawner
     {
-        private GameObject _prefab;
+        private UfoPresenter _prefab;
         private GameObject _container;
 
         private Helper _helper;
         private Score _score;
-        private WaitForSeconds _waitDelay;
         private Transform _player;
 
         private Queue<Ufo> _queue = new Queue<Ufo>();
@@ -29,7 +30,7 @@ namespace Model
         private float _positionX;
         private uint _points;
 
-        public UfoSpawner(GameObject prefab, Helper helper, Transform player, Score score)
+        public UfoSpawner(UfoPresenter prefab, Helper helper, Transform player, Score score)
         {
             _prefab = prefab;
             _helper = helper;
@@ -58,20 +59,20 @@ namespace Model
 
         public void Start()
         {
-            _waitDelay = new WaitForSeconds(_delay);
             _ufos = new UfoPresenter[_poolCount];
             _container = new GameObject(_prefab.name);
 
             for (int i = 0; i < _poolCount; i++)
             {
-                GameObject ufo = GameObject.Instantiate(_prefab, _container.transform);
-                ufo.SetActive(false);
-
-                UfoPresenter ufoPresenter = ufo.GetComponent<UfoPresenter>();
-                ufoPresenter.Init(_player, _helper);
-                ufoPresenter.Exploded += OnExploded;
-                _ufos[i] = ufoPresenter;
+                UfoPresenter ufo = GameObject.Instantiate(_prefab, _container.transform);
+                ufo.gameObject.SetActive(false);
+                
+                ufo.Init(_player, _helper);
+                ufo.Exploded += OnExploded;
+                _ufos[i] = ufo;
             }
+
+            Spawn().Forget();
         }
 
         public void OnDestroy()
@@ -84,7 +85,7 @@ namespace Model
             }
         }
 
-        public IEnumerator Spawn()
+        private async UniTask Spawn()
         {
             while (_isActive)
             {
@@ -99,7 +100,7 @@ namespace Model
                     _currentIndex = 0;
                 }
 
-                yield return _waitDelay;
+                await UniTask.Delay(TimeSpan.FromSeconds(_delay), ignoreTimeScale: false);
             }
         }
 
