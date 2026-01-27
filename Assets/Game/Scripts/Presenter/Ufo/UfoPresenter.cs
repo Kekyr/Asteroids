@@ -71,7 +71,7 @@ namespace Presenter
         public void Init(Ufo model)
         {
             _model = model;
-            transform.position = _model.Transform.Position;
+            transform.position = _model.Transform.Position.Value;
             enabled = true;
         }
     }

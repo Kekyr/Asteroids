@@ -2,6 +2,7 @@
 using UnityEngine;
 using TMPro;
 using Model;
+using R3;
 
 namespace View
 {
@@ -15,15 +16,13 @@ namespace View
 
         private void Start()
         {
-            _model.Transform.PositionChanged += OnPositionChanged;
-            _model.Transform.RotationChanged += OnRotationChanged;
+            _model.Transform.Position.Subscribe(x=>OnPositionChanged(x));
+            _model.Transform.Rotation.Subscribe(x=> OnRotationChanged(x));
             _model.VelocityChanged += OnVelocityChanged;
         }
 
         private void OnDestroy()
         {
-            _model.Transform.PositionChanged -= OnPositionChanged;
-            _model.Transform.RotationChanged -= OnRotationChanged;
             _model.VelocityChanged -= OnVelocityChanged;
         }
 
