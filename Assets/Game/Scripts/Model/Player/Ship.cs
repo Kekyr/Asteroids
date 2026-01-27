@@ -1,4 +1,5 @@
 ﻿using System;
+using R3;
 using UnityEngine;
 
 namespace Model
@@ -6,7 +7,7 @@ namespace Model
     public class Ship
     {
         public Transformable Transform { get; private set; }
-        public Vector2 Velocity { get; private set; }
+        public ReactiveProperty<Vector2> Velocity { get; private set; }
 
         public float MoveForce { get; private set; } = 2f;
         public float RotationForce { get; private set; } = 2f;
@@ -14,14 +15,13 @@ namespace Model
 
         public bool IsMoving { get; private set; }
         public bool IsRotating { get; private set; }
-        
-        public event Action<Vector2> VelocityChanged;
 
         public Ship()
         {
             Transform = new Transformable();
+            Velocity = new ReactiveProperty<Vector2>();
         }
-        
+
         public void Move()
         {
             IsMoving = true;
@@ -54,8 +54,7 @@ namespace Model
 
         public void ChangeVelocity(Vector2 newVelocity)
         {
-            Velocity = newVelocity;
-            VelocityChanged?.Invoke(Velocity);
+            Velocity.Value = newVelocity;
         }
     }
 }

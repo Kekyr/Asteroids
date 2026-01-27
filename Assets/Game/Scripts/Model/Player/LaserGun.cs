@@ -1,15 +1,10 @@
 ﻿using System;
+using R3;
 
 namespace Model
 {
     public class LaserGun
     {
-        public int MaxShootCount { get; private set; } = 3;
-        public float CoolDownDuration { get; private set; } = 2;
-        public float ShootDuration { get; private set; } = 0.5f;
-        public float RestoreDuration { get; private set; } = 4;
-
-        private int _shootCount;
         private float _timeLeft;
         private float _restoreTimeLeft;
 
@@ -17,16 +12,26 @@ namespace Model
         private bool _isShooting;
         private bool _isRestoring;
 
-        public event Action<int> ShootCountChanged;
+        public int MaxShootCount { get; } = 3;
+        public float CoolDownDuration { get; } = 2;
+        public float ShootDuration { get; } = 0.5f;
+        public float RestoreDuration { get; } = 4;
+
+        public ReactiveProperty<int> ShootCount { get; }
+
         public event Action<float> CoolDownChanged;
 
         public event Action ShootStarted;
         public event Action ShootEnded;
 
+        public LaserGun()
+        {
+            ShootCount = new ReactiveProperty<int>();
+        }
+
         public void Start()
         {
-            _shootCount = MaxShootCount;
-            ShootCountChanged?.Invoke(_shootCount);
+            ShootCount.Value = MaxShootCount;
         }
 
         public void Update(float timePassed)
@@ -38,7 +43,7 @@ namespace Model
 
         public void TryToShoot()
         {
-            if (_shootCount != 0 && _isReady == true && _isShooting == false)
+            if (ShootCount.Value != 0 && _isReady == true && _isShooting == false)
             {
                 ShootStarted?.Invoke();
                 _isShooting = true;
@@ -62,8 +67,7 @@ namespace Model
                 _isShooting = false;
                 _isReady = false;
                 _isRestoring = true;
-                _shootCount--;
-                ShootCountChanged?.Invoke(_shootCount);
+                ShootCount.Value--;
                 _timeLeft = CoolDownDuration;
             }
         }
@@ -95,12 +99,11 @@ namespace Model
 
             if (_restoreTimeLeft <= 0)
             {
-                _shootCount++;
-                ShootCountChanged?.Invoke(_shootCount);
+                ShootCount.Value++;
                 _restoreTimeLeft = RestoreDuration;
             }
 
-            if (_shootCount == MaxShootCount)
+            if (ShootCount.Value == MaxShootCount)
             {
                 _isRestoring = false;
             }

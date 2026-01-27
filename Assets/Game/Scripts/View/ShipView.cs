@@ -14,16 +14,22 @@ namespace View
 
         private Ship _model;
 
+        private IDisposable _positionChanged;
+        private IDisposable _rotationChanged;
+        private IDisposable _velocityChanged;
+
         private void Start()
         {
-            _model.Transform.Position.Subscribe(x=>OnPositionChanged(x));
-            _model.Transform.Rotation.Subscribe(x=> OnRotationChanged(x));
-            _model.VelocityChanged += OnVelocityChanged;
+            _positionChanged = _model.Transform.Position.Subscribe(OnPositionChanged);
+            _rotationChanged = _model.Transform.Rotation.Subscribe(OnRotationChanged);
+            _velocityChanged = _model.Velocity.Subscribe(OnVelocityChanged);
         }
 
         private void OnDestroy()
         {
-            _model.VelocityChanged -= OnVelocityChanged;
+            _positionChanged.Dispose();
+            _rotationChanged.Dispose();
+            _velocityChanged.Dispose();
         }
 
         public void Init(Ship model)
