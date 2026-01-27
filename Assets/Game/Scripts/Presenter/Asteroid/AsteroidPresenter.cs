@@ -62,7 +62,7 @@ namespace Presenter
         public void Init(Asteroid model)
         {
             _model = model;
-            transform.position = model.Transform.Position;
+            transform.position = model.Transform.Position.Value;
             enabled = true;
         }
     }

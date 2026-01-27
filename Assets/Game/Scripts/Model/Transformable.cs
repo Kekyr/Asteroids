@@ -1,26 +1,27 @@
-﻿using System;
+﻿using R3;
 using UnityEngine;
 
 namespace Model
 {
     public class Transformable
     {
-        public Vector2 Position { get; private set; }
-        public float Rotation { get; private set; }
-        
-        public event Action<Vector2> PositionChanged;
-        public event Action<float> RotationChanged;
-        
+        public ReactiveProperty<Vector2> Position { get;}
+        public ReactiveProperty<float> Rotation { get;}
+
+        public Transformable()
+        {
+            Position = new ReactiveProperty<Vector2>();
+            Rotation = new ReactiveProperty<float>();
+        }
+
         public void ChangePosition(Vector2 newPosition)
         {
-            Position = newPosition;
-            PositionChanged?.Invoke(Position);
+            Position.Value = newPosition;
         }
 
         public void ChangeRotation(float newRotation)
         {
-            Rotation = newRotation;
-            RotationChanged?.Invoke(Rotation);
+            Rotation.Value = newRotation;
         }
     }
 }
