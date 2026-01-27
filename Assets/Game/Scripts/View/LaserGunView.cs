@@ -2,6 +2,7 @@
 using UnityEngine;
 using TMPro;
 using Model;
+using R3;
 
 namespace View
 {
@@ -11,17 +12,19 @@ namespace View
         [SerializeField] private TextMeshProUGUI _coolDownText;
 
         private LaserGun _model;
-        
+
+        private IDisposable _shootCountChanged;
+
         private void OnDestroy()
         {
-            _model.ShootCountChanged -= OnShootCountChanged;
+            _shootCountChanged.Dispose();
             _model.CoolDownChanged -= OnCoolDownChanged;
         }
 
         public void Init(LaserGun laserGun)
         {
             _model = laserGun;
-            _model.ShootCountChanged += OnShootCountChanged;
+            _shootCountChanged = _model.ShootCount.Subscribe(OnShootCountChanged);
             _model.CoolDownChanged += OnCoolDownChanged;
             enabled = true;
         }
