@@ -1,36 +1,36 @@
 ﻿using System;
+using Player;
 using UnityEngine.InputSystem;
-using Model;
 
 namespace Game
 {
     public class PlayerInputRouter
     {
         private PlayerInput _input;
-        private Ship _ship;
-        private Gun _gun;
-        private LaserGun _laserGun;
+        private ShipData _shipData;
+        private GunData _gunData;
+        private LaserGunData _laserGunData;
 
-        public PlayerInputRouter(Ship ship, Gun gun, LaserGun laserGun)
+        public PlayerInputRouter(ShipData shipData, GunData gunData, LaserGunData laserGunData)
         {
-            if (ship == null)
+            if (shipData == null)
             {
-                throw new ArgumentNullException(nameof(ship));
+                throw new ArgumentNullException(nameof(shipData));
             }
             
-            if (gun == null)
+            if (gunData == null)
             {
-                throw new ArgumentNullException(nameof(gun));
+                throw new ArgumentNullException(nameof(gunData));
             }
 
-            if (laserGun == null)
+            if (laserGunData == null)
             {
-                throw new ArgumentNullException(nameof(laserGun));
+                throw new ArgumentNullException(nameof(laserGunData));
             }
 
-            _ship = ship;
-            _gun = gun;
-            _laserGun = laserGun;
+            _shipData = shipData;
+            _gunData = gunData;
+            _laserGunData = laserGunData;
             _input = new PlayerInput();
         }
 
@@ -60,32 +60,32 @@ namespace Game
         
         private void OnAccelerationPerformed(InputAction.CallbackContext context)
         {
-            _ship.Move();
+            _shipData.Move();
         }
 
         private void OnAccelerationCancelled(InputAction.CallbackContext context)
         {
-            _ship.Stop();
+            _shipData.Stop();
         }
 
         private void OnRotationPerformed(InputAction.CallbackContext context)
         {
-            _ship.Rotate(context.ReadValue<float>());
+            _shipData.Rotate(context.ReadValue<float>());
         }
 
         private void OnRotationCanceled(InputAction.CallbackContext context)
         {
-            _ship.StopRotate();
+            _shipData.StopRotate();
         }
 
         private void OnGunPerformed(InputAction.CallbackContext context)
         {
-            _gun.Shoot();
+            _gunData.Shoot();
         }
 
         private void OnLaserGunPerformed(InputAction.CallbackContext context)
         {
-            _laserGun.TryToShoot();
+            _laserGunData.TryToShoot();
         }
     }
 }

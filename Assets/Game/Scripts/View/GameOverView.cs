@@ -1,19 +1,19 @@
-﻿using TMPro;
+﻿using Game;
+using Player;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using Model;
-using Presenter;
 
 namespace View
 {
-    public class GameOverView:MonoBehaviour
+    public class GameOverView : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI _scoreText;
         [SerializeField] private Button _restartButton;
 
         private Score _score;
-        private ShipPresenter _shipPresenter;
+        private Ship _ship;
 
         private void Awake()
         {
@@ -23,15 +23,15 @@ namespace View
         private void OnDestroy()
         {
             _restartButton.onClick.RemoveListener(OnClick);
-            _shipPresenter.Exploded -= OnExploded;
+            _ship.Exploded -= OnExploded;
         }
 
-        public void Init(Score score, ShipPresenter shipPresenter)
+        public void Init(Score score, Ship shipPresenter)
         {
             _score = score;
-            _shipPresenter = shipPresenter;
-        
-            _shipPresenter.Exploded += OnExploded;
+            _ship = shipPresenter;
+
+            _ship.Exploded += OnExploded;
         }
 
         private void OnExploded()

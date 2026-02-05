@@ -1,7 +1,7 @@
 ﻿using System;
+using Player;
 using UnityEngine;
 using TMPro;
-using Model;
 using R3;
 
 namespace View
@@ -12,7 +12,7 @@ namespace View
         [SerializeField] private TextMeshProUGUI _angleTextMesh;
         [SerializeField] private TextMeshProUGUI _velocityTextMesh;
 
-        private Ship _model;
+        private ShipData _model;
 
         private IDisposable _positionChanged;
         private IDisposable _rotationChanged;
@@ -32,10 +32,9 @@ namespace View
             _velocityChanged.Dispose();
         }
 
-        public void Init(Ship model)
+        public void Init(ShipData model)
         {
             _model = model;
-            enabled = true;
         }
 
         private void OnPositionChanged(Vector2 position)
