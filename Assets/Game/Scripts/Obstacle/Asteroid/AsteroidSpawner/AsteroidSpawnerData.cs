@@ -5,18 +5,19 @@ namespace Obstacle
 {
     public class AsteroidSpawnerData
     {
-        public int PoolCount { get; private set; } = 10;
-        public float Delay { get; private set; } = 4;
-        public float MinPositionX { get; private set; } = 1;
-        public float MaxPositionX { get; private set; } = 9;
-        public float MaxPositionY { get; private set; } = 12;
-        public float MinPositionY { get; private set; } = -1;
-        public float Speed { get; private set; } = 2;
-        public uint Points { get; private set; } = 50;
-
+        private float _minPositionX = 1;
+        private float _maxPositionX = 9;
+        private float _maxPositionY = 12;
+        private float _minPositionY = -1;
+        
         private Queue<AsteroidData> _queue = new Queue<AsteroidData>();
         private float _currentPositionY;
         private float _currentDirectionY;
+
+        public int PoolCount { get; } = 10;
+        public float Delay { get; } = 4;
+        public float Speed { get; } = 2;
+        public uint Points { get; } = 50;
 
         public AsteroidSpawnerData()
         {
@@ -26,7 +27,7 @@ namespace Obstacle
                 _queue.Enqueue(asteroidData);
             }
 
-            _currentPositionY = MaxPositionY;
+            _currentPositionY = _maxPositionY;
         }
 
         public AsteroidData Spawn()
@@ -40,17 +41,17 @@ namespace Obstacle
 
         private Vector2 CalculateRandomPosition()
         {
-            float randomXPosition = Random.Range(MinPositionX, MaxPositionX);
+            float randomXPosition = Random.Range(_minPositionX, _maxPositionX);
             Vector2 randomPosition = new Vector2(randomXPosition, _currentPositionY);
 
-            if (Mathf.Approximately(_currentPositionY, MaxPositionY))
+            if (Mathf.Approximately(_currentPositionY, _maxPositionY))
             {
-                _currentPositionY = MinPositionY;
+                _currentPositionY = _minPositionY;
                 _currentDirectionY = Vector2.down.y;
             }
             else
             {
-                _currentPositionY = MaxPositionY;
+                _currentPositionY = _maxPositionY;
                 _currentDirectionY = Vector2.up.y;
             }
 

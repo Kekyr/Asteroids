@@ -1,6 +1,6 @@
-using System;
 using Game;
 using Player;
+using R3;
 using UnityEngine;
 
 namespace Obstacle
@@ -15,7 +15,7 @@ namespace Obstacle
         private float _speed;
         private bool _isOnScreen;
         
-        public event Action<Vector2> Exploded;
+        public ReactiveProperty<Vector2> Exploded=new ReactiveProperty<Vector2>();
 
         private void Start()
         {
@@ -35,6 +35,12 @@ namespace Obstacle
             
             transform.position = _helper.ClampPosition(transform.position);
         }
+        
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            gameObject.SetActive(false);
+            Exploded.Value=transform.position;
+        }
 
         private void OnCollisionEnter2D(Collision2D other)
         {
@@ -44,13 +50,7 @@ namespace Obstacle
             }
             
             gameObject.SetActive(false);
-            Exploded?.Invoke(transform.position);
-        }
-
-        private void OnTriggerEnter2D(Collider2D other)
-        {
-            gameObject.SetActive(false);
-            Exploded?.Invoke(transform.position);
+            Exploded.Value=transform.position;
         }
 
         public void Init(Helper helper, float speed)

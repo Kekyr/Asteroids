@@ -6,11 +6,11 @@ namespace Player
     [RequireComponent(typeof(Bullet))]
     public class Bullet : MonoBehaviour
     {
-        private BulletData _model;
-
         private Rigidbody2D _rigidbody;
         private Helper _helper;
+        
         private Vector2 _direction;
+        private float _speed;
 
         private void Awake()
         {
@@ -19,7 +19,7 @@ namespace Player
 
         private void FixedUpdate()
         {
-            _rigidbody.linearVelocity = _direction * _model.Speed;
+            _rigidbody.linearVelocity = _direction * _speed;
 
             if (_helper.CheckPosition(transform.position) == false)
             {
@@ -32,9 +32,9 @@ namespace Player
             gameObject.SetActive(false);
         }
 
-        public void Init(BulletData model, Vector2 direction)
+        public void Init(float speed, Vector2 direction)
         {
-            _model = model;
+            _speed = speed;
             _direction = direction;
         }
 

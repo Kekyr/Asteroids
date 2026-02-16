@@ -1,5 +1,6 @@
 ﻿using System;
 using Game;
+using R3;
 using UnityEngine;
 
 namespace Player
@@ -13,13 +14,11 @@ namespace Player
         private Helper _helper;
         private SpriteRenderer _view;
 
-        public event Action Exploded;
-
         private void Start()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
             _view = GetComponentInChildren<SpriteRenderer>();
-            
+
             _rigidbody.centerOfMass = _view.transform.localPosition;
         }
 
@@ -45,7 +44,6 @@ namespace Player
         private void OnCollisionEnter2D(Collision2D other)
         {
             gameObject.SetActive(false);
-            Exploded?.Invoke();
         }
 
         public void Init(ShipData model, Helper helper)

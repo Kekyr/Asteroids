@@ -2,6 +2,7 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Game;
+using R3;
 
 namespace Obstacle
 {
@@ -18,7 +19,7 @@ namespace Obstacle
 
         private int _currentIndex;
 
-        public event Action<Vector2> Exploded;
+        public ReactiveProperty<Vector2> Exploded=new ReactiveProperty<Vector2>();
 
         private void Start()
         {
@@ -31,19 +32,19 @@ namespace Obstacle
                 asteroid.gameObject.SetActive(false);
                 
                 asteroid.Init(_helper, _model.Speed);
-                asteroid.Exploded += OnExploded;
+                asteroid.Exploded.Subscribe(OnExploded).AddTo(asteroid);
                 _asteroids[i] = asteroid;
             }
             
             Spawn().Forget();
         }
-
-        private void OnDestroy()
+        
+        public void Init(Asteroid prefab, AsteroidSpawnerData model, Helper helper, Score score)
         {
-            for (int i = 0; i < _asteroids.Length; i++)
-            {
-                _asteroids[i].Exploded -= OnExploded;
-            }
+            _prefab = prefab;
+            _model = model;
+            _helper = helper;
+            _score = score;
         }
 
         private async UniTask Spawn()
@@ -65,18 +66,10 @@ namespace Obstacle
             }
         }
 
-        public void Init(Asteroid prefab, AsteroidSpawnerData model, Helper helper, Score score)
-        {
-            _prefab = prefab;
-            _model = model;
-            _helper = helper;
-            _score = score;
-        }
-
         private void OnExploded(Vector2 position)
         {
             _score.Add(_model.Points);
-            Exploded?.Invoke(position);
+            Exploded.Value=position;
         }
     }
 }

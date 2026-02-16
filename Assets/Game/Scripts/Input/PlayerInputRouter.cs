@@ -1,5 +1,4 @@
-﻿using System;
-using Player;
+﻿using Player;
 using UnityEngine.InputSystem;
 
 namespace Game
@@ -8,28 +7,13 @@ namespace Game
     {
         private PlayerInput _input;
         private ShipData _shipData;
-        private GunData _gunData;
+        private Gun _gun;
         private LaserGunData _laserGunData;
 
-        public PlayerInputRouter(ShipData shipData, GunData gunData, LaserGunData laserGunData)
+        public PlayerInputRouter(ShipData shipData, Gun gun, LaserGunData laserGunData)
         {
-            if (shipData == null)
-            {
-                throw new ArgumentNullException(nameof(shipData));
-            }
-            
-            if (gunData == null)
-            {
-                throw new ArgumentNullException(nameof(gunData));
-            }
-
-            if (laserGunData == null)
-            {
-                throw new ArgumentNullException(nameof(laserGunData));
-            }
-
             _shipData = shipData;
-            _gunData = gunData;
+            _gun = gun;
             _laserGunData = laserGunData;
             _input = new PlayerInput();
         }
@@ -80,7 +64,7 @@ namespace Game
 
         private void OnGunPerformed(InputAction.CallbackContext context)
         {
-            _gunData.Shoot();
+            _gun.Shoot();
         }
 
         private void OnLaserGunPerformed(InputAction.CallbackContext context)

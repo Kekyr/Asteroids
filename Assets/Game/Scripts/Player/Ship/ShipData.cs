@@ -8,10 +8,10 @@ namespace Player
     public class ShipData
     {
         public Transformable Transform { get; private set; }
-        public ReactiveProperty<Vector2> Velocity { get; private set; }
+        public ReactiveProperty<Vector2> Velocity { get;}
 
-        public float MoveForce { get; private set; } = 2f;
-        public float RotationForce { get; private set; } = 2f;
+        public float MoveForce { get;} = 2f;
+        public float RotationForce { get;} = 2f;
         public float RotationDirection { get; private set; }
 
         public bool IsMoving { get; private set; }

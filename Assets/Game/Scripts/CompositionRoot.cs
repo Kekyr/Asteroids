@@ -25,7 +25,6 @@ namespace Game
 
         private PlayerInputRouter _playerInputRouter;
         private ShipData _shipDataModel;
-        private GunData _gunData;
         private LaserGunData _laserGunData;
         private AsteroidSpawnerData _asteroidSpawnerData;
         private AsteroidFragmentSpawnerData _asteroidFragmentSpawnerData;
@@ -51,13 +50,10 @@ namespace Game
             _score = new Score();
 
             _shipDataModel = new ShipData();
-            _gunData = new GunData();
             _laserGunData = new LaserGunData();
 
             _asteroidSpawnerData = new AsteroidSpawnerData();
             _asteroidFragmentSpawnerData = new AsteroidFragmentSpawnerData();
-
-            _playerInputRouter = new PlayerInputRouter(_shipDataModel, _gunData, _laserGunData);
 
             _ship = Instantiate(_shipPrefab);
 
@@ -65,9 +61,11 @@ namespace Game
 
             _gun = _ship.gameObject.GetComponentInChildren<Gun>();
             _laserGun = _ship.gameObject.GetComponentInChildren<LaserGun>();
+            
+            _playerInputRouter = new PlayerInputRouter(_shipDataModel, _gun, _laserGunData);
 
             _ship.Init(_shipDataModel, _helper);
-            _gun.Init(_gunData, _helper);
+            _gun.Init(_helper);
             _laserGun.Init(_laserGunData);
 
             _asteroidSpawner = gameObject.AddComponent<AsteroidSpawner>();
