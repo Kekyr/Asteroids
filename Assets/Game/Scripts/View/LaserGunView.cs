@@ -13,19 +13,11 @@ namespace View
 
         private LaserGunData _model;
 
-        private IDisposable _shootCountChanged;
-
-        private void OnDestroy()
-        {
-            _shootCountChanged.Dispose();
-            _model.CoolDownChanged -= OnCoolDownChanged;
-        }
-
         public void Init(LaserGunData laserGunData)
         {
             _model = laserGunData;
-            _shootCountChanged = _model.ShootCount.Subscribe(OnShootCountChanged);
-            _model.CoolDownChanged += OnCoolDownChanged;
+            _model.ShootCount.Subscribe(OnShootCountChanged).AddTo(this);
+            _model.CoolDownChanged.Subscribe(OnCoolDownChanged).AddTo(this);
         }
 
         private void OnShootCountChanged(int shootCount)

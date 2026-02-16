@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Game;
+using R3;
 
 namespace Obstacle
 {
@@ -26,22 +27,12 @@ namespace Obstacle
                 Asteroid asteroid = Instantiate(_prefab, _container.transform);
                 asteroid.gameObject.SetActive(false);
                 
-                asteroid.Exploded += OnFragmentExploded;
+                asteroid.Exploded.Subscribe(OnFragmentExploded).AddTo(asteroid);
                 _asteroidFragments[i] = asteroid;
                 asteroid.Init(_helper, _model.Speed);
             }
 
-            _asteroidSpawner.Exploded += OnExploded;
-        }
-
-        private void OnDestroy()
-        {
-            for (int i = 0; i < _model.PoolCount; i++)
-            {
-                _asteroidFragments[i].Exploded -= OnFragmentExploded;
-            }
-
-            _asteroidSpawner.Exploded -= OnExploded;
+            _asteroidSpawner.Exploded.Subscribe(OnExploded).AddTo(this);
         }
 
         public void Init(Asteroid prefab, AsteroidFragmentSpawnerData model, Helper helper,

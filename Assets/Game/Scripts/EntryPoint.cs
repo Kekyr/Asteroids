@@ -13,7 +13,6 @@ namespace Game
         private void Start()
         {
             _playerInputRouter.Start();
-            _laserGunData.Start();
             _ufoSpawner.Start();
         }
 

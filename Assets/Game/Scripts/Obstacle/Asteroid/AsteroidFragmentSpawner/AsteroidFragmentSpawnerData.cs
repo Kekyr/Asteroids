@@ -5,14 +5,15 @@ namespace Obstacle
 {
     public class AsteroidFragmentSpawnerData
     {
-        public int PoolCount { get; private set; } = 20;
-        public int ExplodeCount { get; private set; } = 2;
-        public float PositionXOffset { get; private set; } = 1.5f;
-        public float PositionYOffset { get; private set; } = 0.4f;
-        public float Speed { get; private set; } = 4;
-        public uint Points { get; private set; } = 100;
-
+        private float _positionXOffset = 1.5f;
+        private float _positionYOffset= 0.4f;
+        
         private Queue<AsteroidData> _queue = new Queue<AsteroidData>();
+        
+        public int PoolCount { get;} = 20;
+        public int ExplodeCount { get;} = 2;
+        public float Speed { get;} = 4;
+        public uint Points { get;} = 100;
 
         public AsteroidFragmentSpawnerData()
         {
@@ -34,8 +35,8 @@ namespace Obstacle
 
         private Vector2 CalculateRandomPosition(Vector2 position)
         {
-            float randomXPosition = Random.Range(position.x - PositionXOffset, position.x + PositionXOffset);
-            float randomYPosition = Random.Range(position.y - PositionYOffset, position.y + PositionYOffset);
+            float randomXPosition = Random.Range(position.x - _positionXOffset, position.x + _positionXOffset);
+            float randomYPosition = Random.Range(position.y - _positionYOffset, position.y + _positionYOffset);
             Vector2 randomPosition = new Vector2(randomXPosition, randomYPosition);
             return randomPosition;
         }

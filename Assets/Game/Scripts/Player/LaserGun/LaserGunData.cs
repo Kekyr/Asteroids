@@ -1,5 +1,4 @@
-﻿using System;
-using R3;
+﻿using R3;
 
 namespace Player
 {
@@ -9,29 +8,23 @@ namespace Player
         private float _restoreTimeLeft;
 
         private bool _isReady = true;
-        private bool _isShooting;
+        
         private bool _isRestoring;
 
-        public int MaxShootCount { get; } = 3;
-        public float CoolDownDuration { get; } = 2;
-        public float ShootDuration { get; } = 0.5f;
-        public float RestoreDuration { get; } = 4;
+        private int _maxShootCount = 3;
+        private float _coolDownDuration = 2;
+        private float _shootDuration = 0.5f;
+        private float _restoreDuration = 4;
 
-        public ReactiveProperty<int> ShootCount { get; }
-
-        public event Action<float> CoolDownChanged;
-
-        public event Action ShootStarted;
-        public event Action ShootEnded;
+        public ReactiveProperty<int> ShootCount { get;}
+        public ReactiveProperty<float> CoolDownChanged { get; }
+        public ReactiveProperty<bool> IsShooting { get; }
 
         public LaserGunData()
         {
-            ShootCount = new ReactiveProperty<int>();
-        }
-
-        public void Start()
-        {
-            ShootCount.Value = MaxShootCount;
+            ShootCount = new ReactiveProperty<int>(_maxShootCount);
+            CoolDownChanged = new ReactiveProperty<float>();
+            IsShooting = new ReactiveProperty<bool>();
         }
 
         public void Update(float timePassed)
@@ -43,18 +36,17 @@ namespace Player
 
         public void TryToShoot()
         {
-            if (ShootCount.Value != 0 && _isReady == true && _isShooting == false)
+            if (ShootCount.Value != 0 && _isReady == true && IsShooting.Value == false)
             {
-                ShootStarted?.Invoke();
-                _isShooting = true;
-                _timeLeft = ShootDuration;
-                _restoreTimeLeft = RestoreDuration;
+                IsShooting.Value = true;
+                _timeLeft = _shootDuration;
+                _restoreTimeLeft = _restoreDuration;
             }
         }
 
         private void Shoot(float timePassed)
         {
-            if (_isShooting == false)
+            if (IsShooting.Value == false)
             {
                 return;
             }
@@ -63,12 +55,11 @@ namespace Player
 
             if (_timeLeft <= 0)
             {
-                ShootEnded?.Invoke();
-                _isShooting = false;
+                IsShooting.Value = false;
                 _isReady = false;
                 _isRestoring = true;
                 ShootCount.Value--;
-                _timeLeft = CoolDownDuration;
+                _timeLeft = _coolDownDuration;
             }
         }
 
@@ -80,7 +71,7 @@ namespace Player
             }
 
             _timeLeft -= timePassed;
-            CoolDownChanged?.Invoke(_timeLeft);
+            CoolDownChanged.Value = _timeLeft;
 
             if (_timeLeft <= 0)
             {
@@ -100,10 +91,10 @@ namespace Player
             if (_restoreTimeLeft <= 0)
             {
                 ShootCount.Value++;
-                _restoreTimeLeft = RestoreDuration;
+                _restoreTimeLeft = _restoreDuration;
             }
 
-            if (ShootCount.Value == MaxShootCount)
+            if (ShootCount.Value == _maxShootCount)
             {
                 _isRestoring = false;
             }

@@ -1,4 +1,5 @@
 ﻿using Game;
+using R3;
 using UnityEngine;
 
 namespace Player
@@ -7,8 +8,9 @@ namespace Player
     {
         [SerializeField] private Transform _spawnPosition;
         [SerializeField] private Bullet _prefab;
-
-        private GunData _model;
+        [SerializeField] private int _poolCount  = 15;
+        [SerializeField] private float _bulletSpeed  = 8;
+        
         private Helper _helper;
         private Bullet[] _bullets;
 
@@ -16,36 +18,28 @@ namespace Player
 
         private void Start()
         {
-            _bullets = new Bullet[_model.PoolCount];
+            _bullets = new Bullet[_poolCount];
             
-            for (int i = 0; i < _model.PoolCount; i++)
+            for (int i = 0; i < _poolCount; i++)
             {
                 Bullet bullet = Instantiate(_prefab, transform);
+                bullet.gameObject.SetActive(false);
                 bullet.Init(_helper);
                 _bullets[i] = bullet;
-                bullet.gameObject.SetActive(false);
             }
-            
-            _model.Shot += OnShot;
         }
 
-        private void OnDestroy()
+        public void Init(Helper helper)
         {
-            _model.Shot -= OnShot;
-        }
-
-        public void Init(GunData model, Helper helper)
-        {
-            _model = model;
             _helper = helper;
         }
         
-        private void OnShot(BulletData bulletData)
+        public void Shoot()
         {
             Bullet bullet = _bullets[_currentIndex];
             bullet.transform.position = _spawnPosition.position;
             bullet.transform.rotation = Quaternion.LookRotation(Vector3.forward,_spawnPosition.transform.up);
-            bullet.Init(bulletData,_spawnPosition.transform.up);
+            bullet.Init(_bulletSpeed,_spawnPosition.transform.up);
             bullet.gameObject.SetActive(true);
             _currentIndex++;
             

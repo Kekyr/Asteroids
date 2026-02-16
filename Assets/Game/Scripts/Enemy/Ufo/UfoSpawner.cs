@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Game;
+using R3;
 using Random = UnityEngine.Random;
 
 namespace Enemy
@@ -67,7 +68,7 @@ namespace Enemy
                 ufo.gameObject.SetActive(false);
                 
                 ufo.Init(_player, _helper);
-                ufo.Exploded += OnExploded;
+                ufo.IsExploded.Subscribe( _=>_score.Add(_points)).AddTo(ufo);
                 _ufos[i] = ufo;
             }
 
@@ -77,11 +78,6 @@ namespace Enemy
         public void OnDestroy()
         {
             _isActive = false;
-
-            for (int i = 0; i < _poolCount; i++)
-            {
-                _ufos[i].Exploded -= OnExploded;
-            }
         }
 
         private async UniTask Spawn()
@@ -116,11 +112,6 @@ namespace Enemy
             float randomYPosition = Random.Range(_minPositionY, _maxPositionY);
             Vector2 randomPosition = new Vector2(_positionX, randomYPosition);
             return randomPosition;
-        }
-
-        private void OnExploded()
-        {
-            _score.Add(_points);
         }
     }
 }

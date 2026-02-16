@@ -1,7 +1,7 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using Game;
 using Player;
+using R3;
 
 namespace Enemy
 {
@@ -17,7 +17,7 @@ namespace Enemy
 
         private bool _isOnScreen;
 
-        public event Action Exploded;
+        public ReactiveProperty<bool> IsExploded { get; } = new ReactiveProperty<bool>();
 
         private void Awake()
         {
@@ -44,6 +44,12 @@ namespace Enemy
                 transform.position = _helper.ClampPosition(transform.position);
             }
         }
+        
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            IsExploded.Value = true;
+            gameObject.SetActive(false);
+        }
 
         private void OnCollisionEnter2D(Collision2D other)
         {
@@ -51,14 +57,8 @@ namespace Enemy
             {
                 return;
             }
-
-            Exploded?.Invoke();
-            gameObject.SetActive(false);
-        }
-
-        private void OnTriggerEnter2D(Collider2D other)
-        {
-            Exploded?.Invoke();
+            
+            IsExploded.Value = true;
             gameObject.SetActive(false);
         }
 
