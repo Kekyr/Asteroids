@@ -8,13 +8,12 @@ namespace Enemy
     [RequireComponent(typeof(Rigidbody2D))]
     public class Ufo : MonoBehaviour
     {
-        private UfoData _model;
-
         private Rigidbody2D _rigidbody;
         private Transform _target;
         private Helper _helper;
         private SpriteRenderer _view;
 
+        private float _speed;
         private bool _isOnScreen;
 
         public ReactiveProperty<bool> IsExploded { get; } = new ReactiveProperty<bool>();
@@ -33,7 +32,7 @@ namespace Enemy
             {
                 Vector2 direction = (_target.position - transform.position).normalized;
                 _rigidbody.rotation = Quaternion.LookRotation(Vector3.forward, direction).eulerAngles.z;
-                _rigidbody.linearVelocity = direction * _model.Speed;
+                _rigidbody.linearVelocity = direction * _speed;
 
                 if (_isOnScreen == false)
                 {
@@ -62,16 +61,11 @@ namespace Enemy
             gameObject.SetActive(false);
         }
 
-        public void Init(Transform target, Helper helper)
+        public void Init(Transform target, Helper helper, float speed)
         {
             _target = target;
             _helper = helper;
-        }
-
-        public void Init(UfoData model)
-        {
-            _model = model;
-            transform.position = _model.Transform.Position.Value;
+            _speed = speed;
         }
     }
 }

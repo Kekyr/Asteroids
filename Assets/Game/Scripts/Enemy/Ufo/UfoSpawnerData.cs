@@ -1,29 +1,26 @@
 ﻿using UnityEngine;
 
-namespace Obstacle
+namespace Enemy
 {
-    [CreateAssetMenu(fileName = "new AsteroidSpawnerData",
-        menuName = "AsteroidSpawnerData/Create new AsteroidSpawnerData")]
-    public class AsteroidSpawnerData : ScriptableObject
+    [CreateAssetMenu(fileName = "new UfoSpawnerData", menuName = "UfoSpawnerData/Create new UfoSpawnerData")]
+    public class UfoSpawnerData:ScriptableObject
     {
         [SerializeField] private int _poolCount;
-        [SerializeField] private Asteroid _prefab;
+        [SerializeField] private Ufo _prefab;
         [SerializeField] private float _speed;
         [SerializeField] private float _delay;
         [SerializeField] private uint _points;
         [SerializeField] private float _minPositionY;
         [SerializeField] private float _maxPositionY;
-        [SerializeField] private float _minPositionX;
-        [SerializeField] private float _maxPositionX;
-
+        [SerializeField] private float _positionX;
+        
         public int PoolCount => _poolCount;
-        public Asteroid Prefab => _prefab;
+        public Ufo Prefab => _prefab;
         public float Speed => _speed;
         public float Delay => _delay;
         public uint Points => _points;
         public float MinPositionY => _minPositionY;
         public float MaxPositionY => _maxPositionY;
-        public float MinPositionX => _minPositionX;
-        public float MaxPositionX => _maxPositionX;
+        public float PositionX => _positionX;
     }
 }

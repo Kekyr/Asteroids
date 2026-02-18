@@ -1,52 +1,25 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Obstacle
 {
-    public class AsteroidFragmentSpawnerData
+    [CreateAssetMenu(fileName = "new AsteroidSpawnerData",
+        menuName = "AsteroidFragmentSpawnerData/Create new AsteroidFragmentSpawnerData")]
+    public class AsteroidFragmentSpawnerData : ScriptableObject
     {
-        private float _positionXOffset = 1.5f;
-        private float _positionYOffset= 0.4f;
+        [SerializeField] private int _poolCount;
+        [SerializeField] private Asteroid _prefab;
+        [SerializeField] private int _explodeCount;
+        [SerializeField] private float _speed;
+        [SerializeField] private uint _points;
+        [SerializeField] private float _positionXOffset;
+        [SerializeField] private float _positionYOffset;
         
-        private Queue<AsteroidData> _queue = new Queue<AsteroidData>();
-        
-        public int PoolCount { get;} = 20;
-        public int ExplodeCount { get;} = 2;
-        public float Speed { get;} = 4;
-        public uint Points { get;} = 100;
-
-        public AsteroidFragmentSpawnerData()
-        {
-            for (int i = 0; i < PoolCount; i++)
-            {
-                AsteroidData asteroidData = new AsteroidData();
-                _queue.Enqueue(asteroidData);
-            }
-        }
-
-        public AsteroidData Spawn(Vector2 position)
-        {
-            AsteroidData asteroidData = _queue.Dequeue();
-            asteroidData.Transform.ChangePosition(CalculateRandomPosition(position));
-            asteroidData.ChangeMoveDirection(CalculateRandomDirection());
-            _queue.Enqueue(asteroidData);
-            return asteroidData;
-        }
-
-        private Vector2 CalculateRandomPosition(Vector2 position)
-        {
-            float randomXPosition = Random.Range(position.x - _positionXOffset, position.x + _positionXOffset);
-            float randomYPosition = Random.Range(position.y - _positionYOffset, position.y + _positionYOffset);
-            Vector2 randomPosition = new Vector2(randomXPosition, randomYPosition);
-            return randomPosition;
-        }
-        
-        private Vector2 CalculateRandomDirection()
-        {
-            float randomXDirection = Random.Range(Vector2.left.x, Vector2.right.x);
-            float randomYDirection = Random.Range(Vector2.down.y, Vector2.up.y);
-            Vector2 randomDirection = new Vector2(randomXDirection, randomYDirection);
-            return randomDirection;
-        }
+        public int PoolCount => _poolCount;
+        public Asteroid Prefab => _prefab;
+        public int ExplodeCount => _explodeCount;
+        public float Speed => _speed;
+        public uint Points => _points;
+        public float PositionXOffset => _positionXOffset;
+        public float PositionYOffset => _positionYOffset;
     }
 }
