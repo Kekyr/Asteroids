@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Game;
@@ -10,65 +9,38 @@ namespace Enemy
 {
     public class UfoSpawner
     {
-        private Ufo _prefab;
+        private UfoSpawnerData _data;
         private GameObject _container;
 
         private Helper _helper;
         private Score _score;
         private Transform _player;
 
-        private Queue<UfoData> _queue = new Queue<UfoData>();
         private Ufo[] _ufos;
         private int _currentIndex;
 
         private bool _isActive = true;
-        private int _poolCount;
-        private float _speed;
-        private float _delay;
-        private float _minPositionY;
-        private float _maxPositionY;
-        private float _positionX;
-        private uint _points;
 
-        public UfoSpawner(Ufo prefab, Helper helper, Transform player, Score score)
+        public UfoSpawner(UfoSpawnerData data, Helper helper, Transform player, Score score)
         {
-            _prefab = prefab;
+            _data = data;
             _helper = helper;
             _player = player;
             _score = score;
-
-            SetDefaultValues();
-
-            for (int i = 0; i < _poolCount; i++)
-            {
-                UfoData ufoData = new UfoData(_speed);
-                _queue.Enqueue(ufoData);
-            }
-        }
-
-        private void SetDefaultValues()
-        {
-            _poolCount = 10;
-            _speed = 1;
-            _delay = 6;
-            _minPositionY = 0;
-            _maxPositionY = 12;
-            _positionX = 11;
-            _points = 150;
         }
 
         public void Start()
         {
-            _ufos = new Ufo[_poolCount];
-            _container = new GameObject(_prefab.name);
+            _ufos = new Ufo[_data.PoolCount];
+            _container = new GameObject(_data.Prefab.name);
 
-            for (int i = 0; i < _poolCount; i++)
+            for (int i = 0; i < _data.PoolCount; i++)
             {
-                Ufo ufo = GameObject.Instantiate(_prefab, _container.transform);
+                Ufo ufo = GameObject.Instantiate(_data.Prefab, _container.transform);
                 ufo.gameObject.SetActive(false);
-                
-                ufo.Init(_player, _helper);
-                ufo.IsExploded.Subscribe( _=>_score.Add(_points)).AddTo(ufo);
+
+                ufo.Init(_player, _helper, _data.Speed);
+                ufo.IsExploded.Skip(1).Subscribe(_ => _score.Add(_data.Points)).AddTo(ufo);
                 _ufos[i] = ufo;
             }
 
@@ -84,9 +56,8 @@ namespace Enemy
         {
             while (_isActive)
             {
-                UfoData ufoData = GetInstance();
                 Ufo ufo = _ufos[_currentIndex];
-                ufo.Init(ufoData);
+                ufo.transform.position = CalculateRandomPosition();
                 ufo.gameObject.SetActive(true);
                 _currentIndex++;
 
@@ -95,22 +66,14 @@ namespace Enemy
                     _currentIndex = 0;
                 }
 
-                await UniTask.Delay(TimeSpan.FromSeconds(_delay), ignoreTimeScale: false);
+                await UniTask.Delay(TimeSpan.FromSeconds(_data.Delay), ignoreTimeScale: false);
             }
-        }
-
-        private UfoData GetInstance()
-        {
-            UfoData ufoData = _queue.Dequeue();
-            ufoData.Transform.ChangePosition(CalculateRandomPosition());
-            _queue.Enqueue(ufoData);
-            return ufoData;
         }
 
         private Vector2 CalculateRandomPosition()
         {
-            float randomYPosition = Random.Range(_minPositionY, _maxPositionY);
-            Vector2 randomPosition = new Vector2(_positionX, randomYPosition);
+            float randomYPosition = Random.Range(_data.MinPositionY, _data.MaxPositionY);
+            Vector2 randomPosition = new Vector2(_data.PositionX, randomYPosition);
             return randomPosition;
         }
     }

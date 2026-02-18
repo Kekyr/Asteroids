@@ -5,14 +5,8 @@ namespace Game
 {
     public class Transformable
     {
-        public ReactiveProperty<Vector2> Position { get;}
-        public ReactiveProperty<float> Rotation { get;}
-
-        public Transformable()
-        {
-            Position = new ReactiveProperty<Vector2>();
-            Rotation = new ReactiveProperty<float>();
-        }
+        public ReactiveProperty<Vector2> Position { get; } = new ReactiveProperty<Vector2>();
+        public ReactiveProperty<float> Rotation { get; } = new ReactiveProperty<float>();
 
         public void ChangePosition(Vector2 newPosition)
         {

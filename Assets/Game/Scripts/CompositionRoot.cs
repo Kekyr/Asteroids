@@ -3,6 +3,7 @@ using Enemy;
 using Obstacle;
 using UnityEngine;
 using Player;
+using UnityEngine.Serialization;
 using View;
 
 namespace Game
@@ -11,9 +12,9 @@ namespace Game
     {
         [SerializeField] private Ship _shipPrefab;
 
-        [SerializeField] private Asteroid _asteroidPrefab;
-        [SerializeField] private Asteroid _asteroidFragmentPrefab;
-        [SerializeField] private Ufo _ufoPrefab;
+        [SerializeField] private AsteroidSpawnerData _asteroidSpawnerData;
+        [SerializeField] private AsteroidFragmentSpawnerData _asteroidFragmentSpawnerData;
+        [SerializeField] private UfoSpawnerData _ufoSpawnerData;
 
         [SerializeField] private Canvas _canvas;
 
@@ -26,8 +27,6 @@ namespace Game
         private PlayerInputRouter _playerInputRouter;
         private ShipData _shipDataModel;
         private LaserGunData _laserGunData;
-        private AsteroidSpawnerData _asteroidSpawnerData;
-        private AsteroidFragmentSpawnerData _asteroidFragmentSpawnerData;
         private UfoSpawner _ufoSpawner;
         private Score _score;
         private Helper _helper;
@@ -52,16 +51,13 @@ namespace Game
             _shipDataModel = new ShipData();
             _laserGunData = new LaserGunData();
 
-            _asteroidSpawnerData = new AsteroidSpawnerData();
-            _asteroidFragmentSpawnerData = new AsteroidFragmentSpawnerData();
-
             _ship = Instantiate(_shipPrefab);
 
-            _ufoSpawner = new UfoSpawner(_ufoPrefab, _helper, _ship.transform, _score);
+            _ufoSpawner = new UfoSpawner(_ufoSpawnerData, _helper, _ship.transform, _score);
 
             _gun = _ship.gameObject.GetComponentInChildren<Gun>();
             _laserGun = _ship.gameObject.GetComponentInChildren<LaserGun>();
-            
+
             _playerInputRouter = new PlayerInputRouter(_shipDataModel, _gun, _laserGunData);
 
             _ship.Init(_shipDataModel, _helper);
@@ -71,8 +67,8 @@ namespace Game
             _asteroidSpawner = gameObject.AddComponent<AsteroidSpawner>();
             _asteroidFragmentSpawner = gameObject.AddComponent<AsteroidFragmentSpawner>();
 
-            _asteroidSpawner.Init(_asteroidPrefab, _asteroidSpawnerData, _helper, _score);
-            _asteroidFragmentSpawner.Init(_asteroidFragmentPrefab, _asteroidFragmentSpawnerData, _helper,
+            _asteroidSpawner.Init(_asteroidSpawnerData, _helper, _score);
+            _asteroidFragmentSpawner.Init(_asteroidFragmentSpawnerData, _helper,
                 _asteroidSpawner, _score);
 
             _shipView = Instantiate(_shipViewPrefab, _canvas.transform);
@@ -94,19 +90,19 @@ namespace Game
                 throw new ArgumentNullException(nameof(_shipPrefab));
             }
 
-            if (_asteroidPrefab == null)
+            if (_asteroidSpawnerData == null)
             {
-                throw new ArgumentNullException(nameof(_asteroidPrefab));
+                throw new ArgumentNullException(nameof(_asteroidSpawnerData));
             }
 
-            if (_asteroidFragmentPrefab == null)
+            if (_asteroidFragmentSpawnerData == null)
             {
-                throw new ArgumentNullException(nameof(_asteroidFragmentPrefab));
+                throw new ArgumentNullException(nameof(_asteroidFragmentSpawnerData));
             }
 
-            if (_ufoPrefab == null)
+            if (_ufoSpawnerData == null)
             {
-                throw new ArgumentNullException(nameof(_ufoPrefab));
+                throw new ArgumentNullException(nameof(_ufoSpawnerData));
             }
 
             if (_canvas == null)

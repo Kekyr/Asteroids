@@ -3,46 +3,48 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Game;
 using R3;
+using Random = UnityEngine.Random;
 
 namespace Obstacle
 {
     public class AsteroidSpawner : MonoBehaviour
     {
-        private Asteroid _prefab;
+        private AsteroidSpawnerData _data;
         private GameObject _container;
-
-        private AsteroidSpawnerData _model;
 
         private Asteroid[] _asteroids;
         private Helper _helper;
         private Score _score;
 
         private int _currentIndex;
+        
+        private float _currentPositionY;
+        private float _currentDirectionY;
 
-        public ReactiveProperty<Vector2> Exploded=new ReactiveProperty<Vector2>();
+        public ReactiveProperty<Vector2> Exploded { get; }=new ReactiveProperty<Vector2>();
 
         private void Start()
         {
-            _asteroids = new Asteroid[_model.PoolCount];
-            _container = new GameObject(_prefab.name);
+            _asteroids = new Asteroid[_data.PoolCount];
+            _container = new GameObject(_data.Prefab.name);
+            _currentPositionY = _data.MaxPositionY;
 
-            for (int i = 0; i < _model.PoolCount; i++)
+            for (int i = 0; i < _data.PoolCount; i++)
             {
-                Asteroid asteroid = Instantiate(_prefab, _container.transform);
+                Asteroid asteroid = Instantiate(_data.Prefab, _container.transform);
                 asteroid.gameObject.SetActive(false);
                 
-                asteroid.Init(_helper, _model.Speed);
-                asteroid.Exploded.Subscribe(OnExploded).AddTo(asteroid);
+                asteroid.Init(_helper, _data.Speed);
+                asteroid.Exploded.Skip(1).Subscribe(OnExploded).AddTo(asteroid);
                 _asteroids[i] = asteroid;
             }
             
             Spawn().Forget();
         }
         
-        public void Init(Asteroid prefab, AsteroidSpawnerData model, Helper helper, Score score)
+        public void Init(AsteroidSpawnerData data, Helper helper, Score score)
         {
-            _prefab = prefab;
-            _model = model;
+            _data= data;
             _helper = helper;
             _score = score;
         }
@@ -51,9 +53,9 @@ namespace Obstacle
         {
             while (isActiveAndEnabled)
             {
-                AsteroidData asteroidData = _model.Spawn();
                 Asteroid asteroid = _asteroids[_currentIndex];
-                asteroid.Init(asteroidData);
+                asteroid.Init(CalculateRandomDirection());
+                asteroid.transform.position = CalculateRandomPosition();
                 asteroid.gameObject.SetActive(true);
                 _currentIndex++;
 
@@ -62,13 +64,39 @@ namespace Obstacle
                     _currentIndex = 0;
                 }
 
-                await UniTask.Delay(TimeSpan.FromSeconds(_model.Delay), ignoreTimeScale: false);
+                await UniTask.Delay(TimeSpan.FromSeconds(_data.Delay), ignoreTimeScale: false);
             }
+        }
+        
+        private Vector2 CalculateRandomPosition()
+        {
+            float randomXPosition = Random.Range(_data.MinPositionX, _data.MaxPositionX);
+            Vector2 randomPosition = new Vector2(randomXPosition, _currentPositionY);
+
+            if (Mathf.Approximately(_currentPositionY, _data.MaxPositionY))
+            {
+                _currentPositionY = _data.MinPositionY;
+                _currentDirectionY = Vector2.down.y;
+            }
+            else
+            {
+                _currentPositionY = _data.MaxPositionY;
+                _currentDirectionY = Vector2.up.y;
+            }
+
+            return randomPosition;
+        }
+
+        private Vector2 CalculateRandomDirection()
+        {
+            float randomXDirection = Random.Range(Vector2.left.x, Vector2.right.x);
+            Vector2 randomDirection = new Vector2(randomXDirection, _currentDirectionY);
+            return randomDirection;
         }
 
         private void OnExploded(Vector2 position)
         {
-            _score.Add(_model.Points);
+            _score.Add(_data.Points);
             Exploded.Value=position;
         }
     }

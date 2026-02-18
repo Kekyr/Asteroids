@@ -8,7 +8,7 @@ namespace Player
         private float _restoreTimeLeft;
 
         private bool _isReady = true;
-        
+
         private bool _isRestoring;
 
         private int _maxShootCount = 3;
@@ -16,15 +16,13 @@ namespace Player
         private float _shootDuration = 0.5f;
         private float _restoreDuration = 4;
 
-        public ReactiveProperty<int> ShootCount { get;}
-        public ReactiveProperty<float> CoolDownChanged { get; }
-        public ReactiveProperty<bool> IsShooting { get; }
+        public ReactiveProperty<int> ShootCount { get; }
+        public ReactiveProperty<float> CoolDownChanged { get; } = new ReactiveProperty<float>();
+        public ReactiveProperty<bool> IsShooting { get; } = new ReactiveProperty<bool>();
 
         public LaserGunData()
         {
             ShootCount = new ReactiveProperty<int>(_maxShootCount);
-            CoolDownChanged = new ReactiveProperty<float>();
-            IsShooting = new ReactiveProperty<bool>();
         }
 
         public void Update(float timePassed)
