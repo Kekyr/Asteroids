@@ -3,24 +3,15 @@
 namespace Enemy
 {
     [CreateAssetMenu(fileName = "new UfoSpawnerData", menuName = "UfoSpawnerData/Create new UfoSpawnerData")]
-    public class UfoSpawnerData:ScriptableObject
+    public class UfoSpawnerData : ScriptableObject
     {
-        [SerializeField] private int _poolCount;
-        [SerializeField] private Ufo _prefab;
-        [SerializeField] private float _speed;
-        [SerializeField] private float _delay;
-        [SerializeField] private uint _points;
-        [SerializeField] private float _minPositionY;
-        [SerializeField] private float _maxPositionY;
-        [SerializeField] private float _positionX;
-        
-        public int PoolCount => _poolCount;
-        public Ufo Prefab => _prefab;
-        public float Speed => _speed;
-        public float Delay => _delay;
-        public uint Points => _points;
-        public float MinPositionY => _minPositionY;
-        public float MaxPositionY => _maxPositionY;
-        public float PositionX => _positionX;
+        [field: SerializeField] public int PoolCount { get; private set; }
+        [field: SerializeField] public Ufo Prefab { get; private set; }
+        [field: SerializeField] public float Speed { get; private set; }
+        [field: SerializeField] public float Delay { get; private set; }
+        [field: SerializeField] public uint Points { get; private set; }
+        [field: SerializeField] public float MinPositionY { get; private set; }
+        [field: SerializeField] public float MaxPositionY { get; private set; }
+        [field: SerializeField] public float PositionX { get; private set; }
     }
 }

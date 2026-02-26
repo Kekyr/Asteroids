@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09280e159a314ea1a2e4c586fa340e48, type: 3}
   m_Name: AsteroidFragmentSpawnerData
   m_EditorClassIdentifier: 
-  _poolCount: 20
-  _prefab: {fileID: 4173149953205401702, guid: 7b02f15737d3c574fbb3f51249f6b081, type: 3}
-  _explodeCount: 2
-  _speed: 4
-  _points: 100
-  _positionXOffset: 1.5
-  _positionYOffset: 0.4
+  <PoolCount>k__BackingField: 20
+  <Prefab>k__BackingField: {fileID: 4173149953205401702, guid: 7b02f15737d3c574fbb3f51249f6b081, type: 3}
+  <ExplodeCount>k__BackingField: 2
+  <Speed>k__BackingField: 4
+  <Points>k__BackingField: 100
+  <PositionXOffset>k__BackingField: 1.5
+  <PositionYOffset>k__BackingField: 0.4

@@ -2,28 +2,17 @@
 
 namespace Obstacle
 {
-    [CreateAssetMenu(fileName = "new AsteroidSpawnerData",
-        menuName = "AsteroidSpawnerData/Create new AsteroidSpawnerData")]
+    [CreateAssetMenu(fileName = "new AsteroidSpawnerData", menuName = "AsteroidSpawnerData/Create new AsteroidSpawnerData")]
     public class AsteroidSpawnerData : ScriptableObject
     {
-        [SerializeField] private int _poolCount;
-        [SerializeField] private Asteroid _prefab;
-        [SerializeField] private float _speed;
-        [SerializeField] private float _delay;
-        [SerializeField] private uint _points;
-        [SerializeField] private float _minPositionY;
-        [SerializeField] private float _maxPositionY;
-        [SerializeField] private float _minPositionX;
-        [SerializeField] private float _maxPositionX;
-
-        public int PoolCount => _poolCount;
-        public Asteroid Prefab => _prefab;
-        public float Speed => _speed;
-        public float Delay => _delay;
-        public uint Points => _points;
-        public float MinPositionY => _minPositionY;
-        public float MaxPositionY => _maxPositionY;
-        public float MinPositionX => _minPositionX;
-        public float MaxPositionX => _maxPositionX;
+        [field: SerializeField] public int PoolCount { get; private set; }
+        [field: SerializeField] public Asteroid Prefab { get; private set; }
+        [field: SerializeField] public float Speed { get; private set; }
+        [field: SerializeField] public float Delay { get; private set; }
+        [field: SerializeField] public uint Points { get; private set; }
+        [field: SerializeField] public float MinPositionY { get; private set; }
+        [field: SerializeField] public float MaxPositionY { get; private set; }
+        [field: SerializeField] public float MinPositionX { get; private set; }
+        [field: SerializeField] public float MaxPositionX { get; private set; }
     }
 }
