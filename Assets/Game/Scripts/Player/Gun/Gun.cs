@@ -1,39 +1,41 @@
 ﻿using Game;
-using R3;
 using UnityEngine;
 
 namespace Player
 {
-    public class Gun : MonoBehaviour
+    public class Gun
     {
-        [SerializeField] private Transform _spawnPosition;
-        [SerializeField] private Bullet _prefab;
-        [SerializeField] private int _poolCount = 15;
-        [SerializeField] private float _bulletSpeed = 8;
-
+        private GunData _data;
         private Helper _helper;
         private Bullet[] _bullets;
+        private Transform _spawnPosition;
+        
+        private GameObject _container;
 
         private int _currentIndex;
 
-        private void Start()
+        public Gun(Helper helper, GunData data, Transform spawnPosition)
         {
-            _bullets = new Bullet[_poolCount];
+            _helper = helper;
+            _data = data;
+            _spawnPosition = spawnPosition;
+        }
+        
+        public void Start()
+        {
+            _bullets = new Bullet[_data.PoolCount];
+            _container = new GameObject(_data.Prefab.name);
+            _container.transform.parent = _spawnPosition.parent;
 
-            for (int i = 0; i < _poolCount; i++)
+            for (int i = 0; i < _data.PoolCount; i++)
             {
-                Bullet bullet = Instantiate(_prefab, transform);
+                Bullet bullet = GameObject.Instantiate(_data.Prefab, _container.transform);
                 bullet.gameObject.SetActive(false);
-                bullet.Construct(_helper, _bulletSpeed);
+                bullet.Construct(_helper, _data.BulletSpeed);
                 _bullets[i] = bullet;
             }
         }
-
-        public void Construct(Helper helper)
-        {
-            _helper = helper;
-        }
-
+        
         public void Shoot()
         {
             Bullet bullet = _bullets[_currentIndex];

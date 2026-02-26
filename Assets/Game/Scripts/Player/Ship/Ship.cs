@@ -7,10 +7,12 @@ namespace Player
     public class Ship : MonoBehaviour
     {
         private ShipData _model;
-
         private Rigidbody2D _rigidbody;
         private Helper _helper;
         private SpriteRenderer _view;
+
+        [field: SerializeField] public Transform BulletSpawnPosition { get; private set; }
+        [field: SerializeField] public GameObject Laser { get; private set; }
 
         private void Start()
         {

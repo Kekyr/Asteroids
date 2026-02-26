@@ -8,13 +8,13 @@ namespace Game
         private PlayerInput _input;
         private ShipData _shipData;
         private Gun _gun;
-        private LaserGunData _laserGunData;
+        private LaserGun _laserGun;
 
-        public PlayerInputRouter(ShipData shipData, Gun gun, LaserGunData laserGunData)
+        public PlayerInputRouter(ShipData shipData, Gun gun, LaserGun laserGun)
         {
             _shipData = shipData;
             _gun = gun;
-            _laserGunData = laserGunData;
+            _laserGun = laserGun;
             _input = new PlayerInput();
         }
 
@@ -69,7 +69,7 @@ namespace Game
 
         private void OnLaserGunPerformed(InputAction.CallbackContext context)
         {
-            _laserGunData.TryToShoot();
+            _laserGun.TryToShoot();
         }
     }
 }
