@@ -11,11 +11,11 @@ namespace View
         [SerializeField] private TextMeshProUGUI _shootCountText;
         [SerializeField] private TextMeshProUGUI _coolDownText;
 
-        private LaserGunData _model;
+        private LaserGun _model;
 
-        public void Construct(LaserGunData laserGunData)
+        public void Construct(LaserGun laserGun)
         {
-            _model = laserGunData;
+            _model = laserGun;
             _model.ShootCount.Subscribe(OnShootCountChanged).AddTo(this);
             _model.CoolDownChanged.Subscribe(OnCoolDownChanged).AddTo(this);
         }

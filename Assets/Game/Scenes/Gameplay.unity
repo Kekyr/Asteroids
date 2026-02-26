@@ -446,6 +446,8 @@ MonoBehaviour:
   _asteroidSpawnerData: {fileID: 11400000, guid: ea41bd0f9869e71469cb504c6f75545a, type: 2}
   _asteroidFragmentSpawnerData: {fileID: 11400000, guid: d336c408e8a4f2444a769ef0b5d388fd, type: 2}
   _ufoSpawnerData: {fileID: 11400000, guid: 4cc2103a0e10c144096d1c03f70b5dfe, type: 2}
+  _gunData: {fileID: 11400000, guid: 3bf8047477a7b1f458be1d6324435607, type: 2}
+  _laserGunData: {fileID: 11400000, guid: 48ab8c84e910bb04396ee74836323bc4, type: 2}
   _canvas: {fileID: 1792907076}
   _shipViewPrefab: {fileID: 569887487397791662, guid: d8595542b6ae5da49b5461d8b5e76a71, type: 3}
   _laserGunViewPrefab: {fileID: 6727511222108139714, guid: 77e06330b8ce870489ecf4989901bda2, type: 3}

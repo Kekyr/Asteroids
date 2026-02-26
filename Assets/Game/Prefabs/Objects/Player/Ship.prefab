@@ -492,6 +492,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50ba2aadd7614c268d53ee86462bb22b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <BulletSpawnPosition>k__BackingField: {fileID: 8876313424890043209}
+  <Laser>k__BackingField: {fileID: 6293882252414254989}
 --- !u!1 &6231244013379920201
 GameObject:
   m_ObjectHideFlags: 0
@@ -501,7 +503,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4801351777758874714}
-  - component: {fileID: 5438228300253058972}
   m_Layer: 0
   m_Name: Gun
   m_TagString: Untagged
@@ -525,20 +526,6 @@ Transform:
   - {fileID: 8876313424890043209}
   m_Father: {fileID: 6088310575738229372}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5438228300253058972
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6231244013379920201}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ada1f6df8c24e6a9cd35ce2e9024658, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _spawnPosition: {fileID: 8876313424890043209}
-  _prefab: {fileID: 2273114032966113641, guid: d4dc830dc13d6d54f980f19102be13e1, type: 3}
 --- !u!1 &6293882252414254989
 GameObject:
   m_ObjectHideFlags: 0
@@ -706,7 +693,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2314763645775689308}
   - component: {fileID: 5135660320346926847}
-  - component: {fileID: 2634883995972173712}
   m_Layer: 0
   m_Name: LaserGun
   m_TagString: Untagged
@@ -785,16 +771,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2634883995972173712
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6454342119903699468}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d919225e57947a48e3e24baaa154f56, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _laser: {fileID: 6293882252414254989}
