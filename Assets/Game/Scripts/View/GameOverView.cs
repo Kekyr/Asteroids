@@ -1,5 +1,4 @@
-﻿using Cysharp.Threading.Tasks;
-using Game;
+﻿using Game;
 using Player;
 using R3;
 using R3.Triggers;
@@ -17,6 +16,7 @@ namespace View
 
         private Score _score;
         private Ship _ship;
+        private SceneLoader _sceneLoader;
 
         private void Awake()
         {
@@ -28,10 +28,11 @@ namespace View
             _restartButton.onClick.RemoveListener(OnClick);
         }
 
-        public void Init(Score score, Ship shipPresenter)
+        public void Construct(Score score, Ship shipPresenter, SceneLoader sceneLoader)
         {
             _score = score;
             _ship = shipPresenter;
+            _sceneLoader = sceneLoader;
             
             _ship.OnCollisionEnter2DAsObservable().Subscribe(OnExploded).AddTo(_ship);
         }
@@ -44,7 +45,7 @@ namespace View
 
         private void OnClick()
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            _sceneLoader.ReloadScene();
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using System;
-using Game;
-using R3;
+﻿using Game;
 using UnityEngine;
 
 namespace Player
@@ -46,7 +44,7 @@ namespace Player
             gameObject.SetActive(false);
         }
 
-        public void Init(ShipData model, Helper helper)
+        public void Construct(ShipData model, Helper helper)
         {
             _model = model;
             _helper = helper;

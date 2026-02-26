@@ -27,7 +27,7 @@ namespace Game
             _laserGunData.Update(Time.deltaTime);
         }
 
-        public void Init(PlayerInputRouter playerInputRouter, LaserGunData laserGunData, UfoSpawner ufoSpawner)
+        public void Construct(PlayerInputRouter playerInputRouter, LaserGunData laserGunData, UfoSpawner ufoSpawner)
         {
             _playerInputRouter = playerInputRouter;
             _laserGunData = laserGunData;
