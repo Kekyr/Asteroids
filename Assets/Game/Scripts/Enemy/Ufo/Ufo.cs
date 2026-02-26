@@ -61,7 +61,7 @@ namespace Enemy
             gameObject.SetActive(false);
         }
 
-        public void Init(Transform target, Helper helper, float speed)
+        public void Construct(Transform target, Helper helper, float speed)
         {
             _target = target;
             _helper = helper;

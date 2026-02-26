@@ -34,7 +34,7 @@ namespace Obstacle
                 Asteroid asteroid = Instantiate(_data.Prefab, _container.transform);
                 asteroid.gameObject.SetActive(false);
                 
-                asteroid.Init(_helper, _data.Speed);
+                asteroid.Construct(_helper, _data.Speed);
                 asteroid.Exploded.Skip(1).Subscribe(OnExploded).AddTo(asteroid);
                 _asteroids[i] = asteroid;
             }
@@ -42,7 +42,7 @@ namespace Obstacle
             Spawn().Forget();
         }
         
-        public void Init(AsteroidSpawnerData data, Helper helper, Score score)
+        public void Construct(AsteroidSpawnerData data, Helper helper, Score score)
         {
             _data= data;
             _helper = helper;
@@ -54,7 +54,7 @@ namespace Obstacle
             while (isActiveAndEnabled)
             {
                 Asteroid asteroid = _asteroids[_currentIndex];
-                asteroid.Init(CalculateRandomDirection());
+                asteroid.SetDirection(CalculateRandomDirection());
                 asteroid.transform.position = CalculateRandomPosition();
                 asteroid.gameObject.SetActive(true);
                 _currentIndex++;

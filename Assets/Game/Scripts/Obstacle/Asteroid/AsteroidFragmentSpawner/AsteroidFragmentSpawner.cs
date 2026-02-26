@@ -28,13 +28,13 @@ namespace Obstacle
 
                 asteroid.Exploded.Subscribe(OnFragmentExploded).AddTo(asteroid);
                 _asteroidFragments[i] = asteroid;
-                asteroid.Init(_helper, _data.Speed);
+                asteroid.Construct(_helper, _data.Speed);
             }
 
             _asteroidSpawner.Exploded.Skip(1).Subscribe(OnExploded).AddTo(this);
         }
 
-        public void Init(AsteroidFragmentSpawnerData data, Helper helper,
+        public void Construct(AsteroidFragmentSpawnerData data, Helper helper,
             AsteroidSpawner asteroidSpawner, Score score)
         {
             _data = data;
@@ -48,7 +48,7 @@ namespace Obstacle
             for (int i = 0; i < _data.ExplodeCount; i++)
             {
                 Asteroid asteroid = _asteroidFragments[_currentIndex];
-                asteroid.Init(CalculateRandomDirection());
+                asteroid.SetDirection(CalculateRandomDirection());
                 asteroid.transform.position = CalculateRandomPosition(position);
                 asteroid.gameObject.SetActive(true);
                 _currentIndex++;

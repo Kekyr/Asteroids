@@ -39,7 +39,7 @@ namespace Enemy
                 Ufo ufo = GameObject.Instantiate(_data.Prefab, _container.transform);
                 ufo.gameObject.SetActive(false);
 
-                ufo.Init(_player, _helper, _data.Speed);
+                ufo.Construct(_player, _helper, _data.Speed);
                 ufo.IsExploded.Skip(1).Subscribe(_ => _score.Add(_data.Points)).AddTo(ufo);
                 _ufos[i] = ufo;
             }

@@ -3,7 +3,6 @@ using Enemy;
 using Obstacle;
 using UnityEngine;
 using Player;
-using UnityEngine.Serialization;
 using View;
 
 namespace Game
@@ -24,63 +23,47 @@ namespace Game
 
         private EntryPoint _entryPoint;
 
-        private PlayerInputRouter _playerInputRouter;
-        private ShipData _shipDataModel;
-        private LaserGunData _laserGunData;
-        private UfoSpawner _ufoSpawner;
-        private Score _score;
-        private Helper _helper;
-
-        private Ship _ship;
-        private Gun _gun;
-        private LaserGun _laserGun;
-        private AsteroidSpawner _asteroidSpawner;
-        private AsteroidFragmentSpawner _asteroidFragmentSpawner;
-
-        private ShipView _shipView;
-        private LaserGunView _laserGunView;
-        private GameOverView _gameOverView;
-
         private void Awake()
         {
             Validate();
 
-            _helper = new Helper();
-            _score = new Score();
+            Helper helper = new Helper();
+            Score score = new Score();
+            SceneLoader sceneLoader = new SceneLoader();
 
-            _shipDataModel = new ShipData();
-            _laserGunData = new LaserGunData();
+            ShipData shipDataModel = new ShipData();
+            LaserGunData laserGunData = new LaserGunData();
 
-            _ship = Instantiate(_shipPrefab);
+            Ship ship = Instantiate(_shipPrefab);
 
-            _ufoSpawner = new UfoSpawner(_ufoSpawnerData, _helper, _ship.transform, _score);
+            UfoSpawner ufoSpawner = new UfoSpawner(_ufoSpawnerData, helper, ship.transform, score);
 
-            _gun = _ship.gameObject.GetComponentInChildren<Gun>();
-            _laserGun = _ship.gameObject.GetComponentInChildren<LaserGun>();
+            Gun gun = ship.gameObject.GetComponentInChildren<Gun>();
+            LaserGun laserGun = ship.gameObject.GetComponentInChildren<LaserGun>();
 
-            _playerInputRouter = new PlayerInputRouter(_shipDataModel, _gun, _laserGunData);
+            PlayerInputRouter playerInputRouter = new PlayerInputRouter(shipDataModel, gun, laserGunData);
 
-            _ship.Init(_shipDataModel, _helper);
-            _gun.Init(_helper);
-            _laserGun.Init(_laserGunData);
+            ship.Construct(shipDataModel, helper);
+            gun.Construct(helper);
+            laserGun.Construct(laserGunData);
 
-            _asteroidSpawner = gameObject.AddComponent<AsteroidSpawner>();
-            _asteroidFragmentSpawner = gameObject.AddComponent<AsteroidFragmentSpawner>();
+            AsteroidSpawner asteroidSpawner = gameObject.AddComponent<AsteroidSpawner>();
+            AsteroidFragmentSpawner asteroidFragmentSpawner = gameObject.AddComponent<AsteroidFragmentSpawner>();
 
-            _asteroidSpawner.Init(_asteroidSpawnerData, _helper, _score);
-            _asteroidFragmentSpawner.Init(_asteroidFragmentSpawnerData, _helper,
-                _asteroidSpawner, _score);
+            asteroidSpawner.Construct(_asteroidSpawnerData, helper, score);
+            asteroidFragmentSpawner.Construct(_asteroidFragmentSpawnerData, helper,
+                asteroidSpawner, score);
 
-            _shipView = Instantiate(_shipViewPrefab, _canvas.transform);
-            _laserGunView = Instantiate(_laserGunViewPrefab, _canvas.transform);
-            _gameOverView = Instantiate(_gameOverViewPrefab, _canvas.transform);
+            ShipView shipView = Instantiate(_shipViewPrefab, _canvas.transform);
+            LaserGunView laserGunView = Instantiate(_laserGunViewPrefab, _canvas.transform);
+            GameOverView gameOverView = Instantiate(_gameOverViewPrefab, _canvas.transform);
 
-            _shipView.Init(_shipDataModel);
-            _laserGunView.Init(_laserGunData);
-            _gameOverView.Init(_score, _ship);
+            shipView.Construct(shipDataModel);
+            laserGunView.Construct(laserGunData);
+            gameOverView.Construct(score, ship, sceneLoader);
 
             _entryPoint = gameObject.AddComponent<EntryPoint>();
-            _entryPoint.Init(_playerInputRouter, _laserGunData, _ufoSpawner);
+            _entryPoint.Construct(playerInputRouter, laserGunData, ufoSpawner);
         }
 
         private void Validate()

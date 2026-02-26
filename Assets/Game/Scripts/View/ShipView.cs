@@ -21,7 +21,7 @@ namespace View
             _model.Velocity.Subscribe(OnVelocityChanged).AddTo(this);
         }
 
-        public void Init(ShipData model)
+        public void Construct(ShipData model)
         {
             _model = model;
         }

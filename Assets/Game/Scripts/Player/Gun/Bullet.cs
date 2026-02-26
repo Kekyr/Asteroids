@@ -31,16 +31,16 @@ namespace Player
         {
             gameObject.SetActive(false);
         }
-
-        public void Init(float speed, Vector2 direction)
+        
+        public void Construct(Helper helper, float speed)
         {
             _speed = speed;
-            _direction = direction;
+            _helper = helper;
         }
 
-        public void Init(Helper helper)
+        public void SetDirection(Vector2 direction)
         {
-            _helper = helper;
+            _direction = direction;
         }
     }
 }

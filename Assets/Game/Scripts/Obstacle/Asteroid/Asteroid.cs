@@ -53,13 +53,13 @@ namespace Obstacle
             Exploded.Value = transform.position;
         }
 
-        public void Init(Helper helper, float speed)
+        public void Construct(Helper helper, float speed)
         {
             _helper = helper;
             _speed = speed;
         }
 
-        public void Init(Vector2 moveDirection)
+        public void SetDirection(Vector2 moveDirection)
         {
             _moveDirection = moveDirection;
         }

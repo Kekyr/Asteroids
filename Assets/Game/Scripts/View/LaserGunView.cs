@@ -13,7 +13,7 @@ namespace View
 
         private LaserGunData _model;
 
-        public void Init(LaserGunData laserGunData)
+        public void Construct(LaserGunData laserGunData)
         {
             _model = laserGunData;
             _model.ShootCount.Subscribe(OnShootCountChanged).AddTo(this);

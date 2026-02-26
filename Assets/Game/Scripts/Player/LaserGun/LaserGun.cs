@@ -14,21 +14,14 @@ namespace Player
             _model.IsShooting.Subscribe(OnShoot).AddTo(this);
         }
 
-        public void Init(LaserGunData model)
+        public void Construct(LaserGunData model)
         {
             _model = model;
         }
 
         private void OnShoot(bool isStarted)
         {
-            if (isStarted)
-            {
-                _laser.SetActive(true);
-            }
-            else
-            {
-                _laser.SetActive(false);
-            }
+            _laser.SetActive(isStarted);
         }
     }
 }
