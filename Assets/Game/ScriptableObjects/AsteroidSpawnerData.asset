@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f423ced942e8499484bf98582c99c3f1, type: 3}
   m_Name: AsteroidSpawnerData
   m_EditorClassIdentifier: 
-  _poolCount: 10
-  _prefab: {fileID: 6925073894211661860, guid: e70d5982c84f78f4f8eb6ceab74135de, type: 3}
-  _speed: 2
-  _delay: 4
-  _points: 50
-  _minPositionY: -1
-  _maxPositionY: 12
-  _minPositionX: 1
-  _maxPositionX: 9
+  <PoolCount>k__BackingField: 10
+  <Prefab>k__BackingField: {fileID: 6925073894211661860, guid: e70d5982c84f78f4f8eb6ceab74135de, type: 3}
+  <Speed>k__BackingField: 2
+  <Delay>k__BackingField: 4
+  <Points>k__BackingField: 50
+  <MinPositionY>k__BackingField: -1
+  <MaxPositionY>k__BackingField: 12
+  <MinPositionX>k__BackingField: 1
+  <MaxPositionX>k__BackingField: 9

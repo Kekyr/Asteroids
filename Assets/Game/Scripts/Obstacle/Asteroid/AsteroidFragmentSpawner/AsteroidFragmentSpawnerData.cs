@@ -6,20 +6,12 @@ namespace Obstacle
         menuName = "AsteroidFragmentSpawnerData/Create new AsteroidFragmentSpawnerData")]
     public class AsteroidFragmentSpawnerData : ScriptableObject
     {
-        [SerializeField] private int _poolCount;
-        [SerializeField] private Asteroid _prefab;
-        [SerializeField] private int _explodeCount;
-        [SerializeField] private float _speed;
-        [SerializeField] private uint _points;
-        [SerializeField] private float _positionXOffset;
-        [SerializeField] private float _positionYOffset;
-        
-        public int PoolCount => _poolCount;
-        public Asteroid Prefab => _prefab;
-        public int ExplodeCount => _explodeCount;
-        public float Speed => _speed;
-        public uint Points => _points;
-        public float PositionXOffset => _positionXOffset;
-        public float PositionYOffset => _positionYOffset;
+        [field: SerializeField] public int PoolCount { get; private set; }
+        [field: SerializeField] public Asteroid Prefab { get; private set; }
+        [field: SerializeField] public int ExplodeCount { get; private set; }
+        [field: SerializeField] public float Speed { get; private set; }
+        [field: SerializeField] public uint Points { get; private set; }
+        [field: SerializeField] public float PositionXOffset { get; private set; }
+        [field: SerializeField] public float PositionYOffset { get; private set; }
     }
 }

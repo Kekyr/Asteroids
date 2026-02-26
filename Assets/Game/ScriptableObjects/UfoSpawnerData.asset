@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a10e795d25e247de8362357300f514b7, type: 3}
   m_Name: UfoSpawnerData
   m_EditorClassIdentifier: 
-  _poolCount: 10
-  _prefab: {fileID: 4756216475610885996, guid: 6ded98992860e154180bee65cdc5a3d6, type: 3}
-  _speed: 1
-  _delay: 6
-  _minPositionY: 0
-  _maxPositionY: 12
-  _positionX: 11
-  _points: 150
+  <PoolCount>k__BackingField: 10
+  <Prefab>k__BackingField: {fileID: 4756216475610885996, guid: 6ded98992860e154180bee65cdc5a3d6, type: 3}
+  <Speed>k__BackingField: 1
+  <Delay>k__BackingField: 6
+  <Points>k__BackingField: 150
+  <MinPositionY>k__BackingField: 0
+  <MaxPositionY>k__BackingField: 12
+  <PositionX>k__BackingField: 11
