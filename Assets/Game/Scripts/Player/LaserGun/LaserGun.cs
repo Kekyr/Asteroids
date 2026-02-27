@@ -15,7 +15,7 @@ namespace Player
         private bool _isRestoring;
 
         public ReactiveProperty<int> ShootCount { get; }
-        public ReactiveProperty<float> CoolDownChanged { get; } = new ReactiveProperty<float>();
+        public ReactiveProperty<float> CoolDownTime { get; } = new ReactiveProperty<float>();
 
         public LaserGun(LaserGunData data, GameObject laser)
         {
@@ -68,7 +68,7 @@ namespace Player
             }
 
             _timeLeft -= timePassed;
-            CoolDownChanged.Value = _timeLeft;
+            CoolDownTime.Value = _timeLeft;
 
             if (_timeLeft <= 0)
             {

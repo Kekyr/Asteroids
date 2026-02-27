@@ -1,12 +1,14 @@
-﻿namespace Game
+﻿using R3;
+
+namespace Game
 {
     public class Score
     {
-        public uint NumberOfPoints { get; private set; }
+        public ReactiveProperty<uint> NumberOfPoints { get; } = new ReactiveProperty<uint>();
 
         public void Add(uint points)
         {
-            NumberOfPoints += points;
+            NumberOfPoints.Value += points;
         }
     }
 }

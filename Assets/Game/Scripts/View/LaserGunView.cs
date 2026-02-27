@@ -1,8 +1,7 @@
-﻿using System;
-using Player;
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 using R3;
+using ViewModel;
 
 namespace View
 {
@@ -11,24 +10,10 @@ namespace View
         [SerializeField] private TextMeshProUGUI _shootCountText;
         [SerializeField] private TextMeshProUGUI _coolDownText;
 
-        private LaserGun _model;
-
-        public void Construct(LaserGun laserGun)
+        public void Construct(LaserGunViewModel viewModel)
         {
-            _model = laserGun;
-            _model.ShootCount.Subscribe(OnShootCountChanged).AddTo(this);
-            _model.CoolDownChanged.Subscribe(OnCoolDownChanged).AddTo(this);
-        }
-
-        private void OnShootCountChanged(int shootCount)
-        {
-            _shootCountText.text = $"Shoot Left: {shootCount}";
-        }
-
-        private void OnCoolDownChanged(float coolDown)
-        {
-            float roundedCoolDown = (float)Math.Round(coolDown, 1);
-            _coolDownText.text = $"Cool Down: {roundedCoolDown} s";
+            viewModel.ShootCount.Subscribe(x => _shootCountText.text = x).AddTo(this);
+            viewModel.CoolDownTime.Subscribe(x => _coolDownText.text = x).AddTo(this);
         }
     }
 }
