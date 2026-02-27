@@ -5,6 +5,7 @@ using R3.Triggers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using ViewModel;
 
 namespace View
 {
@@ -12,9 +13,7 @@ namespace View
     {
         [SerializeField] private TextMeshProUGUI _scoreText;
         [SerializeField] private Button _restartButton;
-
-        private Score _score;
-        private Ship _ship;
+        
         private SceneLoader _sceneLoader;
 
         private void Awake()
@@ -27,19 +26,11 @@ namespace View
             _restartButton.onClick.RemoveListener(OnClick);
         }
 
-        public void Construct(Score score, Ship shipPresenter, SceneLoader sceneLoader)
+        public void Construct(GameOverViewModel viewModel, Ship ship, SceneLoader sceneLoader)
         {
-            _score = score;
-            _ship = shipPresenter;
             _sceneLoader = sceneLoader;
-            
-            _ship.OnCollisionEnter2DAsObservable().Subscribe(OnExploded).AddTo(_ship);
-        }
-
-        private void OnExploded(Collision2D collision)
-        {
-            _scoreText.text = $"Score: {_score.NumberOfPoints}";
-            gameObject.SetActive(true);
+            viewModel.Score.Subscribe(x => _scoreText.text = x).AddTo(this);
+            ship.OnCollisionEnter2DAsObservable().Subscribe(x => gameObject.SetActive(true)).AddTo(ship);
         }
 
         private void OnClick()

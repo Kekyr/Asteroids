@@ -4,6 +4,7 @@ using Obstacle;
 using UnityEngine;
 using Player;
 using View;
+using ViewModel;
 
 namespace Game
 {
@@ -34,7 +35,7 @@ namespace Game
             Score score = new Score();
             SceneLoader sceneLoader = new SceneLoader();
 
-            ShipData shipDataModel = new ShipData();
+            ShipData shipData = new ShipData();
             Ship ship = Instantiate(_shipPrefab);
 
             LaserGun laserGun = new LaserGun(_laserGunData, ship.Laser);
@@ -45,21 +46,26 @@ namespace Game
             AsteroidFragmentSpawner asteroidFragmentSpawner =
                 new AsteroidFragmentSpawner(_asteroidFragmentSpawnerData, helper, asteroidSpawner, score);
 
-            PlayerInputRouter playerInputRouter = new PlayerInputRouter(shipDataModel, gun, laserGun);
+            PlayerInputRouter playerInputRouter = new PlayerInputRouter(shipData, gun, laserGun);
 
-            ship.Construct(shipDataModel, helper);
+            ship.Construct(shipData, helper);
 
             ShipView shipView = Instantiate(_shipViewPrefab, _canvas.transform);
             LaserGunView laserGunView = Instantiate(_laserGunViewPrefab, _canvas.transform);
             GameOverView gameOverView = Instantiate(_gameOverViewPrefab, _canvas.transform);
 
-            shipView.Construct(shipDataModel);
-            laserGunView.Construct(laserGun);
-            gameOverView.Construct(score, ship, sceneLoader);
+            GameOverViewModel gameOverViewModel = new GameOverViewModel(score);
+            LaserGunViewModel laserGunViewModel = new LaserGunViewModel(laserGun);
+            ShipViewModel shipViewModel = new ShipViewModel(shipData);
+
+            shipView.Construct(shipViewModel);
+            laserGunView.Construct(laserGunViewModel);
+            gameOverView.Construct(gameOverViewModel, ship, sceneLoader);
 
             _entryPoint = gameObject.AddComponent<EntryPoint>();
             _entryPoint.Construct(playerInputRouter, laserGun, ufoSpawner, asteroidFragmentSpawner,
                 asteroidSpawner, gun);
+            _entryPoint.Construct(gameOverViewModel, laserGunViewModel, shipViewModel);
         }
 
         private void Validate()

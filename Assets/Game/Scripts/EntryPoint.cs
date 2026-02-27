@@ -2,6 +2,7 @@
 using Obstacle;
 using Player;
 using UnityEngine;
+using ViewModel;
 
 namespace Game
 {
@@ -14,6 +15,10 @@ namespace Game
         private AsteroidFragmentSpawner _asteroidFragmentSpawner;
         private AsteroidSpawner _asteroidSpawner;
         private Gun _gun;
+
+        private GameOverViewModel _gameOverViewModel;
+        private LaserGunViewModel _laserGunViewModel;
+        private ShipViewModel _shipViewModel;
         
         private void Start()
         {
@@ -30,6 +35,9 @@ namespace Game
             _ufoSpawner.OnDestroy();
             _asteroidFragmentSpawner.OnDestroy();
             _asteroidSpawner.OnDestroy();
+            _gameOverViewModel.OnDestroy();
+            _laserGunViewModel.OnDestroy();
+            _shipViewModel.OnDestroy();
         }
 
         private void Update()
@@ -46,6 +54,13 @@ namespace Game
             _asteroidFragmentSpawner = asteroidFragmentSpawner;
             _asteroidSpawner = asteroidSpawner;
             _gun = gun;
+        }
+
+        public void Construct(GameOverViewModel gameOverViewModel, LaserGunViewModel laserGunViewModel, ShipViewModel shipViewModel)
+        {
+            _gameOverViewModel = gameOverViewModel;
+            _laserGunViewModel = laserGunViewModel;
+            _shipViewModel = shipViewModel;
         }
     }
 }

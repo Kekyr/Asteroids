@@ -36,8 +36,8 @@ namespace Player
 
             transform.position = _helper.ClampPosition(transform.position);
 
-            _model.Transform.ChangePosition(transform.position);
-            _model.Transform.ChangeRotation(transform.eulerAngles.z);
+            _model.ChangePosition(transform.position);
+            _model.ChangeRotation(transform.eulerAngles.z);
             _model.ChangeVelocity(_rigidbody.linearVelocity);
         }
 
