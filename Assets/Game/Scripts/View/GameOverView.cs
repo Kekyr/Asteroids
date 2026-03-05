@@ -13,7 +13,8 @@ namespace View
     {
         [SerializeField] private TextMeshProUGUI _scoreText;
         [SerializeField] private Button _restartButton;
-        
+
+        private GameOverViewModel _viewModel;
         private SceneLoader _sceneLoader;
 
         private void Awake()
@@ -29,6 +30,8 @@ namespace View
         public void Construct(GameOverViewModel viewModel, Ship ship, SceneLoader sceneLoader)
         {
             _sceneLoader = sceneLoader;
+            _viewModel = viewModel;
+            
             viewModel.Score.Subscribe(x => _scoreText.text = x).AddTo(this);
             ship.OnCollisionEnter2DAsObservable().Subscribe(x => gameObject.SetActive(true)).AddTo(ship);
         }
