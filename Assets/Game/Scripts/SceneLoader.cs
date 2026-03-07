@@ -1,10 +1,25 @@
-﻿using UnityEngine.SceneManagement;
+﻿using System;
+using R3;
+using UnityEngine.SceneManagement;
+using View;
 
 namespace Game
 {
     public class SceneLoader
     {
-        public void ReloadScene()
+        private IDisposable _disposable;
+
+        public SceneLoader(GameOverView gameOverView)
+        {
+            _disposable = gameOverView.RestartButtonClicked.AsObservable().Subscribe(ReloadScene);
+        }
+
+        public void OnDestroy()
+        {
+            _disposable.Dispose();
+        }
+
+        private void ReloadScene(Unit unit)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }

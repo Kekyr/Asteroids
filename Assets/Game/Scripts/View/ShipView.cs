@@ -11,12 +11,8 @@ namespace View
         [SerializeField] private TextMeshProUGUI _angleTextMesh;
         [SerializeField] private TextMeshProUGUI _velocityTextMesh;
 
-        private ShipViewModel _viewModel;
-
         public void Construct(ShipViewModel viewModel)
         {
-            _viewModel = viewModel;
-            
             viewModel.Position.Subscribe(x => _positionTextMesh.text = x).AddTo(this);
             viewModel.Rotation.Subscribe(x => _angleTextMesh.text = x).AddTo(this);
             viewModel.Velocity.Subscribe(x => _velocityTextMesh.text = x).AddTo(this);

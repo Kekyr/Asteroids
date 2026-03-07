@@ -1,5 +1,4 @@
-﻿using Game;
-using Player;
+﻿using Player;
 using R3;
 using R3.Triggers;
 using TMPro;
@@ -13,32 +12,13 @@ namespace View
     {
         [SerializeField] private TextMeshProUGUI _scoreText;
         [SerializeField] private Button _restartButton;
-
-        private GameOverViewModel _viewModel;
-        private SceneLoader _sceneLoader;
-
-        private void Awake()
+        
+        public Button.ButtonClickedEvent RestartButtonClicked => _restartButton.onClick;
+        
+        public void Construct(GameOverViewModel viewModel, Ship ship)
         {
-            _restartButton.onClick.AddListener(OnClick);
-        }
-
-        private void OnDestroy()
-        {
-            _restartButton.onClick.RemoveListener(OnClick);
-        }
-
-        public void Construct(GameOverViewModel viewModel, Ship ship, SceneLoader sceneLoader)
-        {
-            _sceneLoader = sceneLoader;
-            _viewModel = viewModel;
-            
             viewModel.Score.Subscribe(x => _scoreText.text = x).AddTo(this);
-            ship.OnCollisionEnter2DAsObservable().Subscribe(x => gameObject.SetActive(true)).AddTo(ship);
-        }
-
-        private void OnClick()
-        {
-            _sceneLoader.ReloadScene();
+            ship.OnCollisionEnter2DAsObservable().Subscribe(x => gameObject.SetActive(true)).AddTo(this);
         }
     }
 }
