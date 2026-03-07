@@ -33,8 +33,7 @@ namespace Game
 
             Helper helper = new Helper();
             Score score = new Score();
-            SceneLoader sceneLoader = new SceneLoader();
-
+            
             ShipData shipData = new ShipData();
             Ship ship = Instantiate(_shipPrefab);
 
@@ -53,19 +52,21 @@ namespace Game
             ShipView shipView = Instantiate(_shipViewPrefab, _canvas.transform);
             LaserGunView laserGunView = Instantiate(_laserGunViewPrefab, _canvas.transform);
             GameOverView gameOverView = Instantiate(_gameOverViewPrefab, _canvas.transform);
-
+            
             GameOverViewModel gameOverViewModel = new GameOverViewModel(score);
             LaserGunViewModel laserGunViewModel = new LaserGunViewModel(laserGun);
             ShipViewModel shipViewModel = new ShipViewModel(shipData);
 
             shipView.Construct(shipViewModel);
             laserGunView.Construct(laserGunViewModel);
-            gameOverView.Construct(gameOverViewModel, ship, sceneLoader);
+            gameOverView.Construct(gameOverViewModel, ship);
+            
+            SceneLoader sceneLoader = new SceneLoader(gameOverView);
 
             _entryPoint = gameObject.AddComponent<EntryPoint>();
             _entryPoint.Construct(playerInputRouter, laserGun, ufoSpawner, asteroidFragmentSpawner,
                 asteroidSpawner, gun);
-            _entryPoint.Construct(gameOverViewModel, laserGunViewModel, shipViewModel);
+            _entryPoint.Construct(gameOverViewModel, laserGunViewModel, shipViewModel, sceneLoader);
         }
 
         private void Validate()

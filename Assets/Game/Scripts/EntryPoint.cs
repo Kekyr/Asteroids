@@ -19,6 +19,8 @@ namespace Game
         private GameOverViewModel _gameOverViewModel;
         private LaserGunViewModel _laserGunViewModel;
         private ShipViewModel _shipViewModel;
+
+        private SceneLoader _sceneLoader;
         
         private void Start()
         {
@@ -38,6 +40,7 @@ namespace Game
             _gameOverViewModel.OnDestroy();
             _laserGunViewModel.OnDestroy();
             _shipViewModel.OnDestroy();
+            _sceneLoader.OnDestroy();
         }
 
         private void Update()
@@ -56,11 +59,12 @@ namespace Game
             _gun = gun;
         }
 
-        public void Construct(GameOverViewModel gameOverViewModel, LaserGunViewModel laserGunViewModel, ShipViewModel shipViewModel)
+        public void Construct(GameOverViewModel gameOverViewModel, LaserGunViewModel laserGunViewModel, ShipViewModel shipViewModel, SceneLoader sceneLoader)
         {
             _gameOverViewModel = gameOverViewModel;
             _laserGunViewModel = laserGunViewModel;
             _shipViewModel = shipViewModel;
+            _sceneLoader = sceneLoader;
         }
     }
 }
