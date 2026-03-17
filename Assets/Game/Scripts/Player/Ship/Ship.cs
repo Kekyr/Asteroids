@@ -1,5 +1,7 @@
 ﻿using Game;
+using R3;
 using UnityEngine;
+using View;
 
 namespace Player
 {
@@ -13,6 +15,7 @@ namespace Player
 
         [field: SerializeField] public Transform BulletSpawnPosition { get; private set; }
         [field: SerializeField] public GameObject Laser { get; private set; }
+        public ReactiveProperty<bool> IsDestroyed { get; } = new ReactiveProperty<bool>();
 
         private void Start()
         {
@@ -43,6 +46,7 @@ namespace Player
 
         private void OnCollisionEnter2D(Collision2D other)
         {
+            IsDestroyed.Value = true;
             gameObject.SetActive(false);
         }
 
