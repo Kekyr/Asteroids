@@ -32,10 +32,12 @@ namespace Game
             Validate();
 
             Helper helper = new Helper();
+
             Score score = new Score();
-            
+
             ShipData shipData = new ShipData();
             Ship ship = Instantiate(_shipPrefab);
+            ship.Construct(shipData, helper);
 
             LaserGun laserGun = new LaserGun(_laserGunData, ship.Laser);
             Gun gun = new Gun(helper, _gunData, ship.BulletSpawnPosition);
@@ -47,26 +49,26 @@ namespace Game
 
             PlayerInputRouter playerInputRouter = new PlayerInputRouter(shipData, gun, laserGun);
 
-            ship.Construct(shipData, helper);
-
             ShipView shipView = Instantiate(_shipViewPrefab, _canvas.transform);
             LaserGunView laserGunView = Instantiate(_laserGunViewPrefab, _canvas.transform);
             GameOverView gameOverView = Instantiate(_gameOverViewPrefab, _canvas.transform);
-            
+
             GameOverViewModel gameOverViewModel = new GameOverViewModel(score);
             LaserGunViewModel laserGunViewModel = new LaserGunViewModel(laserGun);
             ShipViewModel shipViewModel = new ShipViewModel(shipData);
 
             shipView.Construct(shipViewModel);
             laserGunView.Construct(laserGunViewModel);
-            gameOverView.Construct(gameOverViewModel, ship);
-            
+            gameOverView.Construct(gameOverViewModel);
+
+            WinLoseController winLoseController = new WinLoseController(ship, gameOverView);
+
             SceneLoader sceneLoader = new SceneLoader(gameOverView);
 
             _entryPoint = gameObject.AddComponent<EntryPoint>();
             _entryPoint.Construct(playerInputRouter, laserGun, ufoSpawner, asteroidFragmentSpawner,
                 asteroidSpawner, gun);
-            _entryPoint.Construct(gameOverViewModel, laserGunViewModel, shipViewModel, sceneLoader);
+            _entryPoint.Construct(gameOverViewModel, laserGunViewModel, shipViewModel, sceneLoader, winLoseController);
         }
 
         private void Validate()

@@ -10,7 +10,7 @@ namespace Game
     {
         private PlayerInputRouter _playerInputRouter;
         private LaserGun _laserGun;
-        
+
         private UfoSpawner _ufoSpawner;
         private AsteroidFragmentSpawner _asteroidFragmentSpawner;
         private AsteroidSpawner _asteroidSpawner;
@@ -21,7 +21,8 @@ namespace Game
         private ShipViewModel _shipViewModel;
 
         private SceneLoader _sceneLoader;
-        
+        private WinLoseController _winLoseController;
+
         private void Start()
         {
             _playerInputRouter.Start();
@@ -41,6 +42,7 @@ namespace Game
             _laserGunViewModel.OnDestroy();
             _shipViewModel.OnDestroy();
             _sceneLoader.OnDestroy();
+            _winLoseController.OnDestroy();
         }
 
         private void Update()
@@ -48,7 +50,8 @@ namespace Game
             _laserGun.Update(Time.deltaTime);
         }
 
-        public void Construct(PlayerInputRouter playerInputRouter, LaserGun laserGun, UfoSpawner ufoSpawner, AsteroidFragmentSpawner asteroidFragmentSpawner,
+        public void Construct(PlayerInputRouter playerInputRouter, LaserGun laserGun, UfoSpawner ufoSpawner,
+            AsteroidFragmentSpawner asteroidFragmentSpawner,
             AsteroidSpawner asteroidSpawner, Gun gun)
         {
             _playerInputRouter = playerInputRouter;
@@ -59,12 +62,14 @@ namespace Game
             _gun = gun;
         }
 
-        public void Construct(GameOverViewModel gameOverViewModel, LaserGunViewModel laserGunViewModel, ShipViewModel shipViewModel, SceneLoader sceneLoader)
+        public void Construct(GameOverViewModel gameOverViewModel, LaserGunViewModel laserGunViewModel,
+            ShipViewModel shipViewModel, SceneLoader sceneLoader, WinLoseController winLoseController)
         {
             _gameOverViewModel = gameOverViewModel;
             _laserGunViewModel = laserGunViewModel;
             _shipViewModel = shipViewModel;
             _sceneLoader = sceneLoader;
+            _winLoseController = winLoseController;
         }
     }
 }
