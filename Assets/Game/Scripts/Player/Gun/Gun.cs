@@ -1,27 +1,28 @@
 ﻿using Game;
 using UnityEngine;
+using Zenject;
 
 namespace Player
 {
-    public class Gun
+    public class Gun : IInitializable
     {
         private GunData _data;
         private Helper _helper;
         private Bullet[] _bullets;
         private Transform _spawnPosition;
-        
+
         private GameObject _container;
 
         private int _currentIndex;
 
-        public Gun(Helper helper, GunData data, Transform spawnPosition)
+        public Gun(Helper helper, GunData data, Ship ship)
         {
             _helper = helper;
             _data = data;
-            _spawnPosition = spawnPosition;
+            _spawnPosition = ship.BulletSpawnPosition;
         }
-        
-        public void Start()
+
+        void IInitializable.Initialize()
         {
             _bullets = new Bullet[_data.PoolCount];
             _container = new GameObject(_data.Prefab.name);
@@ -35,7 +36,7 @@ namespace Player
                 _bullets[i] = bullet;
             }
         }
-        
+
         public void Shoot()
         {
             Bullet bullet = _bullets[_currentIndex];

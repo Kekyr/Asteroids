@@ -1,9 +1,11 @@
-﻿using Player;
+﻿using System;
+using Player;
 using UnityEngine.InputSystem;
+using Zenject;
 
 namespace Game
 {
-    public class PlayerInputRouter
+    public class PlayerInputRouter : IInitializable, IDisposable
     {
         private PlayerInput _input;
         private ShipData _shipData;
@@ -18,10 +20,10 @@ namespace Game
             _input = new PlayerInput();
         }
 
-        public void Start()
+        void IInitializable.Initialize()
         {
             _input.Enable();
-            
+
             _input.Player.Acceleration.performed += OnAccelerationPerformed;
             _input.Player.Acceleration.canceled += OnAccelerationCancelled;
             _input.Player.Rotation.performed += OnRotationPerformed;
@@ -30,10 +32,10 @@ namespace Game
             _input.Player.LaserGun.performed += OnLaserGunPerformed;
         }
 
-        public void OnDestroy()
+        void IDisposable.Dispose()
         {
             _input.Disable();
-            
+
             _input.Player.Acceleration.performed -= OnAccelerationPerformed;
             _input.Player.Acceleration.canceled -= OnAccelerationCancelled;
             _input.Player.Rotation.performed -= OnRotationPerformed;
@@ -41,7 +43,7 @@ namespace Game
             _input.Player.Gun.performed -= OnGunPerformed;
             _input.Player.LaserGun.performed -= OnLaserGunPerformed;
         }
-        
+
         private void OnAccelerationPerformed(InputAction.CallbackContext context)
         {
             _shipData.Move();

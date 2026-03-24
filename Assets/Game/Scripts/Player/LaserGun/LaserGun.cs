@@ -1,34 +1,35 @@
 ﻿using R3;
 using UnityEngine;
+using Zenject;
 
 namespace Player
 {
-    public class LaserGun
+    public class LaserGun : ITickable
     {
         private GameObject _laser;
         private LaserGunData _data;
-        
+
         private float _timeLeft;
         private float _restoreTimeLeft;
-        
+
         private bool _isReady = true;
         private bool _isRestoring;
 
         public ReactiveProperty<int> ShootCount { get; }
         public ReactiveProperty<float> CoolDownTime { get; } = new ReactiveProperty<float>();
 
-        public LaserGun(LaserGunData data, GameObject laser)
+        public LaserGun(LaserGunData data, Ship ship)
         {
             _data = data;
-            _laser = laser;
+            _laser = ship.Laser;
             ShootCount = new ReactiveProperty<int>(_data.MaxShootCount);
         }
 
-        public void Update(float timePassed)
+        void ITickable.Tick()
         {
-            Shoot(timePassed);
-            CoolDown(timePassed);
-            Restore(timePassed);
+            Shoot();
+            CoolDown();
+            Restore();
         }
 
         public void TryToShoot()
@@ -41,14 +42,14 @@ namespace Player
             }
         }
 
-        private void Shoot(float timePassed)
+        private void Shoot()
         {
             if (_laser.activeSelf == false)
             {
                 return;
             }
 
-            _timeLeft -= timePassed;
+            _timeLeft -= Time.deltaTime;
 
             if (_timeLeft <= 0)
             {
@@ -60,14 +61,14 @@ namespace Player
             }
         }
 
-        private void CoolDown(float timePassed)
+        private void CoolDown()
         {
             if (_isReady == true)
             {
                 return;
             }
 
-            _timeLeft -= timePassed;
+            _timeLeft -= Time.deltaTime;
             CoolDownTime.Value = _timeLeft;
 
             if (_timeLeft <= 0)
@@ -76,14 +77,14 @@ namespace Player
             }
         }
 
-        private void Restore(float timePassed)
+        private void Restore()
         {
             if (_isRestoring == false)
             {
                 return;
             }
 
-            _restoreTimeLeft -= timePassed;
+            _restoreTimeLeft -= Time.deltaTime;
 
             if (_restoreTimeLeft <= 0)
             {

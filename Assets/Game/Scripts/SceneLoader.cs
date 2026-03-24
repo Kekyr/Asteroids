@@ -5,7 +5,7 @@ using View;
 
 namespace Game
 {
-    public class SceneLoader
+    public class SceneLoader : IDisposable
     {
         private IDisposable _disposable;
 
@@ -14,7 +14,7 @@ namespace Game
             _disposable = gameOverView.RestartButtonClicked.AsObservable().Subscribe(ReloadScene);
         }
 
-        public void OnDestroy()
+        void IDisposable.Dispose()
         {
             _disposable.Dispose();
         }

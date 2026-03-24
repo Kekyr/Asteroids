@@ -4,7 +4,7 @@ using R3;
 
 namespace ViewModel
 {
-    public class LaserGunViewModel
+    public class LaserGunViewModel : IDisposable
     {
         public readonly ReactiveProperty<string> ShootCount;
         public readonly ReactiveProperty<string> CoolDownTime;
@@ -16,12 +16,12 @@ namespace ViewModel
             ShootCount = new ReactiveProperty<string>();
             CoolDownTime = new ReactiveProperty<string>();
             _disposables = new CompositeDisposable();
-            
+
             laserGun.ShootCount.Subscribe(x => ShootCount.Value = $"Shoot Left: {x}").AddTo(_disposables);
             laserGun.CoolDownTime.Subscribe(OnCoolDownTimeChanged).AddTo(_disposables);
         }
 
-        public void OnDestroy()
+        void IDisposable.Dispose()
         {
             _disposables.Dispose();
         }
@@ -29,7 +29,7 @@ namespace ViewModel
         private void OnCoolDownTimeChanged(float value)
         {
             float roundedCoolDown = (float)Math.Round(value, 1);
-            CoolDownTime.Value= $"Cool Down: {roundedCoolDown} s";
+            CoolDownTime.Value = $"Cool Down: {roundedCoolDown} s";
         }
     }
 }

@@ -2,6 +2,7 @@
 using TMPro;
 using R3;
 using ViewModel;
+using Zenject;
 
 namespace View
 {
@@ -11,6 +12,7 @@ namespace View
         [SerializeField] private TextMeshProUGUI _angleTextMesh;
         [SerializeField] private TextMeshProUGUI _velocityTextMesh;
 
+        [Inject]
         public void Construct(ShipViewModel viewModel)
         {
             viewModel.Position.Subscribe(x => _positionTextMesh.text = x).AddTo(this);

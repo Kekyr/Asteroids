@@ -2,11 +2,12 @@
 using UnityEngine;
 using Game;
 using R3;
+using Zenject;
 using Random = UnityEngine.Random;
 
 namespace Obstacle
 {
-    public class AsteroidFragmentSpawner
+    public class AsteroidFragmentSpawner : IInitializable, IDisposable
     {
         private AsteroidFragmentSpawnerData _data;
         private GameObject _container;
@@ -28,7 +29,7 @@ namespace Obstacle
             _score = score;
         }
 
-        public void Start()
+        void IInitializable.Initialize()
         {
             _asteroidFragments = new Asteroid[_data.PoolCount];
             _container = new GameObject(_data.Prefab.name);
@@ -46,11 +47,11 @@ namespace Obstacle
             _disposable = _asteroidSpawner.Exploded.Skip(1).Subscribe(OnExploded);
         }
 
-        public void OnDestroy()
+        void IDisposable.Dispose()
         {
             _disposable.Dispose();
         }
-        
+
         private Vector2 CalculateRandomPosition(Vector2 position)
         {
             float randomXPosition =
