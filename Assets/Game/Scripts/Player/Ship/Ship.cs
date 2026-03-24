@@ -2,6 +2,7 @@
 using R3;
 using UnityEngine;
 using View;
+using Zenject;
 
 namespace Player
 {
@@ -50,6 +51,7 @@ namespace Player
             gameObject.SetActive(false);
         }
 
+        [Inject]
         public void Construct(ShipData model, Helper helper)
         {
             _model = model;

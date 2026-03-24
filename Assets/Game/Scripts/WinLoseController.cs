@@ -5,7 +5,7 @@ using View;
 
 namespace Game
 {
-    public class WinLoseController
+    public class WinLoseController : IDisposable
     {
         private IDisposable _disposable;
 
@@ -14,7 +14,7 @@ namespace Game
             _disposable = ship.IsDestroyed.Subscribe(x => gameOverView.gameObject.SetActive(x));
         }
 
-        public void OnDestroy()
+        void IDisposable.Dispose()
         {
             _disposable.Dispose();
         }

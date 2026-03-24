@@ -2,6 +2,7 @@
 using TMPro;
 using R3;
 using ViewModel;
+using Zenject;
 
 namespace View
 {
@@ -10,6 +11,7 @@ namespace View
         [SerializeField] private TextMeshProUGUI _shootCountText;
         [SerializeField] private TextMeshProUGUI _coolDownText;
 
+        [Inject]
         public void Construct(LaserGunViewModel viewModel)
         {
             viewModel.ShootCount.Subscribe(x => _shootCountText.text = x).AddTo(this);

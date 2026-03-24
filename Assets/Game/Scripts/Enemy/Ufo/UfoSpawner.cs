@@ -2,12 +2,14 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Game;
+using Player;
 using R3;
+using Zenject;
 using Random = UnityEngine.Random;
 
 namespace Enemy
 {
-    public class UfoSpawner
+    public class UfoSpawner : IInitializable, IDisposable
     {
         private UfoSpawnerData _data;
         private GameObject _container;
@@ -21,15 +23,15 @@ namespace Enemy
 
         private bool _isActive = true;
 
-        public UfoSpawner(UfoSpawnerData data, Helper helper, Transform player, Score score)
+        public UfoSpawner(UfoSpawnerData data, Helper helper, Ship ship, Score score)
         {
             _data = data;
             _helper = helper;
-            _player = player;
+            _player = ship.transform;
             _score = score;
         }
 
-        public void Start()
+        void IInitializable.Initialize()
         {
             _ufos = new Ufo[_data.PoolCount];
             _container = new GameObject(_data.Prefab.name);
@@ -47,7 +49,7 @@ namespace Enemy
             Spawn().Forget();
         }
 
-        public void OnDestroy()
+        void IDisposable.Dispose()
         {
             _isActive = false;
         }

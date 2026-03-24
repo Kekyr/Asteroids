@@ -1,14 +1,15 @@
-﻿using System;
+using System;
 using Enemy;
 using Obstacle;
-using UnityEngine;
 using Player;
+using UnityEngine;
 using View;
 using ViewModel;
+using Zenject;
 
 namespace Game
 {
-    public class CompositionRoot : MonoBehaviour
+    public class SceneInstaller : MonoInstaller
     {
         [SerializeField] private Ship _shipPrefab;
 
@@ -25,50 +26,46 @@ namespace Game
         [SerializeField] private LaserGunView _laserGunViewPrefab;
         [SerializeField] private GameOverView _gameOverViewPrefab;
 
-        private EntryPoint _entryPoint;
-
-        private void Awake()
+        public override void InstallBindings()
         {
             Validate();
 
-            Helper helper = new Helper();
+            Container.Bind<Helper>().AsSingle();
+            Container.Bind<Score>().AsSingle();
+            Container.Bind<ShipData>().AsSingle();
 
-            Score score = new Score();
+            Container.Bind<Ship>().FromComponentInNewPrefab(_shipPrefab).AsSingle();
 
-            ShipData shipData = new ShipData();
-            Ship ship = Instantiate(_shipPrefab);
-            ship.Construct(shipData, helper);
+            Container.Bind<LaserGunData>().FromInstance(_laserGunData).AsSingle();
+            Container.BindInterfacesAndSelfTo<LaserGun>().AsSingle();
 
-            LaserGun laserGun = new LaserGun(_laserGunData, ship.Laser);
-            Gun gun = new Gun(helper, _gunData, ship.BulletSpawnPosition);
+            Container.Bind<GunData>().FromInstance(_gunData).AsSingle();
+            Container.BindInterfacesAndSelfTo<Gun>().AsSingle();
 
-            UfoSpawner ufoSpawner = new UfoSpawner(_ufoSpawnerData, helper, ship.transform, score);
-            AsteroidSpawner asteroidSpawner = new AsteroidSpawner(_asteroidSpawnerData, helper, score);
-            AsteroidFragmentSpawner asteroidFragmentSpawner =
-                new AsteroidFragmentSpawner(_asteroidFragmentSpawnerData, helper, asteroidSpawner, score);
+            Container.Bind<UfoSpawnerData>().FromInstance(_ufoSpawnerData).AsSingle();
+            Container.BindInterfacesAndSelfTo<UfoSpawner>().AsSingle();
 
-            PlayerInputRouter playerInputRouter = new PlayerInputRouter(shipData, gun, laserGun);
+            Container.Bind<AsteroidSpawnerData>().FromInstance(_asteroidSpawnerData).AsSingle();
+            Container.BindInterfacesAndSelfTo<AsteroidSpawner>().AsSingle();
 
-            ShipView shipView = Instantiate(_shipViewPrefab, _canvas.transform);
-            LaserGunView laserGunView = Instantiate(_laserGunViewPrefab, _canvas.transform);
-            GameOverView gameOverView = Instantiate(_gameOverViewPrefab, _canvas.transform);
+            Container.Bind<AsteroidFragmentSpawnerData>().FromInstance(_asteroidFragmentSpawnerData).AsSingle();
+            Container.BindInterfacesAndSelfTo<AsteroidFragmentSpawner>().AsSingle();
 
-            GameOverViewModel gameOverViewModel = new GameOverViewModel(score);
-            LaserGunViewModel laserGunViewModel = new LaserGunViewModel(laserGun);
-            ShipViewModel shipViewModel = new ShipViewModel(shipData);
+            Container.BindInterfacesAndSelfTo<PlayerInputRouter>().AsSingle();
 
-            shipView.Construct(shipViewModel);
-            laserGunView.Construct(laserGunViewModel);
-            gameOverView.Construct(gameOverViewModel);
+            Container.BindInterfacesAndSelfTo<GameOverViewModel>().AsSingle();
+            Container.BindInterfacesAndSelfTo<LaserGunViewModel>().AsSingle();
+            Container.BindInterfacesAndSelfTo<ShipViewModel>().AsSingle();
 
-            WinLoseController winLoseController = new WinLoseController(ship, gameOverView);
+            Container.Bind<ShipView>().FromComponentInNewPrefab(_shipViewPrefab).UnderTransform(_canvas.transform)
+                .AsSingle().NonLazy();
+            Container.Bind<LaserGunView>().FromComponentInNewPrefab(_laserGunViewPrefab)
+                .UnderTransform(_canvas.transform).AsSingle().NonLazy();
+            Container.Bind<GameOverView>().FromComponentInNewPrefab(_gameOverViewPrefab)
+                .UnderTransform(_canvas.transform).AsSingle();
 
-            SceneLoader sceneLoader = new SceneLoader(gameOverView);
-
-            _entryPoint = gameObject.AddComponent<EntryPoint>();
-            _entryPoint.Construct(playerInputRouter, laserGun, ufoSpawner, asteroidFragmentSpawner,
-                asteroidSpawner, gun);
-            _entryPoint.Construct(gameOverViewModel, laserGunViewModel, shipViewModel, sceneLoader, winLoseController);
+            Container.BindInterfacesAndSelfTo<WinLoseController>().AsSingle();
+            Container.BindInterfacesAndSelfTo<SceneLoader>().AsSingle();
         }
 
         private void Validate()

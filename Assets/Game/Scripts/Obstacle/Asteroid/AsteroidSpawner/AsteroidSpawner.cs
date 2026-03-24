@@ -3,11 +3,12 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Game;
 using R3;
+using Zenject;
 using Random = UnityEngine.Random;
 
 namespace Obstacle
 {
-    public class AsteroidSpawner
+    public class AsteroidSpawner : IInitializable, IDisposable
     {
         private AsteroidSpawnerData _data;
         private GameObject _container;
@@ -31,8 +32,8 @@ namespace Obstacle
             _helper = helper;
             _score = score;
         }
-        
-        public void Start()
+
+        void IInitializable.Initialize()
         {
             _asteroids = new Asteroid[_data.PoolCount];
             _container = new GameObject(_data.Prefab.name);
@@ -51,7 +52,7 @@ namespace Obstacle
             Spawn().Forget();
         }
 
-        public void OnDestroy()
+        void IDisposable.Dispose()
         {
             _isActive = false;
         }

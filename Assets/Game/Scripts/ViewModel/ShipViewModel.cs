@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace ViewModel
 {
-    public class ShipViewModel
+    public class ShipViewModel : IDisposable
     {
         public readonly ReactiveProperty<string> Position;
         public readonly ReactiveProperty<string> Rotation;
@@ -25,11 +25,11 @@ namespace ViewModel
             ship.Velocity.Subscribe(OnVelocityChanged).AddTo(_disposables);
         }
 
-        public void OnDestroy()
+        void IDisposable.Dispose()
         {
             _disposables.Dispose();
         }
-        
+
         private void OnPositionChanged(Vector2 position)
         {
             float roundedXPosition = (float)Math.Round(position.x, 1);
@@ -37,13 +37,13 @@ namespace ViewModel
 
             Position.Value = $"Position X: {roundedXPosition}, Y: {roundedYPosition}";
         }
-        
+
         private void OnRotationChanged(float angle)
         {
             int roundedAngle = (int)angle;
             Rotation.Value = $"Angle: {roundedAngle}\u00b0";
         }
-        
+
         private void OnVelocityChanged(Vector2 velocity)
         {
             float roundedXPosition = (float)Math.Round(velocity.x, 1);

@@ -1,9 +1,10 @@
-﻿using Game;
+﻿using System;
+using Game;
 using R3;
 
 namespace ViewModel
 {
-    public class GameOverViewModel
+    public class GameOverViewModel : IDisposable
     {
         public readonly ReactiveProperty<string> Score;
 
@@ -16,7 +17,7 @@ namespace ViewModel
             score.NumberOfPoints.Subscribe(x => Score.Value = $"Score: {x}").AddTo(_disposables);
         }
 
-        public void OnDestroy()
+        void IDisposable.Dispose()
         {
             _disposables.Dispose();
         }

@@ -119,6 +119,93 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &311515987
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 311515989}
+  - component: {fileID: 311515988}
+  - component: {fileID: 311515990}
+  m_Layer: 0
+  m_Name: SceneContext
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &311515988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 311515987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89715ad69b973a14899afa2c6730b30b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scriptableObjectInstallers: []
+  _monoInstallers:
+  - {fileID: 311515990}
+  _installerPrefabs: []
+  _autoRun: 1
+  OnPreInstall:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPostInstall:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPreResolve:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPostResolve:
+    m_PersistentCalls:
+      m_Calls: []
+  _parentNewObjectsUnderSceneContext: 0
+  _contractNames: []
+  _parentContractNames: []
+--- !u!4 &311515989
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 311515987}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &311515990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 311515987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fffbf818ff68c634ba2ec4acedfa882d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _shipPrefab: {fileID: 3239285140332365064, guid: e36c2fba640d0c84c869adb4fd9548c9, type: 3}
+  _asteroidSpawnerData: {fileID: 11400000, guid: ea41bd0f9869e71469cb504c6f75545a, type: 2}
+  _asteroidFragmentSpawnerData: {fileID: 11400000, guid: d336c408e8a4f2444a769ef0b5d388fd, type: 2}
+  _ufoSpawnerData: {fileID: 11400000, guid: 4cc2103a0e10c144096d1c03f70b5dfe, type: 2}
+  _gunData: {fileID: 11400000, guid: 3bf8047477a7b1f458be1d6324435607, type: 2}
+  _laserGunData: {fileID: 11400000, guid: 48ab8c84e910bb04396ee74836323bc4, type: 2}
+  _canvas: {fileID: 1792907076}
+  _shipViewPrefab: {fileID: 569887487397791662, guid: d8595542b6ae5da49b5461d8b5e76a71, type: 3}
+  _laserGunViewPrefab: {fileID: 6727511222108139714, guid: 77e06330b8ce870489ecf4989901bda2, type: 3}
+  _gameOverViewPrefab: {fileID: 2808760968704673854, guid: 4913228a26c7bf247b342ac3cd5514ac, type: 3}
 --- !u!1 &485780155
 GameObject:
   m_ObjectHideFlags: 0
@@ -199,7 +286,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 485780155}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 5, y: 6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -312,7 +399,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 887873085}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 5, y: 6, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -398,60 +485,6 @@ MonoBehaviour:
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
---- !u!1 &1360566520
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1360566522}
-  - component: {fileID: 1360566523}
-  m_Layer: 0
-  m_Name: Root
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1360566522
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1360566520}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1360566523
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1360566520}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7ef1a6156b74db491ffe2bd2bdae045, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _shipPrefab: {fileID: 3239285140332365064, guid: e36c2fba640d0c84c869adb4fd9548c9, type: 3}
-  _asteroidSpawnerData: {fileID: 11400000, guid: ea41bd0f9869e71469cb504c6f75545a, type: 2}
-  _asteroidFragmentSpawnerData: {fileID: 11400000, guid: d336c408e8a4f2444a769ef0b5d388fd, type: 2}
-  _ufoSpawnerData: {fileID: 11400000, guid: 4cc2103a0e10c144096d1c03f70b5dfe, type: 2}
-  _gunData: {fileID: 11400000, guid: 3bf8047477a7b1f458be1d6324435607, type: 2}
-  _laserGunData: {fileID: 11400000, guid: 48ab8c84e910bb04396ee74836323bc4, type: 2}
-  _canvas: {fileID: 1792907076}
-  _shipViewPrefab: {fileID: 569887487397791662, guid: d8595542b6ae5da49b5461d8b5e76a71, type: 3}
-  _laserGunViewPrefab: {fileID: 6727511222108139714, guid: 77e06330b8ce870489ecf4989901bda2, type: 3}
-  _gameOverViewPrefab: {fileID: 2808760968704673854, guid: 4913228a26c7bf247b342ac3cd5514ac, type: 3}
 --- !u!1 &1782025178
 GameObject:
   m_ObjectHideFlags: 0
@@ -476,7 +509,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1782025178}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 5.9075146, y: 7.360541, z: -0.13996221}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -590,7 +623,7 @@ Canvas:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 1360566522}
+  - {fileID: 311515989}
   - {fileID: 887873089}
   - {fileID: 485780157}
   - {fileID: 1782025179}
