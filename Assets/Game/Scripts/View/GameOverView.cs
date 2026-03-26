@@ -12,12 +12,16 @@ namespace View
     {
         [SerializeField] private TextMeshProUGUI _scoreText;
         [SerializeField] private Button _restartButton;
+
+        private GameOverViewModel _viewModel;
         
         public Button.ButtonClickedEvent RestartButtonClicked => _restartButton.onClick;
         
         [Inject]
         public void Construct(GameOverViewModel viewModel)
         {
+            _viewModel = viewModel;
+
             viewModel.Score.Subscribe(x => _scoreText.text = x).AddTo(this);
         }
     }
