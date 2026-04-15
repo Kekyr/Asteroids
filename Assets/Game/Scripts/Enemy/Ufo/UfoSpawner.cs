@@ -31,7 +31,7 @@ namespace Enemy
             _score = score;
         }
 
-        void IInitializable.Initialize()
+        public void Initialize()
         {
             _ufos = new Ufo[_data.PoolCount];
             _container = new GameObject(_data.Prefab.name);
@@ -49,7 +49,7 @@ namespace Enemy
             Spawn().Forget();
         }
 
-        void IDisposable.Dispose()
+        public void Dispose()
         {
             _isActive = false;
         }

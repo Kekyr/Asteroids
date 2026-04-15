@@ -20,7 +20,7 @@ namespace Game
             _input = new PlayerInput();
         }
 
-        void IInitializable.Initialize()
+        public void Initialize()
         {
             _input.Enable();
 
@@ -32,7 +32,7 @@ namespace Game
             _input.Player.LaserGun.performed += OnLaserGunPerformed;
         }
 
-        void IDisposable.Dispose()
+        public void Dispose()
         {
             _input.Disable();
 

@@ -16,13 +16,16 @@ namespace View
         private GameOverViewModel _viewModel;
         
         public Button.ButtonClickedEvent RestartButtonClicked => _restartButton.onClick;
+
+        private void Start()
+        {
+            _viewModel.Score.Subscribe(x => _scoreText.text = x).AddTo(this);
+        }
         
         [Inject]
         public void Construct(GameOverViewModel viewModel)
         {
             _viewModel = viewModel;
-
-            viewModel.Score.Subscribe(x => _scoreText.text = x).AddTo(this);
         }
     }
 }

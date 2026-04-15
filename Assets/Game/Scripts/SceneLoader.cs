@@ -2,24 +2,31 @@
 using R3;
 using UnityEngine.SceneManagement;
 using View;
+using Zenject;
 
 namespace Game
 {
-    public class SceneLoader : IDisposable
+    public class SceneLoader : IInitializable, IDisposable
     {
+        private GameOverView _view;
         private IDisposable _disposable;
 
-        public SceneLoader(GameOverView gameOverView)
+        public SceneLoader(GameOverView view)
         {
-            _disposable = gameOverView.RestartButtonClicked.AsObservable().Subscribe(ReloadScene);
+            _view = view;
         }
 
-        void IDisposable.Dispose()
+        public void Initialize()
+        {
+            _disposable = _view.RestartButtonClicked.AsObservable().Subscribe(_ => ReloadScene());
+        }
+
+        public void Dispose()
         {
             _disposable.Dispose();
         }
 
-        private void ReloadScene(Unit unit)
+        private void ReloadScene()
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }

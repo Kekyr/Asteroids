@@ -22,7 +22,7 @@ namespace Player
             _spawnPosition = ship.BulletSpawnPosition;
         }
 
-        void IInitializable.Initialize()
+        public void Initialize()
         {
             _bullets = new Bullet[_data.PoolCount];
             _container = new GameObject(_data.Prefab.name);

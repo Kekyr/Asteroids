@@ -2,30 +2,36 @@
 using Player;
 using R3;
 using UnityEngine;
+using Zenject;
 
 namespace ViewModel
 {
-    public class ShipViewModel : IDisposable
+    public class ShipViewModel : IInitializable, IDisposable
     {
         public readonly ReactiveProperty<string> Position;
         public readonly ReactiveProperty<string> Rotation;
         public readonly ReactiveProperty<string> Velocity;
 
+        private ShipData _model;
         private CompositeDisposable _disposables;
 
-        public ShipViewModel(ShipData ship)
+        public ShipViewModel(ShipData model)
         {
+            _model = model;
             Position = new ReactiveProperty<string>();
             Rotation = new ReactiveProperty<string>();
             Velocity = new ReactiveProperty<string>();
             _disposables = new CompositeDisposable();
-
-            ship.Position.Subscribe(OnPositionChanged).AddTo(_disposables);
-            ship.Rotation.Subscribe(OnRotationChanged).AddTo(_disposables);
-            ship.Velocity.Subscribe(OnVelocityChanged).AddTo(_disposables);
         }
 
-        void IDisposable.Dispose()
+        public void Initialize()
+        {
+            _model.Position.Subscribe(OnPositionChanged).AddTo(_disposables);
+            _model.Rotation.Subscribe(OnRotationChanged).AddTo(_disposables);
+            _model.Velocity.Subscribe(OnVelocityChanged).AddTo(_disposables);
+        }
+
+        public void Dispose()
         {
             _disposables.Dispose();
         }

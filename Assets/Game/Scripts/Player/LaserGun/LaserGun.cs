@@ -25,7 +25,7 @@ namespace Player
             ShootCount = new ReactiveProperty<int>(_data.MaxShootCount);
         }
 
-        void ITickable.Tick()
+        public void Tick()
         {
             Shoot();
             CoolDown();

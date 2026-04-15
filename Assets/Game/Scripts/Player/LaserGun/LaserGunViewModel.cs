@@ -1,27 +1,33 @@
 ﻿using System;
 using Player;
 using R3;
+using Zenject;
 
 namespace ViewModel
 {
-    public class LaserGunViewModel : IDisposable
+    public class LaserGunViewModel : IInitializable, IDisposable
     {
         public readonly ReactiveProperty<string> ShootCount;
         public readonly ReactiveProperty<string> CoolDownTime;
 
+        private LaserGun _model;
         private CompositeDisposable _disposables;
 
-        public LaserGunViewModel(LaserGun laserGun)
+        public LaserGunViewModel(LaserGun model)
         {
+            _model = model;
             ShootCount = new ReactiveProperty<string>();
             CoolDownTime = new ReactiveProperty<string>();
             _disposables = new CompositeDisposable();
-
-            laserGun.ShootCount.Subscribe(x => ShootCount.Value = $"Shoot Left: {x}").AddTo(_disposables);
-            laserGun.CoolDownTime.Subscribe(OnCoolDownTimeChanged).AddTo(_disposables);
         }
 
-        void IDisposable.Dispose()
+        public void Initialize()
+        {
+            _model.ShootCount.Subscribe(x => ShootCount.Value = $"Shoot Left: {x}").AddTo(_disposables);
+            _model.CoolDownTime.Subscribe(OnCoolDownTimeChanged).AddTo(_disposables);
+        }
+
+        public void Dispose()
         {
             _disposables.Dispose();
         }

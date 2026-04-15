@@ -33,7 +33,7 @@ namespace Obstacle
             _score = score;
         }
 
-        void IInitializable.Initialize()
+        public void Initialize()
         {
             _asteroids = new Asteroid[_data.PoolCount];
             _container = new GameObject(_data.Prefab.name);
@@ -52,7 +52,7 @@ namespace Obstacle
             Spawn().Forget();
         }
 
-        void IDisposable.Dispose()
+        public void Dispose()
         {
             _isActive = false;
         }

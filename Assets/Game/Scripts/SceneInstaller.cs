@@ -20,7 +20,8 @@ namespace Game
         [SerializeField] private GunData _gunData;
         [SerializeField] private LaserGunData _laserGunData;
 
-        [SerializeField] private Canvas _canvas;
+        [SerializeField] private Canvas _canvasPrefab;
+        [SerializeField] private Transform _ui;
 
         [SerializeField] private ShipView _shipViewPrefab;
         [SerializeField] private LaserGunView _laserGunViewPrefab;
@@ -57,12 +58,17 @@ namespace Game
             Container.BindInterfacesAndSelfTo<LaserGunViewModel>().AsSingle();
             Container.BindInterfacesAndSelfTo<ShipViewModel>().AsSingle();
 
-            Container.Bind<ShipView>().FromComponentInNewPrefab(_shipViewPrefab).UnderTransform(_canvas.transform)
+            Canvas canvas = Instantiate(_canvasPrefab, _ui);
+            Container.Bind<ShipView>().FromComponentInNewPrefab(_shipViewPrefab).UnderTransform(canvas.transform)
                 .AsSingle().NonLazy();
+
+            canvas = Instantiate(_canvasPrefab, _ui);
             Container.Bind<LaserGunView>().FromComponentInNewPrefab(_laserGunViewPrefab)
-                .UnderTransform(_canvas.transform).AsSingle().NonLazy();
+                .UnderTransform(canvas.transform).AsSingle().NonLazy();
+            
+            canvas = Instantiate(_canvasPrefab, _ui);
             Container.Bind<GameOverView>().FromComponentInNewPrefab(_gameOverViewPrefab)
-                .UnderTransform(_canvas.transform).AsSingle();
+                .UnderTransform(canvas.transform).AsSingle();
 
             Container.BindInterfacesAndSelfTo<WinLoseController>().AsSingle();
             Container.BindInterfacesAndSelfTo<SceneLoader>().AsSingle();
@@ -98,11 +104,6 @@ namespace Game
             if (_laserGunData == null)
             {
                 throw new ArgumentNullException(nameof(_laserGunData));
-            }
-
-            if (_canvas == null)
-            {
-                throw new ArgumentNullException(nameof(_canvas));
             }
 
             if (_shipViewPrefab == null)
