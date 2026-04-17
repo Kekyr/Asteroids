@@ -39,7 +39,7 @@ namespace Obstacle
                 Asteroid asteroid = GameObject.Instantiate(_data.Prefab, _container.transform);
                 asteroid.gameObject.SetActive(false);
 
-                asteroid.Exploded.Subscribe(OnFragmentExploded).AddTo(asteroid);
+                asteroid.IsExploded.Skip(1).Subscribe(_ => _score.Add(_data.Points)).AddTo(asteroid);
                 _asteroidFragments[i] = asteroid;
                 asteroid.Construct(_helper, _data.Speed);
             }
@@ -85,11 +85,6 @@ namespace Obstacle
                     _currentIndex = 0;
                 }
             }
-        }
-
-        private void OnFragmentExploded(Vector2 position)
-        {
-            _score.Add(_data.Points);
         }
     }
 }

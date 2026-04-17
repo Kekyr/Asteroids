@@ -7,9 +7,9 @@ using Zenject;
 
 namespace View
 {
-    
     public class GameOverView : MonoBehaviour
     {
+        [SerializeField] private TextMeshProUGUI _highScoreText;
         [SerializeField] private TextMeshProUGUI _scoreText;
         [SerializeField] private Button _restartButton;
 
@@ -20,6 +20,7 @@ namespace View
         private void Start()
         {
             _viewModel.Score.Subscribe(x => _scoreText.text = x).AddTo(this);
+            _viewModel.HighScore.Subscribe(x => _highScoreText.text = x).AddTo(this);
         }
         
         [Inject]

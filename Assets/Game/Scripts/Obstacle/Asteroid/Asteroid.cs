@@ -15,7 +15,7 @@ namespace Obstacle
         private Vector2 _moveDirection;
         private bool _isOnScreen;
 
-        public ReactiveProperty<Vector2> Exploded { get; } = new ReactiveProperty<Vector2>();
+        public ReactiveProperty<Vector2> IsExploded { get; } = new ReactiveProperty<Vector2>();
 
         private void Start()
         {
@@ -39,7 +39,7 @@ namespace Obstacle
         private void OnTriggerEnter2D(Collider2D other)
         {
             gameObject.SetActive(false);
-            Exploded.Value = transform.position;
+            IsExploded.Value = transform.position;
         }
 
         private void OnCollisionEnter2D(Collision2D other)
@@ -50,7 +50,7 @@ namespace Obstacle
             }
 
             gameObject.SetActive(false);
-            Exploded.Value = transform.position;
+            IsExploded.Value = transform.position;
         }
 
         public void Construct(Helper helper, float speed)

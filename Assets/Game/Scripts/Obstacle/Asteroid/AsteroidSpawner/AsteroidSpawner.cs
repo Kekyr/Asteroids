@@ -45,7 +45,7 @@ namespace Obstacle
                 asteroid.gameObject.SetActive(false);
 
                 asteroid.Construct(_helper, _data.Speed);
-                asteroid.Exploded.Skip(1).Subscribe(OnExploded).AddTo(asteroid);
+                asteroid.IsExploded.Skip(1).Subscribe(OnExploded).AddTo(asteroid);
                 _asteroids[i] = asteroid;
             }
 

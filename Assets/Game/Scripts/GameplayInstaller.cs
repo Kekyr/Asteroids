@@ -9,7 +9,7 @@ using Zenject;
 
 namespace Game
 {
-    public class SceneInstaller : MonoInstaller
+    public class GameplayInstaller : MonoInstaller
     {
         [SerializeField] private Ship _shipPrefab;
 
@@ -32,7 +32,7 @@ namespace Game
             Validate();
 
             Container.Bind<Helper>().AsSingle();
-            Container.Bind<Score>().AsSingle();
+            Container.BindInterfacesAndSelfTo<Score>().AsSingle();
             Container.Bind<ShipData>().AsSingle();
 
             Container.Bind<Ship>().FromComponentInNewPrefab(_shipPrefab).AsSingle();
@@ -65,7 +65,7 @@ namespace Game
             canvas = Instantiate(_canvasPrefab, _ui);
             Container.Bind<LaserGunView>().FromComponentInNewPrefab(_laserGunViewPrefab)
                 .UnderTransform(canvas.transform).AsSingle().NonLazy();
-            
+
             canvas = Instantiate(_canvasPrefab, _ui);
             Container.Bind<GameOverView>().FromComponentInNewPrefab(_gameOverViewPrefab)
                 .UnderTransform(canvas.transform).AsSingle();
