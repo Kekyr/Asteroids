@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "778215282168",
+    "firebase_url": "https://asteroids-449f2-default-rtdb.firebaseio.com",
+    "project_id": "asteroids-449f2",
+    "storage_bucket": "asteroids-449f2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:778215282168:android:a2e304a164145e9cf8b20d",
+        "android_client_info": {
+          "package_name": "com.google.firebase.test"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAH2P3MYSXIEyMED0FHSmMhbZILM2V2Vxs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

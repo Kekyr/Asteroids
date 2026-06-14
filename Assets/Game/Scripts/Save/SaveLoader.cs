@@ -6,9 +6,8 @@ namespace Game.Save
     {
         private string _key = "save";
 
-        public void Save(uint score)
+        public void Save(SaveData saveData)
         {
-            SaveData saveData = new SaveData(score);
             string json = JsonUtility.ToJson(saveData);
             PlayerPrefs.SetString(_key, json);
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Game;
 using R3;
@@ -20,6 +21,10 @@ namespace Obstacle
         private int _currentIndex;
         private IDisposable _disposable;
 
+        private int _destroyedCount;
+
+        public int DestroyedCount => _destroyedCount;
+
         public AsteroidFragmentSpawner(AsteroidFragmentSpawnerData data, Helper helper,
             AsteroidSpawner asteroidSpawner, Score score)
         {
@@ -39,7 +44,7 @@ namespace Obstacle
                 Asteroid asteroid = GameObject.Instantiate(_data.Prefab, _container.transform);
                 asteroid.gameObject.SetActive(false);
 
-                asteroid.IsExploded.Skip(1).Subscribe(_ => _score.Add(_data.Points)).AddTo(asteroid);
+                asteroid.IsExploded.Skip(1).Subscribe(x=>OnFragmentExploded()).AddTo(asteroid);
                 _asteroidFragments[i] = asteroid;
                 asteroid.Construct(_helper, _data.Speed);
             }
@@ -85,6 +90,12 @@ namespace Obstacle
                     _currentIndex = 0;
                 }
             }
+        }
+
+        private void OnFragmentExploded()
+        {
+            _score.Add(_data.Points);
+            _destroyedCount++;
         }
     }
 }

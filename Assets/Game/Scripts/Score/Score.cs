@@ -1,47 +1,21 @@
-﻿using Game.Save;
-using R3;
-using Zenject;
+﻿using R3;
 
 namespace Game
 {
-    public class Score : IInitializable
+    public class Score
     {
-        private ISaveLoader _saveLoader;
-
         public ReactiveProperty<uint> HighScore { get; } = new ReactiveProperty<uint>();
         public ReactiveProperty<uint> CurrentScore { get; } = new ReactiveProperty<uint>();
 
-        public Score(ISaveLoader saveLoader)
-        {
-            _saveLoader = saveLoader;
-        }
-
-        public void Initialize()
+        public void Initialize(uint highScore)
         {
             CurrentScore.Value = 0;
-            
-            SaveData saveData = _saveLoader.Load();
-
-            if (saveData == null)
-            {
-                HighScore.Value = 0;
-                return;
-            }
-
-            HighScore.Value = saveData.HighScore;
+            HighScore.Value = highScore;
         }
 
         public void Add(uint points)
         {
             CurrentScore.Value += points;
-        }
-
-        public void OnShipDestroyed()
-        {
-            if (CurrentScore.Value > HighScore.Value)
-            {
-                _saveLoader.Save(CurrentScore.Value);
-            }
         }
     }
 }

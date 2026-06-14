@@ -204,9 +204,10 @@ MonoBehaviour:
   _laserGunData: {fileID: 11400000, guid: 48ab8c84e910bb04396ee74836323bc4, type: 2}
   _canvasPrefab: {fileID: 3822660350941100533, guid: 030d32bd7280c5c45b1184f94205785d, type: 3}
   _ui: {fileID: 1782025179}
-  _shipViewPrefab: {fileID: 569887487397791662, guid: d8595542b6ae5da49b5461d8b5e76a71, type: 3}
-  _laserGunViewPrefab: {fileID: 6727511222108139714, guid: 77e06330b8ce870489ecf4989901bda2, type: 3}
-  _gameOverViewPrefab: {fileID: 2808760968704673854, guid: 4913228a26c7bf247b342ac3cd5514ac, type: 3}
+  _camera: {fileID: 887873088}
+  _shipViewPrefab: {fileID: 8305151356883383955, guid: d8595542b6ae5da49b5461d8b5e76a71, type: 3}
+  _laserGunViewPrefab: {fileID: 4137998955004321380, guid: 77e06330b8ce870489ecf4989901bda2, type: 3}
+  _gameOverViewPrefab: {fileID: 6812914165865245047, guid: 4913228a26c7bf247b342ac3cd5514ac, type: 3}
 --- !u!1 &485780155
 GameObject:
   m_ObjectHideFlags: 0

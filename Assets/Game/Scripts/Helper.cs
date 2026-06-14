@@ -10,9 +10,9 @@ namespace Game
         private Vector2 _minPosition;
         private Vector2 _maxPosition;
         
-        public Helper()
+        public Helper(Camera camera)
         {
-            _camera = Camera.main;
+            _camera = camera;
             
             _minPosition = _camera.ScreenToWorldPoint(new Vector2(0, 0));
             _minPosition = new Vector2(_minPosition.x-_offset, _minPosition.y - _offset);

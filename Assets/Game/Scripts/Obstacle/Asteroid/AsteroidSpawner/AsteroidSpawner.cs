@@ -24,6 +24,10 @@ namespace Obstacle
 
         private bool _isActive = true;
 
+        private int _destroyedCount;
+
+        public int DestroyedCount => _destroyedCount;
+
         public ReactiveProperty<Vector2> Exploded { get; } = new ReactiveProperty<Vector2>();
 
         public AsteroidSpawner(AsteroidSpawnerData data, Helper helper, Score score)
@@ -105,6 +109,7 @@ namespace Obstacle
         private void OnExploded(Vector2 position)
         {
             _score.Add(_data.Points);
+            _destroyedCount++;
             Exploded.Value = position;
         }
     }

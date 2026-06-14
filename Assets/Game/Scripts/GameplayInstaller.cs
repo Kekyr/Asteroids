@@ -1,5 +1,7 @@
 using System;
 using Enemy;
+using Game.Analytics;
+using Game.Save;
 using Obstacle;
 using Player;
 using UnityEngine;
@@ -22,17 +24,22 @@ namespace Game
 
         [SerializeField] private Canvas _canvasPrefab;
         [SerializeField] private Transform _ui;
+        [SerializeField] private Camera _camera;
 
         [SerializeField] private ShipView _shipViewPrefab;
         [SerializeField] private LaserGunView _laserGunViewPrefab;
         [SerializeField] private GameOverView _gameOverViewPrefab;
 
+        private IAnalytics _analytics;
+
         public override void InstallBindings()
         {
             Validate();
 
+            Container.Bind<Camera>().FromInstance(_camera).AsSingle();
+
             Container.Bind<Helper>().AsSingle();
-            Container.BindInterfacesAndSelfTo<Score>().AsSingle();
+            Container.Bind<Score>().AsSingle();
             Container.Bind<ShipData>().AsSingle();
 
             Container.Bind<Ship>().FromComponentInNewPrefab(_shipPrefab).AsSingle();
@@ -58,20 +65,21 @@ namespace Game
             Container.BindInterfacesAndSelfTo<LaserGunViewModel>().AsSingle();
             Container.BindInterfacesAndSelfTo<ShipViewModel>().AsSingle();
 
-            Canvas canvas = Instantiate(_canvasPrefab, _ui);
-            Container.Bind<ShipView>().FromComponentInNewPrefab(_shipViewPrefab).UnderTransform(canvas.transform)
+            Container.Bind<ShipView>().FromComponentInNewPrefab(_shipViewPrefab).UnderTransform(_ui)
                 .AsSingle().NonLazy();
 
-            canvas = Instantiate(_canvasPrefab, _ui);
             Container.Bind<LaserGunView>().FromComponentInNewPrefab(_laserGunViewPrefab)
-                .UnderTransform(canvas.transform).AsSingle().NonLazy();
+                .UnderTransform(_ui).AsSingle().NonLazy();
 
-            canvas = Instantiate(_canvasPrefab, _ui);
             Container.Bind<GameOverView>().FromComponentInNewPrefab(_gameOverViewPrefab)
-                .UnderTransform(canvas.transform).AsSingle();
+                .UnderTransform(_ui).AsSingle();
 
+            Container.BindInterfacesAndSelfTo<DataCollector>().AsSingle();
             Container.BindInterfacesAndSelfTo<WinLoseController>().AsSingle();
             Container.BindInterfacesAndSelfTo<SceneLoader>().AsSingle();
+
+            _analytics = Container.Resolve<IAnalytics>();
+            _analytics.LogGameStart();
         }
 
         private void Validate()

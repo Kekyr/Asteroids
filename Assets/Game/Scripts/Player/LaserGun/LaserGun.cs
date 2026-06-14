@@ -1,4 +1,5 @@
-﻿using R3;
+﻿using Game.Analytics;
+using R3;
 using UnityEngine;
 using Zenject;
 
@@ -8,6 +9,7 @@ namespace Player
     {
         private GameObject _laser;
         private LaserGunData _data;
+        private IAnalytics _analytics;
 
         private float _timeLeft;
         private float _restoreTimeLeft;
@@ -15,13 +17,17 @@ namespace Player
         private bool _isReady = true;
         private bool _isRestoring;
 
+        private int _totalShootCount;
+
+        public int TotalShootCount => _totalShootCount;
         public ReactiveProperty<int> ShootCount { get; }
         public ReactiveProperty<float> CoolDownTime { get; } = new ReactiveProperty<float>();
 
-        public LaserGun(LaserGunData data, Ship ship)
+        public LaserGun(LaserGunData data, Ship ship, IAnalytics analytics)
         {
             _data = data;
             _laser = ship.Laser;
+            _analytics = analytics;
             ShootCount = new ReactiveProperty<int>(_data.MaxShootCount);
         }
 
@@ -37,6 +43,8 @@ namespace Player
             if (ShootCount.Value != 0 && _isReady == true && _laser.activeSelf == false)
             {
                 _laser.SetActive(true);
+                _analytics.LogLaserShot();
+                _totalShootCount++;
                 _timeLeft = _data.ShootDuration;
                 _restoreTimeLeft = _data.RestoreDuration;
             }

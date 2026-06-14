@@ -22,6 +22,9 @@ namespace Enemy
         private int _currentIndex;
 
         private bool _isActive = true;
+        private int _destroyedCount;
+
+        public int DestroyedCount => _destroyedCount;
 
         public UfoSpawner(UfoSpawnerData data, Helper helper, Ship ship, Score score)
         {
@@ -42,7 +45,7 @@ namespace Enemy
                 ufo.gameObject.SetActive(false);
 
                 ufo.Construct(_player, _helper, _data.Speed);
-                ufo.IsExploded.Skip(1).Subscribe(_ => _score.Add(_data.Points)).AddTo(ufo);
+                ufo.IsExploded.Skip(1).Subscribe(x=>OnExploded()).AddTo(ufo);
                 _ufos[i] = ufo;
             }
 
@@ -77,6 +80,12 @@ namespace Enemy
             float randomYPosition = Random.Range(_data.MinPositionY, _data.MaxPositionY);
             Vector2 randomPosition = new Vector2(_data.PositionX, randomYPosition);
             return randomPosition;
+        }
+
+        private void OnExploded()
+        {
+            _score.Add(_data.Points);
+            _destroyedCount++;
         }
     }
 }

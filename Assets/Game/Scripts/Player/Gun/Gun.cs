@@ -14,6 +14,9 @@ namespace Player
         private GameObject _container;
 
         private int _currentIndex;
+        private int _totalShootCount;
+
+        public int TotalShootCount => _totalShootCount;
 
         public Gun(Helper helper, GunData data, Ship ship)
         {
@@ -44,6 +47,7 @@ namespace Player
             bullet.transform.rotation = Quaternion.LookRotation(Vector3.forward, _spawnPosition.transform.up);
             bullet.SetDirection(_spawnPosition.transform.up);
             bullet.gameObject.SetActive(true);
+            _totalShootCount++;
             _currentIndex++;
 
             if (_currentIndex >= _bullets.Length)

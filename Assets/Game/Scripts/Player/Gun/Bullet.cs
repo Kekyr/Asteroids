@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Player
 {
-    [RequireComponent(typeof(Bullet))]
+    [RequireComponent(typeof(Rigidbody2D))]
     public class Bullet : MonoBehaviour
     {
         private Rigidbody2D _rigidbody;

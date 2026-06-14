@@ -2,7 +2,7 @@
 {
     public interface ISaveLoader
     {
-        public void Save(uint score);
+        public void Save(SaveData saveData);
         public SaveData Load();
     }
 }
