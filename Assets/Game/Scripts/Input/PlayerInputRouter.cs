@@ -12,12 +12,12 @@ namespace Game
         private Gun _gun;
         private LaserGun _laserGun;
 
-        public PlayerInputRouter(ShipData shipData, Gun gun, LaserGun laserGun)
+        public PlayerInputRouter(ShipData shipData, Gun gun, LaserGun laserGun, PlayerInput input)
         {
             _shipData = shipData;
             _gun = gun;
             _laserGun = laserGun;
-            _input = new PlayerInput();
+            _input = input;
         }
 
         public void Initialize()

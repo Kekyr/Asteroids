@@ -2,10 +2,9 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using ViewModel;
 using Zenject;
 
-namespace View
+namespace Game
 {
     public class GameOverView : MonoBehaviour
     {

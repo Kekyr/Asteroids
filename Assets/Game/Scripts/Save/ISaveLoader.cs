@@ -1,4 +1,4 @@
-﻿namespace Game.Save
+﻿namespace Save
 {
     public interface ISaveLoader
     {

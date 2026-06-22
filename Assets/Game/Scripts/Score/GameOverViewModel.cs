@@ -3,7 +3,7 @@ using Game;
 using R3;
 using Zenject;
 
-namespace ViewModel
+namespace Game
 {
     public class GameOverViewModel : IInitializable, IDisposable
     {

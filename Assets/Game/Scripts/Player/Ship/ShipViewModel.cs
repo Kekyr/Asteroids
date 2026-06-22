@@ -4,7 +4,7 @@ using R3;
 using UnityEngine;
 using Zenject;
 
-namespace ViewModel
+namespace Player
 {
     public class ShipViewModel : IInitializable, IDisposable
     {

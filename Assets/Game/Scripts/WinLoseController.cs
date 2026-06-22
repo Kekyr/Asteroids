@@ -1,11 +1,10 @@
 ﻿using System;
+using Analytics;
 using Enemy;
-using Game.Analytics;
-using Game.Save;
+using Save;
 using Obstacle;
 using Player;
 using R3;
-using View;
 using Zenject;
 
 namespace Game
@@ -23,6 +22,8 @@ namespace Game
         private GameOverView _gameOverView;
         private IDisposable _disposable;
         private IAnalytics _analytics;
+        
+        public ReactiveProperty<bool> IsGameOver { get; } = new ReactiveProperty<bool>();
 
         public WinLoseController(Ship ship, GameOverView gameOverView, Score score, DataCollector dataCollector,
             UfoSpawner ufoSpawner, AsteroidSpawner asteroidSpawner,
@@ -57,7 +58,7 @@ namespace Game
                 return;
             }
 
-            _gameOverView.gameObject.SetActive(isDestroyed);
+            IsGameOver.Value = true;
 
             if (_score.CurrentScore.Value > _score.HighScore.Value)
             {

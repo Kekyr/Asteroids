@@ -1,40 +1,32 @@
 using System;
+using AssetLoader;
 using Enemy;
-using Game.Analytics;
-using Game.Save;
+using Factories;
+using Save;
 using Obstacle;
 using Player;
 using UnityEngine;
-using View;
-using ViewModel;
 using Zenject;
+using IFactory = Factories.IFactory;
 
 namespace Game
 {
     public class GameplayInstaller : MonoInstaller
     {
-        [SerializeField] private Ship _shipPrefab;
-
-        [SerializeField] private AsteroidSpawnerData _asteroidSpawnerData;
-        [SerializeField] private AsteroidFragmentSpawnerData _asteroidFragmentSpawnerData;
-        [SerializeField] private UfoSpawnerData _ufoSpawnerData;
-
-        [SerializeField] private GunData _gunData;
-        [SerializeField] private LaserGunData _laserGunData;
-
-        [SerializeField] private Canvas _canvasPrefab;
         [SerializeField] private Transform _ui;
         [SerializeField] private Camera _camera;
-
-        [SerializeField] private ShipView _shipViewPrefab;
-        [SerializeField] private LaserGunView _laserGunViewPrefab;
-        [SerializeField] private GameOverView _gameOverViewPrefab;
-
-        private IAnalytics _analytics;
+        
+        private LoadedAssets _loadedAssets;
 
         public override void InstallBindings()
         {
             Validate();
+
+            _loadedAssets = Container.Resolve<LoadedAssets>();
+            
+            Container.BindInterfacesAndSelfTo<GameplayEntryPoint>().AsSingle().NonLazy();
+
+            Container.Bind<IFactory>().To<Factory>().AsSingle();
 
             Container.Bind<Camera>().FromInstance(_camera).AsSingle();
 
@@ -42,91 +34,54 @@ namespace Game
             Container.Bind<Score>().AsSingle();
             Container.Bind<ShipData>().AsSingle();
 
-            Container.Bind<Ship>().FromComponentInNewPrefab(_shipPrefab).AsSingle();
-
-            Container.Bind<LaserGunData>().FromInstance(_laserGunData).AsSingle();
+            Container.Bind<Ship>().FromComponentInNewPrefab(_loadedAssets.ShipPrefab).AsSingle();
+            Container.Bind<LaserGunData>().FromInstance(_loadedAssets.LaserGunData).AsSingle();
             Container.BindInterfacesAndSelfTo<LaserGun>().AsSingle();
 
-            Container.Bind<GunData>().FromInstance(_gunData).AsSingle();
+            Container.Bind<GunData>().FromInstance(_loadedAssets.GunData).AsSingle();
             Container.BindInterfacesAndSelfTo<Gun>().AsSingle();
 
-            Container.Bind<UfoSpawnerData>().FromInstance(_ufoSpawnerData).AsSingle();
+            Container.Bind<UfoSpawnerData>().FromInstance(_loadedAssets.UfoSpawnerData).AsSingle();
             Container.BindInterfacesAndSelfTo<UfoSpawner>().AsSingle();
 
-            Container.Bind<AsteroidSpawnerData>().FromInstance(_asteroidSpawnerData).AsSingle();
+            Container.Bind<AsteroidSpawnerData>().FromInstance(_loadedAssets.AsteroidSpawnerData).AsSingle();
             Container.BindInterfacesAndSelfTo<AsteroidSpawner>().AsSingle();
 
-            Container.Bind<AsteroidFragmentSpawnerData>().FromInstance(_asteroidFragmentSpawnerData).AsSingle();
+            Container.Bind<AsteroidFragmentSpawnerData>().FromInstance(_loadedAssets.AsteroidFragmentSpawnerData).AsSingle();
             Container.BindInterfacesAndSelfTo<AsteroidFragmentSpawner>().AsSingle();
 
+            Container.Bind<PlayerInput>().AsSingle();
             Container.BindInterfacesAndSelfTo<PlayerInputRouter>().AsSingle();
 
             Container.BindInterfacesAndSelfTo<GameOverViewModel>().AsSingle();
             Container.BindInterfacesAndSelfTo<LaserGunViewModel>().AsSingle();
             Container.BindInterfacesAndSelfTo<ShipViewModel>().AsSingle();
 
-            Container.Bind<ShipView>().FromComponentInNewPrefab(_shipViewPrefab).UnderTransform(_ui)
-                .AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<GameOverPresenter>().AsSingle().NonLazy();
 
-            Container.Bind<LaserGunView>().FromComponentInNewPrefab(_laserGunViewPrefab)
+            Container.Bind<ShipView>().FromComponentInNewPrefab(_loadedAssets.ShipViewPrefab).AsSingle().NonLazy();
+
+            Container.Bind<LaserGunView>().FromComponentInNewPrefab(_loadedAssets.LaserGunViewPrefab)
                 .UnderTransform(_ui).AsSingle().NonLazy();
 
-            Container.Bind<GameOverView>().FromComponentInNewPrefab(_gameOverViewPrefab)
+            Container.Bind<GameOverView>().FromComponentInNewPrefab(_loadedAssets.GameOverViewPrefab)
                 .UnderTransform(_ui).AsSingle();
 
             Container.BindInterfacesAndSelfTo<DataCollector>().AsSingle();
             Container.BindInterfacesAndSelfTo<WinLoseController>().AsSingle();
             Container.BindInterfacesAndSelfTo<SceneLoader>().AsSingle();
-
-            _analytics = Container.Resolve<IAnalytics>();
-            _analytics.LogGameStart();
         }
 
         private void Validate()
         {
-            if (_shipPrefab == null)
+            if (_ui == null)
             {
-                throw new ArgumentNullException(nameof(_shipPrefab));
+                throw new ArgumentNullException(nameof(_ui));
             }
 
-            if (_asteroidSpawnerData == null)
+            if (_camera == null)
             {
-                throw new ArgumentNullException(nameof(_asteroidSpawnerData));
-            }
-
-            if (_asteroidFragmentSpawnerData == null)
-            {
-                throw new ArgumentNullException(nameof(_asteroidFragmentSpawnerData));
-            }
-
-            if (_ufoSpawnerData == null)
-            {
-                throw new ArgumentNullException(nameof(_ufoSpawnerData));
-            }
-
-            if (_gunData == null)
-            {
-                throw new ArgumentNullException(nameof(_gunData));
-            }
-
-            if (_laserGunData == null)
-            {
-                throw new ArgumentNullException(nameof(_laserGunData));
-            }
-
-            if (_shipViewPrefab == null)
-            {
-                throw new ArgumentNullException(nameof(_shipViewPrefab));
-            }
-
-            if (_laserGunViewPrefab == null)
-            {
-                throw new ArgumentNullException(nameof(_laserGunViewPrefab));
-            }
-
-            if (_gameOverViewPrefab == null)
-            {
-                throw new ArgumentNullException(nameof(_gameOverViewPrefab));
+                throw new ArgumentNullException(nameof(_camera));
             }
         }
     }

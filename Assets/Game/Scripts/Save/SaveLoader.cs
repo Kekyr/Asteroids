@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Game.Save
+namespace Save
 {
     public class SaveLoader : ISaveLoader
     {

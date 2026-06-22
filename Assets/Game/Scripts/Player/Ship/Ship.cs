@@ -1,7 +1,6 @@
 ﻿using Game;
 using R3;
 using UnityEngine;
-using View;
 using Zenject;
 
 namespace Player
@@ -56,6 +55,7 @@ namespace Player
         {
             _model = model;
             _helper = helper;
+            enabled = true;
         }
     }
 }

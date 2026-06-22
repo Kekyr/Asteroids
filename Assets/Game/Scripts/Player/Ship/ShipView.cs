@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
 using TMPro;
 using R3;
-using ViewModel;
 using Zenject;
 
-namespace View
+namespace Player
 {
     public class ShipView : MonoBehaviour
     {
@@ -25,6 +24,7 @@ namespace View
         public void Construct(ShipViewModel viewModel)
         {
             _viewModel = viewModel;
+            enabled = true;
         }
     }
 }

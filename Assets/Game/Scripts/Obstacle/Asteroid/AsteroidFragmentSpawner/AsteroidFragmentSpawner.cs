@@ -1,9 +1,9 @@
 ﻿using System;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Game;
 using R3;
 using Zenject;
+using IFactory = Factories.IFactory;
 using Random = UnityEngine.Random;
 
 namespace Obstacle
@@ -12,6 +12,7 @@ namespace Obstacle
     {
         private AsteroidFragmentSpawnerData _data;
         private GameObject _container;
+        private IFactory _factory;
 
         private Helper _helper;
         private Score _score;
@@ -26,12 +27,13 @@ namespace Obstacle
         public int DestroyedCount => _destroyedCount;
 
         public AsteroidFragmentSpawner(AsteroidFragmentSpawnerData data, Helper helper,
-            AsteroidSpawner asteroidSpawner, Score score)
+            AsteroidSpawner asteroidSpawner, Score score, IFactory factory)
         {
             _data = data;
             _helper = helper;
             _asteroidSpawner = asteroidSpawner;
             _score = score;
+            _factory = factory;
         }
 
         public void Initialize()
@@ -41,15 +43,15 @@ namespace Obstacle
 
             for (int i = 0; i < _data.PoolCount; i++)
             {
-                Asteroid asteroid = GameObject.Instantiate(_data.Prefab, _container.transform);
+                Asteroid asteroid = _factory.Create(_data.Prefab, _container.transform);
                 asteroid.gameObject.SetActive(false);
 
-                asteroid.IsExploded.Skip(1).Subscribe(x=>OnFragmentExploded()).AddTo(asteroid);
+                asteroid.IsExploded.Subscribe(x => OnFragmentExploded()).AddTo(asteroid);
                 _asteroidFragments[i] = asteroid;
                 asteroid.Construct(_helper, _data.Speed);
             }
 
-            _disposable = _asteroidSpawner.Exploded.Skip(1).Subscribe(OnExploded);
+            _disposable = _asteroidSpawner.Exploded.Subscribe(OnExploded);
         }
 
         public void Dispose()

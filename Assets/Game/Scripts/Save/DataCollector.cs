@@ -1,11 +1,13 @@
+using Game;
 using Zenject;
 
-namespace Game.Save
+namespace Save
 {
     public class DataCollector : IInitializable
     {
         private Score _score;
         private ISaveLoader _saveLoader;
+        private SaveData _currentSaveData;
 
         public DataCollector(Score score, ISaveLoader saveLoader)
         {
@@ -20,8 +22,8 @@ namespace Game.Save
 
         public void Save()
         {
-            SaveData saveData = new SaveData(_score.CurrentScore.Value);
-            _saveLoader.Save(saveData);
+            _currentSaveData.HighScore = _score.CurrentScore.Value;
+            _saveLoader.Save(_currentSaveData);
         }
 
         public void Load()
@@ -32,7 +34,7 @@ namespace Game.Save
             {
                 return;
             }
-            
+
             _score.Initialize(saveData.HighScore);
         }
     }

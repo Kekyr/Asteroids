@@ -1,12 +1,14 @@
 ﻿using Game;
 using UnityEngine;
 using Zenject;
+using IFactory = Factories.IFactory;
 
 namespace Player
 {
     public class Gun : IInitializable
     {
         private GunData _data;
+        private IFactory _factory;
         private Helper _helper;
         private Bullet[] _bullets;
         private Transform _spawnPosition;
@@ -18,11 +20,12 @@ namespace Player
 
         public int TotalShootCount => _totalShootCount;
 
-        public Gun(Helper helper, GunData data, Ship ship)
+        public Gun(Helper helper, GunData data, Ship ship, IFactory factory)
         {
             _helper = helper;
             _data = data;
             _spawnPosition = ship.BulletSpawnPosition;
+            _factory = factory;
         }
 
         public void Initialize()
@@ -33,7 +36,7 @@ namespace Player
 
             for (int i = 0; i < _data.PoolCount; i++)
             {
-                Bullet bullet = GameObject.Instantiate(_data.Prefab, _container.transform);
+                Bullet bullet = _factory.Create(_data.Prefab, _container.transform);
                 bullet.gameObject.SetActive(false);
                 bullet.Construct(_helper, _data.BulletSpeed);
                 _bullets[i] = bullet;

@@ -3,7 +3,7 @@ using Firebase.Analytics;
 using Unity.VisualScripting;
 using UnityEngine;
 
-namespace Game.Analytics
+namespace Analytics
 {
     public class FireAnalytics : IAnalytics, IInitializable
     {
@@ -22,18 +22,15 @@ namespace Game.Analytics
 
         public void LogGameEnd(int gunShotCount, int laserShotCount, int enemiesDestroyedCount)
         {
-            FirebaseAnalytics.LogEvent("end_game", 
+            FirebaseAnalytics.LogEvent("end_game",
                 new Parameter("gun_shot_count", gunShotCount),
                 new Parameter("laser_shot_count", laserShotCount),
                 new Parameter("enemies_destroyed_count", enemiesDestroyedCount));
-            
-            Debug.Log("End Game");
         }
 
         public void LogLaserShot()
         {
             FirebaseAnalytics.LogEvent("laser_shot");
-            Debug.Log("Laser Shot");
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Enemy
         private float _speed;
         private bool _isOnScreen;
 
-        public ReactiveProperty<bool> IsExploded { get; } = new ReactiveProperty<bool>();
+        public Subject<bool> IsExploded { get; } = new Subject<bool>();
 
         private void Awake()
         {
@@ -46,7 +46,7 @@ namespace Enemy
         
         private void OnTriggerEnter2D(Collider2D other)
         {
-            IsExploded.Value = true;
+            IsExploded.OnNext(true);
             gameObject.SetActive(false);
         }
 
@@ -57,7 +57,7 @@ namespace Enemy
                 return;
             }
             
-            IsExploded.Value = true;
+            IsExploded.OnNext(true);
             gameObject.SetActive(false);
         }
 

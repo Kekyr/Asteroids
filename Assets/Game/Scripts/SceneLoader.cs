@@ -1,7 +1,6 @@
 ﻿using System;
 using R3;
 using UnityEngine.SceneManagement;
-using View;
 using Zenject;
 
 namespace Game

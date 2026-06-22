@@ -1,4 +1,4 @@
-﻿using Game.Analytics;
+﻿using Analytics;
 using R3;
 using UnityEngine;
 using Zenject;

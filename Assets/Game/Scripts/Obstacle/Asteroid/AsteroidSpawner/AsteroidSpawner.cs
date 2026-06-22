@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Game;
 using R3;
 using Zenject;
+using IFactory = Factories.IFactory;
 using Random = UnityEngine.Random;
 
 namespace Obstacle
@@ -12,6 +14,7 @@ namespace Obstacle
     {
         private AsteroidSpawnerData _data;
         private GameObject _container;
+        private IFactory _factory;
 
         private Asteroid[] _asteroids;
         private Helper _helper;
@@ -28,13 +31,14 @@ namespace Obstacle
 
         public int DestroyedCount => _destroyedCount;
 
-        public ReactiveProperty<Vector2> Exploded { get; } = new ReactiveProperty<Vector2>();
+        public Subject<Vector2> Exploded { get; } = new Subject<Vector2>();
 
-        public AsteroidSpawner(AsteroidSpawnerData data, Helper helper, Score score)
+        public AsteroidSpawner(AsteroidSpawnerData data, Helper helper, Score score, IFactory factory)
         {
             _data = data;
             _helper = helper;
             _score = score;
+            _factory = factory;
         }
 
         public void Initialize()
@@ -45,11 +49,11 @@ namespace Obstacle
 
             for (int i = 0; i < _data.PoolCount; i++)
             {
-                Asteroid asteroid = GameObject.Instantiate(_data.Prefab, _container.transform);
+                Asteroid asteroid = _factory.Create(_data.Prefab, _container.transform);
                 asteroid.gameObject.SetActive(false);
 
                 asteroid.Construct(_helper, _data.Speed);
-                asteroid.IsExploded.Skip(1).Subscribe(OnExploded).AddTo(asteroid);
+                asteroid.IsExploded.Subscribe(OnExploded).AddTo(asteroid);
                 _asteroids[i] = asteroid;
             }
 
@@ -63,6 +67,8 @@ namespace Obstacle
 
         private async UniTask Spawn()
         {
+            CancellationTokenSource cts = new CancellationTokenSource();
+
             while (_isActive)
             {
                 Asteroid asteroid = _asteroids[_currentIndex];
@@ -76,7 +82,8 @@ namespace Obstacle
                     _currentIndex = 0;
                 }
 
-                await UniTask.Delay(TimeSpan.FromSeconds(_data.Delay), ignoreTimeScale: false);
+                await UniTask.Delay(TimeSpan.FromSeconds(_data.Delay), ignoreTimeScale: false,
+                    delayTiming: PlayerLoopTiming.Update, cts.Token);
             }
         }
 
@@ -110,7 +117,7 @@ namespace Obstacle
         {
             _score.Add(_data.Points);
             _destroyedCount++;
-            Exploded.Value = position;
+            Exploded.OnNext(position);
         }
     }
 }

@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Game;
 using Player;
 using R3;
 using Zenject;
+using IFactory = Factories.IFactory;
 using Random = UnityEngine.Random;
 
 namespace Enemy
@@ -13,6 +15,7 @@ namespace Enemy
     {
         private UfoSpawnerData _data;
         private GameObject _container;
+        private IFactory _factory;
 
         private Helper _helper;
         private Score _score;
@@ -26,12 +29,13 @@ namespace Enemy
 
         public int DestroyedCount => _destroyedCount;
 
-        public UfoSpawner(UfoSpawnerData data, Helper helper, Ship ship, Score score)
+        public UfoSpawner(UfoSpawnerData data, Helper helper, Ship ship, Score score, IFactory factory)
         {
             _data = data;
             _helper = helper;
             _player = ship.transform;
             _score = score;
+            _factory = factory;
         }
 
         public void Initialize()
@@ -41,11 +45,11 @@ namespace Enemy
 
             for (int i = 0; i < _data.PoolCount; i++)
             {
-                Ufo ufo = GameObject.Instantiate(_data.Prefab, _container.transform);
+                Ufo ufo = _factory.Create(_data.Prefab, _container.transform);
                 ufo.gameObject.SetActive(false);
 
                 ufo.Construct(_player, _helper, _data.Speed);
-                ufo.IsExploded.Skip(1).Subscribe(x=>OnExploded()).AddTo(ufo);
+                ufo.IsExploded.Subscribe(x => OnExploded()).AddTo(ufo);
                 _ufos[i] = ufo;
             }
 
@@ -59,6 +63,8 @@ namespace Enemy
 
         private async UniTask Spawn()
         {
+            CancellationTokenSource cts = new CancellationTokenSource();
+
             while (_isActive)
             {
                 Ufo ufo = _ufos[_currentIndex];
@@ -71,7 +77,8 @@ namespace Enemy
                     _currentIndex = 0;
                 }
 
-                await UniTask.Delay(TimeSpan.FromSeconds(_data.Delay), ignoreTimeScale: false);
+                await UniTask.Delay(TimeSpan.FromSeconds(_data.Delay), ignoreTimeScale: false,
+                    delayTiming: PlayerLoopTiming.Update, cts.Token);
             }
         }
 

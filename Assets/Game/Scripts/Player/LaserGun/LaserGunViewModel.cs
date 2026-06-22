@@ -3,7 +3,7 @@ using Player;
 using R3;
 using Zenject;
 
-namespace ViewModel
+namespace Player
 {
     public class LaserGunViewModel : IInitializable, IDisposable
     {
