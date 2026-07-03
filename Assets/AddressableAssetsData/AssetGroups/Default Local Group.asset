@@ -15,6 +15,36 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: 83209bac3e5f56e449e2f79bd941a0f3
   m_SerializeEntries:
+  - m_GUID: 3bf8047477a7b1f458be1d6324435607
+    m_Address: GunData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 48ab8c84e910bb04396ee74836323bc4
+    m_Address: LaserGunData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4913228a26c7bf247b342ac3cd5514ac
+    m_Address: GameOverView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4cc2103a0e10c144096d1c03f70b5dfe
+    m_Address: UfoSpawnerData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 77e06330b8ce870489ecf4989901bda2
+    m_Address: LaseGunView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d336c408e8a4f2444a769ef0b5d388fd
+    m_Address: AsteroidFragmentSpawnerData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d8595542b6ae5da49b5461d8b5e76a71
     m_Address: ShipView
     m_ReadOnly: 0
@@ -22,6 +52,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e36c2fba640d0c84c869adb4fd9548c9
     m_Address: Ship
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ea41bd0f9869e71469cb504c6f75545a
+    m_Address: AsteroidSpawnerData
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
